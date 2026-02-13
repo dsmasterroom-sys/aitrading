@@ -1,0 +1,15 @@
+# Sensitive/local runtime files
+kis-demo-config.json
+kis-prod-config.json
+runtime-state.json
+morning-report.txt
+report-*.json
+trading.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Env
+.env
+.env.*

@@ -1,0 +1,35 @@
+# Secrets
+client_secret.json
+token.json
+*.pem
+*.key
+*.p12
+.env
+.env.*
+
+# Trading secrets/config
+kis-demo-config.json
+kis-prod-config.json
+**/kis-demo-config.json
+**/kis-prod-config.json
+
+# Python cache/log/report
+__pycache__/
+*.pyc
+*.pyo
+*.log
+report-*.json
+runtime-state.json
+morning-report.txt
+
+# Build/download artifacts
+node_modules/
+*.tar.gz
+*.zip
+*.xlsx
+kis-trading-bot-restore/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

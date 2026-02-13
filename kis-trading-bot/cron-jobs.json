@@ -1,0 +1,56 @@
+[
+  {
+    "name": "주식 자동매매 - 사전점검 (08:30)",
+    "schedule": {
+      "kind": "cron",
+      "expr": "30 8 * * 1-5",
+      "tz": "Asia/Seoul"
+    },
+    "sessionTarget": "isolated",
+    "payload": {
+      "kind": "agentTurn",
+      "message": "오늘 주식 자동매매 사전 점검을 실행하고 결과를 텔레그램으로 보내줘.\n\n실행 명령어: python3 ~/.openclaw/workspace/kis-trading-bot/morning_check.py\n\n그리고 morning-report.txt 파일 내용을 읽어서 텔레그램으로 전송해줘. 09:00에 자동으로 매매 시스템이 시작된다는 것도 알려주고, 문제가 있으면 09:00 전에 말씀해달라고 안내해줘.",
+      "timeoutSeconds": 300
+    },
+    "delivery": {
+      "mode": "announce",
+      "channel": "telegram"
+    }
+  },
+  {
+    "name": "주식 자동매매 시작 (09:00)",
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 9 * * 1-5",
+      "tz": "Asia/Seoul"
+    },
+    "sessionTarget": "isolated",
+    "payload": {
+      "kind": "agentTurn",
+      "message": "주식 자동매매 시스템을 시작해줘.\n\n명령어:\ncd ~/.openclaw/workspace/kis-trading-bot && nohup python3 trading_engine.py real --auto-confirm > /tmp/trading.log 2>&1 &\n\n그리고 텔레그램으로 알려줘:\n- 자동매매 시스템 가동 시작\n- 09:30부터 실시간 모니터링 시작\n- 거래 발생 시 즉시 알림\n- 중지하려면 /stop 입력",
+      "timeoutSeconds": 300
+    },
+    "delivery": {
+      "mode": "announce",
+      "channel": "telegram"
+    }
+  },
+  {
+    "name": "주식 매매 일일 리포트 (15:30)",
+    "schedule": {
+      "kind": "cron",
+      "expr": "30 15 * * 1-5",
+      "tz": "Asia/Seoul"
+    },
+    "sessionTarget": "isolated",
+    "payload": {
+      "kind": "agentTurn",
+      "message": "오늘 주식 매매 일일 리포트를 생성해서 텔레그램으로 보내줘.\n\n1. 계좌 잔고 조회 (kis_api.py 사용)\n2. 오늘의 매매 내역 읽기 (report-YYYY-MM-DD.json)\n3. 수익률 계산\n4. 텔레그램으로 전송\n\n포함 내용:\n- 총 거래 건수\n- 매수/매도 내역\n- 계좌 현황\n- 오늘의 수익/손실",
+      "timeoutSeconds": 300
+    },
+    "delivery": {
+      "mode": "announce",
+      "channel": "telegram"
+    }
+  }
+]
