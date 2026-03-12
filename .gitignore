@@ -33,3 +33,5 @@ kis-trading-bot-restore/
 .DS_Store
 .vscode/
 .idea/
+token_pipeline.json
+token_pipeline.json.json
