@@ -1,0 +1,26 @@
+{
+  "slide_01": {
+    "content_type": "carousel",
+    "image_prompt": "봄 느낌의 편안한 캐주얼 의상을 입은 젊은 한국 여성",
+    "reference_images": [
+      "gena_ref_01.png",
+      "test_item_01"
+    ]
+  },
+  "slide_02": {
+    "content_type": "carousel",
+    "image_prompt": "밝은 봄 분위기의 캐주얼 의상을 입은 젊은 한국 여성, 자연스러운 포즈",
+    "reference_images": [
+      "gena_ref_02.png",
+      "test_item_02"
+    ]
+  },
+  "slide_03": {
+    "content_type": "carousel",
+    "image_prompt": "봄 햇살 아래 편안한 캐주얼 의상을 입은 젊은 한국 여성, 밝은 미소",
+    "reference_images": [
+      "gena_ref_03.png",
+      "test_item_03"
+    ]
+  }
+}

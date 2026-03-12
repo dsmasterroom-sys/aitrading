@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 06</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+:root {
+  --accent: #D93025;
+  --cherry-lime: #C8D84E;
+  --cherry-pink: #F2B5B5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.overlay-dark {
+  position: absolute; inset: 0;
+  background: rgba(26,26,26,0.35);
+}
+.section-title {
+  position: absolute;
+  top: 80px; left: var(--pad);
+  font-family: var(--ff-accent);
+  font-weight: 800;
+  font-size: var(--fs-title);
+  color: var(--text-light);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+/* Scattered item labels */
+.item-label {
+  position: absolute;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+.item-name {
+  font-family: var(--ff-accent);
+  font-weight: 800;
+  font-size: var(--fs-body);
+  color: var(--text-light);
+  line-height: 1.2;
+}
+.item-desc {
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.75;
+  margin-top: 4px;
+}
+.label-heattech {
+  top: 280px; left: 100px;
+}
+.label-turtleneck {
+  top: 520px; right: 100px;
+}
+.label-trench {
+  bottom: 320px; left: 100px;
+}
+/* Hand-drawn connector lines */
+.connector {
+  position: absolute;
+  pointer-events: none;
+}
+.connector-heattech {
+  top: 320px; left: 350px;
+}
+.connector-turtleneck {
+  top: 570px; right: 340px;
+}
+.connector-trench {
+  bottom: 340px; left: 460px;
+}
+.color-bar {
+  position: absolute;
+  bottom: 100px; left: var(--pad);
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.7;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="slide slide-06">
+  <img src="../generated/slide_06.png" alt="아이템 조합">
+  <div class="overlay-dark"></div>
+  <div class="section-title">이것만 기억해</div>
+
+  <div class="item-label label-heattech">
+    <div class="item-name">히트텍</div>
+    <div class="item-desc">(보이지 않는 무기)</div>
+  </div>
+  <svg class="connector connector-heattech" width="80" height="2" viewBox="0 0 80 2">
+    <line x1="0" y1="1" x2="80" y2="1" stroke="#F2EDE8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+  </svg>
+
+  <div class="item-label label-turtleneck">
+    <div class="item-name">터틀넥</div>
+    <div class="item-desc">(해질녘의 보험)</div>
+  </div>
+  <svg class="connector connector-turtleneck" width="80" height="2" viewBox="0 0 80 2">
+    <line x1="0" y1="1" x2="80" y2="1" stroke="#F2EDE8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+  </svg>
+
+  <div class="item-label label-trench">
+    <div class="item-name">오버사이즈 트렌치</div>
+    <div class="item-desc">(사진의 주인공)</div>
+  </div>
+  <svg class="connector connector-trench" width="80" height="2" viewBox="0 0 80 2">
+    <line x1="0" y1="1" x2="80" y2="1" stroke="#F2EDE8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+  </svg>
+
+  <div class="color-bar">머스타드 · 아이시블루 · 차콜</div>
+</div>
+</body>
+</html>

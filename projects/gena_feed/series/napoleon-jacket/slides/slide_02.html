@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 02</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide-02 {
+  background: var(--surface-cream);
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  padding: var(--pad); gap: var(--gap);
+}
+.slide-02 .headline {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-display); font-weight: 700; color: var(--text-dark);
+  line-height: var(--lh-display); letter-spacing: var(--ls-heading);
+}
+.slide-02 .headline .accent { color: var(--accent); }
+.slide-02 .body {
+  font-size: var(--fs-body); color: var(--text-mid);
+  line-height: var(--lh-body);
+}
+.slide-02 .deco {
+  width: 60px; height: 6px; background: var(--accent); border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="slide slide-02"><div class="deco"></div><p class="headline">피드에 계속 뜨는<br><span class="accent">이 자켓</span></p><p class="body">"나만 이거 정체 모르고 있었나?" 싶었다면<br>지금 이 캐러셀이 답이야</p></div>
+</body>
+</html>

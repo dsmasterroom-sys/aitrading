@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+"""
+Figma 프레임 PNG Export 스크립트.
+
+기능:
+1) Figma API로 프레임 목록 조회
+2) 지정 프레임(or 전체) PNG Export URL 생성
+3) output/figma-samples/ 에 이미지 저장
+4) 파일명은 slide-01.png ~ slide-17.png 형식 사용
+
+사용법:
+    python scripts/figma_export.py --all
+    python scripts/figma_export.py --frames "1,2,3"
+
+옵션:
+    --all              전체 프레임 export
+    --frames "1,2,3"  특정 프레임 번호만 export (1-index)
+
+필수 환경변수(.env):
+    FIGMA_ACCESS_TOKEN=...
+    FIGMA_FILE_KEY=...
+
+출력 경로:
+    output/figma-samples/*.png
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import sys
+from pathlib import Path
+from typing import Any, Dict, List, Sequence, Tuple
+
+import requests
+from dotenv import load_dotenv
+
+FIGMA_API_BASE = "https://api.figma.com/v1"
+OUT_DIR = Path("output/figma-samples")
+
+
+def _load_env() -> Tuple[str, str]:
+    load_dotenv()
+    token = os.getenv("FIGMA_ACCESS_TOKEN", "").strip()
+    file_key = os.getenv("FIGMA_FILE_KEY", "").strip()
+    if not token or not file_key:
+        raise ValueError("필수 환경변수 누락: FIGMA_ACCESS_TOKEN, FIGMA_FILE_KEY")
+    return token, file_key
+
+
+def _figma_get(endpoint: str, token: str, params: Dict[str, Any] | None = None) -> Dict[str, Any]:
+    url = f"{FIGMA_API_BASE}{endpoint}"
+    headers = {"X-Figma-Token": token}
+    try:
+        resp = requests.get(url, headers=headers, params=params, timeout=60)
+    except requests.RequestException as exc:
+        raise RuntimeError(f"Figma API 요청 실패: {url} ({exc})") from exc
+
+    if resp.status_code != 200:
+        err = ""
+        try:
+            err = resp.json().get("err", "")
+        except Exception:
+            err = resp.text[:200]
+        raise RuntimeError(f"Figma API 오류 {resp.status_code}: {err}")
+
+    try:
+        return resp.json()
+    except ValueError as exc:
+        raise RuntimeError("Figma API 응답 JSON 파싱 실패") from exc
+
+
+def _collect_frames(node: Dict[str, Any], frames: List[Dict[str, str]]) -> None:
+    if node.get("type") == "FRAME" and node.get("id"):
+        frames.append({"id": node["id"], "name": node.get("name", "")})
+    for child in node.get("children", []) or []:
+        _collect_frames(child, frames)
+
+
+def _download_file(url: str, out_path: Path) -> None:
+    try:
+        r = requests.get(url, timeout=120)
+        r.raise_for_status()
+    except requests.RequestException as exc:
+        raise RuntimeError(f"이미지 다운로드 실패: {url} ({exc})") from exc
+    out_path.write_bytes(r.content)
+
+
+def _parse_frames_arg(raw: str) -> List[int]:
+    out: List[int] = []
+    for part in raw.split(","):
+        p = part.strip()
+        if not p:
+            continue
+        if not p.isdigit():
+            raise ValueError(f"--frames 값 오류: '{p}' (숫자만 허용)")
+        out.append(int(p))
+    if not out:
+        raise ValueError("--frames 값이 비어 있습니다.")
+    return sorted(set(out))
+
+
+def _select_indexes(total: int, export_all: bool, frames_arg: str | None) -> List[int]:
+    if export_all:
+        return list(range(1, total + 1))
+    if frames_arg:
+        selected = _parse_frames_arg(frames_arg)
+        invalid = [n for n in selected if n < 1 or n > total]
+        if invalid:
+            raise ValueError(f"프레임 번호 범위 초과: {invalid} (유효 범위: 1~{total})")
+        return selected
+    raise ValueError("--all 또는 --frames 중 하나는 반드시 지정해야 합니다.")
+
+
+def _chunked(seq: Sequence[str], size: int) -> List[List[str]]:
+    return [list(seq[i : i + size]) for i in range(0, len(seq), size)]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Figma 프레임 PNG Export")
+    parser.add_argument("--all", action="store_true", help="전체 프레임 export")
+    parser.add_argument("--frames", type=str, default=None, help='특정 프레임 번호 예: "1,2,3"')
+    args = parser.parse_args()
+
+    if args.all and args.frames:
+        print("오류: --all 과 --frames 는 동시에 사용할 수 없습니다.", file=sys.stderr)
+        return 1
+
+    try:
+        token, file_key = _load_env()
+
+        print("[1/4] Figma 파일 구조 조회 중...")
+        file_data = _figma_get(f"/files/{file_key}", token)
+        document = file_data.get("document")
+        if not document:
+            raise RuntimeError("파일 구조(document)를 찾을 수 없습니다.")
+
+        frames: List[Dict[str, str]] = []
+        _collect_frames(document, frames)
+        total = len(frames)
+        if total == 0:
+            raise RuntimeError("Export 가능한 FRAME 노드가 없습니다.")
+
+        selected_indexes = _select_indexes(total, args.all, args.frames)
+        selected_frames = [frames[i - 1] for i in selected_indexes]
+
+        print(f"[2/4] Export 대상 프레임: {selected_indexes}")
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+        id_to_num = {f["id"]: num for num, f in zip(selected_indexes, selected_frames)}
+        image_urls: Dict[str, str] = {}
+
+        print("[3/4] 이미지 URL 생성 중...")
+        # Figma ids query 길이 제한 대응 (여유 있게 50개 단위)
+        for group in _chunked([f["id"] for f in selected_frames], 50):
+            payload = _figma_get(
+                f"/images/{file_key}",
+                token,
+                params={"ids": ",".join(group), "format": "png", "use_absolute_bounds": "true"},
+            )
+            image_urls.update(payload.get("images", {}))
+
+        print("[4/4] 이미지 다운로드 중...")
+        success = 0
+        for node_id, idx in sorted(id_to_num.items(), key=lambda x: x[1]):
+            url = image_urls.get(node_id)
+            if not url:
+                print(f"  - 경고: frame #{idx} URL 없음 (node_id={node_id})")
+                continue
+            out_path = OUT_DIR / f"slide-{idx:02d}.png"
+            _download_file(url, out_path)
+            success += 1
+            print(f"  - 저장 완료: {out_path}")
+
+        print(f"완료: {success}/{len(selected_indexes)} 파일 저장")
+        return 0 if success > 0 else 1
+
+    except Exception as exc:
+        print(f"오류: {exc}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

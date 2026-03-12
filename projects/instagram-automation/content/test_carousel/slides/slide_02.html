@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1440">
+  <title>Split Content Pattern</title>
+  <style>
+    :root {
+      --color-primary-neon: #00FF41;
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --color-gray-dark: #1A1A1A;
+      --color-gray-light: #F5F5F5;
+      --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+      --font-size-h2: 36px;
+      --font-size-body: 28px;
+      --font-size-caption: 20px;
+      --font-weight-bold: 800;
+      --font-weight-regular: 400;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --border-width: 4px;
+      --shadow-brutal: 8px 8px 0 var(--color-black);
+      --canvas-width: 1080px;
+      --canvas-height: 1440px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: var(--canvas-width);
+      height: var(--canvas-height);
+      font-family: var(--font-primary);
+      overflow: hidden;
+      background: var(--color-white);
+    }
+    
+    .split-container {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 60% 40%;
+    }
+    
+    .split-image-section {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .split-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    
+    .split-image-border {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--border-width);
+      background: var(--color-black);
+    }
+    
+    .split-content-section {
+      width: 100%;
+      height: 100%;
+      padding: var(--space-lg);
+      background: var(--color-gray-light);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-md);
+    }
+    
+    .split-title {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-black);
+      line-height: 1.3;
+      position: relative;
+      padding-left: var(--space-md);
+    }
+    
+    .split-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background: var(--color-primary-neon);
+    }
+    
+    .split-body {
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-gray-dark);
+      line-height: 1.6;
+      max-height: 300px;
+      overflow: hidden;
+    }
+    
+    .split-highlight-box {
+      background: var(--color-primary-neon);
+      border: var(--border-width) solid var(--color-black);
+      padding: var(--space-sm) var(--space-md);
+      box-shadow: var(--shadow-brutal);
+      display: inline-block;
+      align-self: flex-start;
+    }
+    
+    .split-highlight-text {
+      font-size: var(--font-size-caption);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-black);
+    }
+  </style>
+</head>
+<body>
+  <div class="split-container">
+    <!-- 이미지 섹션 (상단 60%) -->
+    <div class="split-image-section">
+      <img 
+        src="../assets/carousel_slide_02.png" 
+        alt="봄 벚꽃 플로럴 룩" 
+        class="split-image"
+      >
+      <div class="split-image-border"></div>
+    </div>
+    
+    <!-- 콘텐츠 섹션 (하단 40%) -->
+    <div class="split-content-section">
+      <h2 class="split-title">벚꽃 아래, 로맨틱한 봄날</h2>
+      <p class="split-body">플로럴 원피스와 부드러운 카디건이 만드는 완벽한 조화. 봄의 따스함을 담은 파스텔 톤 코디로 로맨틱한 분위기를 완성해보세요.</p>
+      
+      <!-- 하이라이트 박스 -->
+      <div class="split-highlight-box">
+        <span class="split-highlight-text">💡 TIP: 골드 액세서리로 포인트 연출</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

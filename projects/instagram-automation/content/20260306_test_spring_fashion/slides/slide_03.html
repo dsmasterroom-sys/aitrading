@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 3 - CTA</title>
+  <style>
+    :root {
+      --color-primary-neon: #00FF41;
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+      --border-width: 4px;
+      --space-xl: 64px;
+      --shadow-strong: 12px 12px 0 var(--color-black);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-primary);
+      background: var(--color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .canvas {
+      width: 1080px;
+      height: 1440px;
+      background: var(--color-black);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 80px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 80px;
+      font-weight: 800;
+      color: var(--color-white);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    
+    .cta-button {
+      font-size: 48px;
+      font-weight: 800;
+      background: var(--color-primary-neon);
+      color: var(--color-black);
+      padding: 40px 80px;
+      border: var(--border-width) solid var(--color-white);
+      box-shadow: var(--shadow-strong);
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    
+    p {
+      font-size: 28px;
+      color: var(--color-white);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <h1>지금 바로<br>확인하세요!</h1>
+    <div class="cta-button">SHOP NOW</div>
+    <p>프로필 링크 👆</p>
+  </div>
+</body>
+</html>

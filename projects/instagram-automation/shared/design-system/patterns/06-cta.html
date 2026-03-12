@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTA Pattern</title>
+  <link rel="stylesheet" href="../design-tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: var(--color-gray-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .canvas { width: var(--canvas-width); height: var(--canvas-height); background: var(--color-primary-yellow); padding: var(--space-xl); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--space-xl); text-align: center; }
+    h1 { font-size: 64px; font-weight: var(--font-weight-bold); color: var(--color-black); line-height: 1.1; text-transform: uppercase; }
+    .cta-button { font-size: var(--font-size-h2); font-weight: var(--font-weight-bold); background: var(--color-primary-red); color: var(--color-white); padding: var(--space-lg) var(--space-xl); border: var(--border-width) solid var(--color-black); box-shadow: var(--shadow-strong); text-transform: uppercase; cursor: pointer; }
+    p { font-size: var(--font-size-body); color: var(--color-black); max-width: 70%; }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <h1>{{HEADLINE}}</h1>
+    <p>{{DESCRIPTION}}</p>
+    <div class="cta-button">{{CTA_TEXT}}</div>
+  </div>
+</body>
+</html>

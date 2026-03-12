@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 05</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+:root {
+  --accent: #D93025;
+  --cherry-lime: #C8D84E;
+  --cherry-pink: #F2B5B5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gradient-left {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 55%;
+  background: linear-gradient(to right, rgba(26,26,26,0.85) 0%, rgba(26,26,26,0.4) 60%, transparent 100%);
+}
+.temp-stack {
+  position: absolute;
+  top: 180px; left: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.temp-block {
+  margin-bottom: 40px;
+}
+.temp-number {
+  font-family: var(--ff-accent);
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1.1;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.temp-number.warm { color: #E8A87C; }
+.temp-number.neutral { color: #B8C4D0; }
+.temp-number.cool { color: #7BA7CC; }
+.temp-item {
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.85;
+  line-height: var(--lh-body);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  margin-top: 4px;
+}
+.arrow-down {
+  font-size: 36px;
+  color: var(--text-light);
+  opacity: 0.4;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.hand-text {
+  position: absolute;
+  bottom: 120px; left: var(--pad);
+  font-family: var(--ff-hand);
+  font-size: var(--fs-body);
+  color: var(--text-light);
+  line-height: var(--lh-body);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  max-width: 500px;
+}
+</style>
+</head>
+<body>
+<div class="slide slide-05">
+  <img src="../generated/slide_05.png" alt="3단 레이어링">
+  <div class="gradient-left"></div>
+  <div class="temp-stack">
+    <div class="temp-block">
+      <div class="temp-number warm">낮 14~16°</div>
+      <div class="temp-item">트렌치만</div>
+    </div>
+    <div class="arrow-down">&darr;</div>
+    <div class="temp-block">
+      <div class="temp-number neutral">해질녘 7~9°</div>
+      <div class="temp-item">터틀넥 +</div>
+    </div>
+    <div class="arrow-down">&darr;</div>
+    <div class="temp-block">
+      <div class="temp-number cool">밤 3~5°</div>
+      <div class="temp-item">히트텍까지</div>
+    </div>
+  </div>
+  <div class="hand-text">벗는 순서가 곧 스타일링이다</div>
+</div>
+</body>
+</html>

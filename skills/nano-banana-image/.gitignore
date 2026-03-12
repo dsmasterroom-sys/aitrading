@@ -1,0 +1,28 @@
+# Output directories
+output/
+batch_output/
+*.png
+*.jpg
+*.jpeg
+
+# API keys
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Metadata
+metadata_*.json
+batch_summary.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

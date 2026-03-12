@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 06</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide-06 {
+  background: var(--surface-cool);
+  display: flex; flex-direction: column; padding: var(--pad); gap: var(--gap);
+}
+.slide-06 .headline {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-title); font-weight: 700; color: var(--text-dark);
+  line-height: var(--lh-heading); letter-spacing: var(--ls-heading);
+}
+.slide-06 .headline .accent { color: var(--accent); }
+.slide-06 .steps {
+  display: flex; flex-direction: column; gap: 0; flex: 1; justify-content: center;
+  position: relative;
+}
+.slide-06 .step-line {
+  position: absolute; left: 50px; top: 0; bottom: 0; width: 4px;
+  background: var(--accent); opacity: 0.3;
+}
+.slide-06 .step {
+  background: var(--surface-cream); border-radius: 20px;
+  padding: var(--gap) var(--pad) var(--gap) 120px;
+  position: relative; z-index: 1;
+  margin-bottom: var(--gap-sm);
+}
+.slide-06 .step:last-child { margin-bottom: 0; }
+.slide-06 .step .dot {
+  position: absolute; left: 30px; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); display: flex; align-items: center; justify-content: center;
+  color: var(--text-light); font-weight: 800; font-size: var(--fs-caption);
+}
+.slide-06 .step .type {
+  font-size: var(--fs-body); font-weight: 700; color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.slide-06 .step .tip {
+  font-size: var(--fs-caption); color: var(--text-mid); line-height: var(--lh-body);
+}
+</style>
+</head>
+<body>
+<div class="slide slide-06">
+  <p class="headline"><span class="accent">체형별</span> 나폴레옹 자켓<br>고르는 법</p>
+  <div class="steps">
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="dot">1</div>
+      <p class="type">어깨 좁은 편</p>
+      <p class="tip">에폴렛(견장) 있는 디자인으로 볼륨업</p>
+    </div>
+    <div class="step">
+      <div class="dot">2</div>
+      <p class="type">어깨 넓은 편</p>
+      <p class="tip">라운드 숄더 + 크롭 기장으로 밸런스</p>
+    </div>
+    <div class="step">
+      <div class="dot">3</div>
+      <p class="type">단신</p>
+      <p class="tip">하이웨스트 라인 크롭핏, 세로 단추 배열 강조</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

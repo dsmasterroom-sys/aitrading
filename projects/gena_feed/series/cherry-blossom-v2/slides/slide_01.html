@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 01</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+:root {
+  --accent: #D93025;
+  --cherry-lime: #C8D84E;
+  --cherry-pink: #F2B5B5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gradient-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(to bottom, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.3) 50%, transparent 100%);
+}
+.headline {
+  position: absolute;
+  top: 100px; left: var(--pad);
+  font-family: var(--ff-accent);
+  font-weight: 800;
+  font-size: 80px;
+  color: var(--cherry-lime);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-heading);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.headline::before {
+  content: '\201C';
+  position: absolute;
+  left: -40px; top: -30px;
+  font-size: 120px;
+  color: var(--cherry-lime);
+  opacity: 0.4;
+  font-family: Georgia, serif;
+}
+.headline::after {
+  content: '\201D';
+  position: relative;
+  margin-left: 8px;
+  font-size: 120px;
+  color: var(--cherry-lime);
+  opacity: 0.4;
+  font-family: Georgia, serif;
+  line-height: 0;
+  vertical-align: -0.15em;
+}
+.sub-headline {
+  position: absolute;
+  top: 210px; left: var(--pad);
+  font-family: var(--ff-primary);
+  font-weight: 700;
+  font-size: var(--fs-title);
+  color: var(--text-light);
+  line-height: var(--lh-heading);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.handle {
+  position: absolute;
+  bottom: 60px; right: var(--pad);
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.7;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+.swipe-hint {
+  position: absolute;
+  bottom: 60px; left: var(--pad);
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.6;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 0.05em;
+}
+.swipe-hint span {
+  display: inline-block;
+  animation: nudge 1.5s ease-in-out infinite;
+}
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+</style>
+</head>
+<body>
+<div class="slide slide-01">
+  <img src="../generated/slide_01.png" alt="벚꽃 OOTD 커버">
+  <div class="gradient-top"></div>
+  <div class="headline">벚꽃 OOTD</div>
+  <div class="sub-headline">봄옷 입으면 망한다</div>
+  <div class="handle">@gena_feed</div>
+  <div class="swipe-hint">swipe <span>&rarr;</span></div>
+</div>
+</body>
+</html>

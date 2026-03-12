@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blackwhite Editorial Fashion News</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans KR', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          },
+          colors: {
+            editorial: {
+              bg: '#f5f2ea',
+              line: '#111111',
+              soft: '#e8e3d8',
+              black: '#0b0b0b',
+              white: '#ffffff',
+              red: '#c72626'
+            }
+          },
+          boxShadow: {
+            paper: '0 24px 60px rgba(0,0,0,.25)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --page-width: 1080px;
+      --page-height: 1440px;
+      --pad-x: 80px;
+      --pad-y: 180px;
+      --content-width: calc(var(--page-width) - 160px);
+      --content-height: calc(var(--page-height) - 360px);
+      --grid-cols: 12;
+      --grid-gap: 24px;
+      --col: calc((var(--content-width) - (11 * var(--grid-gap))) / 12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #171717;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: #111111;
+    }
+
+    .preview-frame {
+      width: min(calc(100vw - 48px), var(--page-width));
+      aspect-ratio: 1080 / 1440;
+      background: #f5f2ea;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .carousel-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .carousel-container::-webkit-scrollbar { display: none; }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      scroll-snap-align: start;
+      background: #f5f2ea;
+      border-right: 10px solid #111111;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      inset: var(--pad-y) var(--pad-x);
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+      width: calc(100% - 160px);
+      height: calc(100% - 360px);
+    }
+
+    .kicker {
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .headline-xl {
+      font-size: 78px;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .headline-lg {
+      font-size: clamp(42px, 4.8vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      font-weight: 900;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .headline-fit {
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .card-auto {
+      height: auto;
+      min-height: 0;
+      align-self: start;
+    }
+
+    .headline-md {
+      font-size: 40px;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      word-break: keep-all;
+    }
+
+    .body-lg {
+      font-size: 24px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .body-md {
+      font-size: 20px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .body-sm {
+      font-size: 16px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .num-xl {
+      font-size: 82px;
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .card {
+      border: 3px solid #111111;
+      background: rgba(255,255,255,.74);
+      backdrop-filter: blur(2px);
+    }
+
+    .card-black {
+      border: 3px solid #111111;
+      background: #111111;
+      color: #f5f2ea;
+    }
+
+    .rule { border-top: 3px solid #111111; }
+    .rule-thick { border-top: 8px solid #111111; }
+    .v-rule { border-left: 3px solid #111111; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #111111;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #ffffff;
+    }
+
+    .counter-ui {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 50;
+      color: #fff;
+      mix-blend-mode: difference;
+      font-size: 12px;
+      letter-spacing: .14em;
+      font-weight: 800;
+    }
+
+    .nav-ui {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .nav-ui button {
+      pointer-events: auto;
+      width: 52px;
+      height: 52px;
+      border: 2px solid #111111;
+      background: #f5f2ea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .nav-ui button:hover {
+      background: #111111;
+      color: #f5f2ea;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+
+    .img-frame {
+      width: 100%;
+      height: 100%;
+      border: 3px solid #111111;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+    }
+
+    .ticker {
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      display: flex;
+      gap: 28px;
+      white-space: nowrap;
+      padding: 10px 18px;
+      background: #111111;
+      color: #f5f2ea;
+      border-top: 3px solid #fff;
+      border-bottom: 3px solid #fff;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .top-ticker { top: 58px; transform: rotate(-4deg); }
+    .bottom-ticker { bottom: 58px; transform: rotate(4deg); }
+
+    .muted { color: rgba(17,17,17,.62); }
+    .muted-light { color: rgba(245,242,234,.72); }
+  </style>
+</head>
+<body>
+  <div class="preview-frame">
+    <div class="counter-ui">FASHION NEWS <span id="current-slide" style="margin-left:10px; opacity:.72; font-weight:500;">01/17</span></div>
+
+    <div id="slider" class="carousel-container">
+
+      <!-- 01 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div>
+              <div class="kicker">WEEKLY REPORT</div>
+              <div class="body-sm muted mt-2">2026 SPRING / SEOUL / PARIS / DIGITAL RUNWAY</div>
+            </div>
+            <div class="badge">패션 뉴스 브리프</div>
+          </div>
+
+          <div class="col-span-8 row-start-3 row-span-5 flex flex-col justify-center">
+            <div class="headline-xl">이번 주 패션은<br>더 조용하게,<br>더 선명하게 간다</div>
+          </div>
+
+          <div class="col-span-4 row-start-3 row-span-5 flex flex-col justify-between">
+            <div class="card p-6">
+              <div class="eyebrow mb-3">핵심 한 줄</div>
+              <div class="body-md">로고보다 실루엣, 과장보다 소재, 유행보다 지속 가능성이 전면으로 올라왔다.</div>
+            </div>
+            <div class="card-black p-6">
+              <div class="eyebrow mb-3">EDIT NOTE</div>
+              <div class="body-sm muted-light">검정과 아이보리 중심의 정제된 화면이 다시 강세다.</div>
+            </div>
+          </div>
+
+          <div class="col-span-12 row-start-9 row-span-4 grid grid-cols-12 gap-6 items-end">
+            <div class="col-span-4 card p-6 h-full flex flex-col justify-between">
+              <div class="eyebrow">01 소재</div>
+              <div class="headline-md">라이트 울·워시드 코튼</div>
+            </div>
+            <div class="col-span-4 card p-6 h-full flex flex-col justify-between">
+              <div class="eyebrow">02 컬러</div>
+              <div class="headline-md">오프화이트·잉크 블랙</div>
+            </div>
+            <div class="col-span-4 card p-6 h-full flex flex-col justify-between">
+              <div class="eyebrow">03 무드</div>
+              <div class="headline-md">절제된 럭셔리</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex flex-col justify-start">
+            <div class="rule-thick pt-5 grid grid-cols-12 gap-6 items-start">
+              <div class="col-span-3">
+                <div class="eyebrow">키워드</div>
+                <div class="body-md mt-2">정숙함 / 구조 / 대비</div>
+              </div>
+              <div class="col-span-6">
+                <div class="eyebrow">요약</div>
+                <div class="body-md mt-2">이번 시즌의 강한 인상은 화려함이 아니라 정리된 화면에서 나온다.</div>
+              </div>
+              <div class="col-span-3 flex justify-end">
+                <div class="badge">TREND DESK</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-4 row-start-4 row-span-9 flex flex-col gap-6 self-stretch z-10">
+            <div class="card p-6 flex flex-col justify-start">
+              <div class="eyebrow mb-3">관찰 포인트</div>
+              <ul class="body-sm space-y-2">
+                <li>• 큰 그래픽 대신 단정한 타이포 사용</li>
+                <li>• 광택보다 매트한 표면 처리</li>
+                <li>• 구조적인 숄더와 긴 실루엣 강조</li>
+              </ul>
+            </div>
+
+            <div class="card-black p-7 flex-1 flex flex-col justify-between overflow-hidden">
+              <div>
+                <div class="kicker">RUNWAY SIGNAL</div>
+                <div class="headline-fit mt-5">블랙 앤 화이트가<br>다시 메인스트림으로</div>
+              </div>
+              <div class="body-sm muted-light mt-5">강한 장식보다 선명한 대비가 룩 전체의 집중도를 끌어올리는 방식이 복귀했다.</div>
+            </div>
+          </div>
+
+          <div class="col-span-8 row-start-3 row-span-10 col-start-5 img-frame z-0 self-stretch" style="height: 100%; align-self: stretch;">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80" alt="fashion news visual" style="object-position: center center;">
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div class="kicker">CITY SNAPSHOT</div>
+            <div class="body-sm muted">SEOUL / SHANGHAI / TOKYO STREET</div>
+          </div>
+
+          <div class="col-span-12 row-start-3 row-span-4 flex flex-col justify-center border-y-[8px] border-editorial-line py-6">
+            <div class="headline-lg">스트리트 룩은 ‘완성형’보다<br>‘편집된 일상성’을 택하고 있다</div>
+          </div>
+
+          <div class="col-span-6 row-start-7 row-span-6 img-frame">
+            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80" alt="street fashion">
+          </div>
+
+          <div class="col-span-6 row-start-7 row-span-6 grid grid-rows-2 gap-6">
+            <div class="card p-7 flex flex-col justify-between">
+              <div class="eyebrow">LOOK NOTE</div>
+              <div class="body-md">오버사이즈 아우터, 길게 떨어지는 팬츠, 로우톤 스니커즈가 일상적인 힘을 만든다.</div>
+            </div>
+            <div class="card-black p-7 flex flex-col justify-between">
+              <div class="eyebrow">왜 중요할까</div>
+              <div class="body-sm muted-light">과한 스타일링 없이도 사진에 남는 룩이 소비자 구매 전환과 가장 가까운 형태이기 때문이다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div class="headline-md">이번 주 데이터</div>
+            <div class="badge">ENGAGEMENT INDEX</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-5 card p-8 flex flex-col justify-between">
+            <div class="eyebrow">저장률 상승</div>
+            <div class="num-xl">+28%</div>
+            <div class="body-sm muted">단색 룩북형 콘텐츠가 설명형 콘텐츠보다 높은 저장률을 기록.</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-5 card-black p-8 flex flex-col justify-between">
+            <div class="eyebrow">공유율 상승</div>
+            <div class="num-xl">+17%</div>
+            <div class="body-sm muted-light">짧은 헤드라인과 룩 포인트 3개 구성이 가장 잘 반응했다.</div>
+          </div>
+
+          <div class="col-span-4 row-start-8 row-span-5 card p-6 flex flex-col justify-between">
+            <div class="eyebrow">01 컬러 반응</div>
+            <div class="headline-md">블랙·크림 조합 우세</div>
+            <div class="body-sm muted">고채도보다 저채도 팔레트가 선호됨.</div>
+          </div>
+          <div class="col-span-4 row-start-8 row-span-5 card p-6 flex flex-col justify-between">
+            <div class="eyebrow">02 포맷 반응</div>
+            <div class="headline-md">카드뉴스형 유지 강세</div>
+            <div class="body-sm muted">정지 화면에서 정보 해석이 쉬운 구성이 유효.</div>
+          </div>
+          <div class="col-span-4 row-start-8 row-span-5 card p-6 flex flex-col justify-between">
+            <div class="eyebrow">03 구매 신호</div>
+            <div class="headline-md">디테일 컷 수요 증가</div>
+            <div class="body-sm muted">지퍼, 원단, 내부 수납 이미지 요청이 늘어남.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-4 row-span-12 card-black p-8 flex flex-col justify-between">
+            <div>
+              <div class="kicker">TIMELINE</div>
+              <div class="headline-md mt-5">패션 뉴스의 흐름</div>
+            </div>
+            <div class="body-sm muted-light">지난 12개월 동안의 시장 변화를 세 단계로 압축.</div>
+          </div>
+
+          <div class="col-span-8 row-span-12 pl-4 flex flex-col justify-between">
+            <div class="card p-7 h-[31%] flex gap-6">
+              <div class="num-xl shrink-0">01</div>
+              <div class="flex flex-col justify-center">
+                <div class="eyebrow">미니멀 회귀</div>
+                <div class="body-md mt-2">브랜드 아이덴티티를 로고가 아니라 실루엣으로 증명하는 움직임이 커졌다.</div>
+              </div>
+            </div>
+            <div class="card p-7 h-[31%] flex gap-6">
+              <div class="num-xl shrink-0">02</div>
+              <div class="flex flex-col justify-center">
+                <div class="eyebrow">소재 중심 전환</div>
+                <div class="body-md mt-2">광고 카피보다 원단 정보와 만졌을 때의 질감을 전달하는 방식이 중요해졌다.</div>
+              </div>
+            </div>
+            <div class="card p-7 h-[31%] flex gap-6">
+              <div class="num-xl shrink-0">03</div>
+              <div class="flex flex-col justify-center">
+                <div class="eyebrow">실용적 럭셔리</div>
+                <div class="body-md mt-2">특별함은 남기되 데일리로 바로 적용 가능한 제품이 강한 지지를 받는다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div class="headline-md">카테고리별 온도차</div>
+            <div class="body-sm muted">OUTER / BAG / SHOES</div>
+          </div>
+
+          <div class="col-span-12 row-start-3 row-span-10 grid grid-rows-3 gap-6">
+            <div class="card p-8 flex flex-col justify-center">
+              <div class="meta-row mb-4"><span>아우터</span><span>81</span></div>
+              <div class="h-8 border-[3px] border-editorial-line"><div class="h-full bg-editorial-black" style="width:81%"></div></div>
+              <div class="body-sm muted mt-4">구조적 라인과 롱기장이 강세.</div>
+            </div>
+            <div class="card p-8 flex flex-col justify-center">
+              <div class="meta-row mb-4"><span>가방</span><span>74</span></div>
+              <div class="h-8 border-[3px] border-editorial-line"><div class="h-full bg-editorial-black" style="width:74%"></div></div>
+              <div class="body-sm muted mt-4">장식보다 실루엣과 수납 설명이 중요.</div>
+            </div>
+            <div class="card-black p-8 flex flex-col justify-center">
+              <div class="meta-row mb-4"><span>슈즈</span><span>89</span></div>
+              <div class="h-8 border-[3px] border-editorial-white"><div class="h-full bg-editorial-white" style="width:89%"></div></div>
+              <div class="body-sm muted-light mt-4">낮은 채도의 슬림한 스니커즈가 가장 빠르게 확산.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-5 row-span-12 flex flex-col justify-between">
+            <div>
+              <div class="kicker">EDITOR PICK</div>
+              <div class="headline-lg mt-5">이번 주 키 룩 3</div>
+            </div>
+            <div class="body-md">실제로 판매 페이지와 피드 모두에서 반응이 좋았던 구성만 추렸다.</div>
+            <div class="badge self-start">BUYER SIGNAL</div>
+          </div>
+
+          <div class="col-span-7 row-span-12 grid grid-rows-3 gap-6">
+            <div class="card p-6 flex gap-5 items-center">
+              <div class="w-16 h-16 border-[3px] border-editorial-line flex items-center justify-center text-2xl font-black">1</div>
+              <div>
+                <div class="eyebrow">롱 코트 + 슬림 팬츠</div>
+                <div class="body-sm muted mt-2">실루엣 대비가 강해 사진 효율이 높다.</div>
+              </div>
+            </div>
+            <div class="card p-6 flex gap-5 items-center">
+              <div class="w-16 h-16 border-[3px] border-editorial-line flex items-center justify-center text-2xl font-black">2</div>
+              <div>
+                <div class="eyebrow">소프트 레더 숄더백</div>
+                <div class="body-sm muted mt-2">단정한 룩에 쉽게 결합되는 아이템.</div>
+              </div>
+            </div>
+            <div class="card-black p-6 flex gap-5 items-center">
+              <div class="w-16 h-16 border-[3px] border-editorial-white flex items-center justify-center text-2xl font-black">3</div>
+              <div>
+                <div class="eyebrow">블랙 로우 스니커즈</div>
+                <div class="body-sm muted-light mt-2">데일리와 에디토리얼 사이를 가장 매끄럽게 연결한다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-12 card-black p-12 flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div class="headline-lg" style="max-width: 820px;">“요즘 패션은 더 적게 말하지만,<br>훨씬 또렷하게 기억된다.”</div>
+            <div class="rule w-40 mt-12 mb-8" style="border-color:#f5f2ea"></div>
+            <div class="eyebrow">FASHION EDIT DESK</div>
+            <div class="body-sm muted-light mt-3">이번 주 에디터 코멘트</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2">
+            <div class="headline-md">무드보드에서 판매 페이지까지</div>
+          </div>
+
+          <div class="col-span-12 row-start-3 row-span-10 grid grid-cols-12 gap-6 items-center">
+            <div class="col-span-4 card p-7 h-full flex flex-col justify-between">
+              <div class="eyebrow">STEP 1</div>
+              <div class="headline-md">무드 선별</div>
+              <div class="body-sm muted">톤, 질감, 실루엣 키워드를 좁힌다.</div>
+            </div>
+            <div class="col-span-4 card p-7 h-full flex flex-col justify-between">
+              <div class="eyebrow">STEP 2</div>
+              <div class="headline-md">콘텐츠 편집</div>
+              <div class="body-sm muted">헤드라인과 디테일 컷 구조를 설계한다.</div>
+            </div>
+            <div class="col-span-4 card-black p-7 h-full flex flex-col justify-between">
+              <div class="eyebrow">STEP 3</div>
+              <div class="headline-md">구매 유도</div>
+              <div class="body-sm muted-light">소재 설명, 착용 맥락, 가격 포인트를 연결한다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex justify-between items-start">
+            <div class="headline-md">전환 전 / 전환 후</div>
+            <div class="badge">PDP COMPARISON</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card p-6 flex flex-col gap-5">
+            <div class="badge self-start">BEFORE</div>
+            <div class="img-frame" style="height: 56%;"><img src="https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?auto=format&fit=crop&w=1200&q=80" alt="before"></div>
+            <div class="headline-md">이미지는 많지만<br>기억 포인트는 약하다</div>
+            <div class="body-sm muted">텍스트 위계가 없고 디테일 설명이 분산되어 소비자가 핵심을 놓친다.</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card-black p-6 flex flex-col gap-5">
+            <div class="badge self-start" style="background:#111111; color:#f5f2ea; border-color:#f5f2ea;">AFTER</div>
+            <div class="img-frame" style="height: 56%; border-color:#f5f2ea;"><img src="https://images.unsplash.com/photo-1600096194534-95cf5ece04cf?auto=format&fit=crop&w=1200&q=80" alt="after"></div>
+            <div class="headline-md">한 화면에<br>하나의 메시지</div>
+            <div class="body-sm muted-light">헤드라인, 디테일, 구매 이유가 순서대로 읽혀 이탈률을 줄인다.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div class="headline-md">콘텐츠 포맷 제안</div>
+            <div class="body-sm muted">FEED / REELS / STORY</div>
+          </div>
+
+          <div class="col-span-12 row-start-3 row-span-10 grid grid-cols-3 gap-6">
+            <div class="card p-7 flex flex-col justify-between">
+              <div>
+                <div class="eyebrow">피드</div>
+                <div class="headline-md mt-4">정지형 카드뉴스</div>
+              </div>
+              <div class="body-sm muted">제품 정보와 무드를 동시에 설명하기 가장 좋다.</div>
+            </div>
+            <div class="card p-7 flex flex-col justify-between">
+              <div>
+                <div class="eyebrow">릴스</div>
+                <div class="headline-md mt-4">착용 흐름 중심 영상</div>
+              </div>
+              <div class="body-sm muted">컷 전환은 빠르게, 메시지는 짧게 유지한다.</div>
+            </div>
+            <div class="card-black p-7 flex flex-col justify-between">
+              <div>
+                <div class="eyebrow">스토리</div>
+                <div class="headline-md mt-4">투표·링크형 후속 전환</div>
+              </div>
+              <div class="body-sm muted-light">질문과 반응 유도가 구매 신호 수집에 유리하다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex items-start justify-between">
+            <div class="headline-md">기본형 vs 편집형</div>
+            <div class="badge">LAYOUT TEST</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card p-8 flex flex-col justify-between">
+            <div>
+              <div class="eyebrow mb-5">기본형</div>
+              <div class="body-md">제품 사진 중심 / 정보 분산 / 가격만 강조</div>
+            </div>
+            <ul class="body-sm space-y-3 muted">
+              <li>• 정보 탐색 피로가 크다</li>
+              <li>• 브랜드 무드 전달이 약하다</li>
+              <li>• 저장·공유 포인트가 부족하다</li>
+            </ul>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card-black p-8 flex flex-col justify-between">
+            <div>
+              <div class="eyebrow mb-5">편집형</div>
+              <div class="body-md">헤드라인 / 근거 / 디테일 컷 / CTA가 한 흐름으로 연결된다</div>
+            </div>
+            <ul class="body-sm space-y-3 muted-light">
+              <li>• 읽는 순서와 기억 포인트가 분명하다</li>
+              <li>• 무드와 기능 설명을 동시에 담는다</li>
+              <li>• 구매 전환용 후속 스토리 설계가 쉽다</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2">
+            <div class="headline-md">호감 포인트 / 이탈 포인트</div>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card p-8 flex flex-col justify-between">
+            <div class="headline-lg">좋아하는 이유</div>
+            <ul class="body-md space-y-5">
+              <li>• 차분한 화면이 브랜드 신뢰를 높인다</li>
+              <li>• 한 컷 한 메시지가 기억에 남는다</li>
+              <li>• 디테일 설명이 구매를 돕는다</li>
+            </ul>
+          </div>
+
+          <div class="col-span-6 row-start-3 row-span-10 card-black p-8 flex flex-col justify-between">
+            <div class="headline-lg">떠나는 이유</div>
+            <ul class="body-md space-y-5 muted-light">
+              <li>• 정보가 너무 많아 화면이 무겁다</li>
+              <li>• 제품보다 그래픽이 먼저 보인다</li>
+              <li>• 가격과 이유가 연결되지 않는다</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-7 row-span-12 flex flex-col justify-between">
+            <div>
+              <div class="kicker">HERO ITEM</div>
+              <div class="headline-lg mt-5">이번 주 주목 아이템은<br>조용한 실루엣의 가방</div>
+            </div>
+            <div class="body-md">하드웨어는 최소화하고, 측면선과 착용 밸런스로 인상을 만드는 형태가 강세다.</div>
+            <div class="card p-6">
+              <div class="eyebrow">판매 포인트</div>
+              <div class="body-sm mt-3 muted">수납 구조, 소재 질감, 착용 시 체형 대비 비율을 함께 보여줄수록 전환 가능성이 높다.</div>
+            </div>
+          </div>
+
+          <div class="col-span-5 row-span-12">
+            <div class="img-frame h-full">
+              <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?auto=format&fit=crop&w=1200&q=80" alt="hero bag">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-2 flex justify-between items-start">
+            <div class="headline-md">이번 주 셀렉션</div>
+            <div class="body-sm muted">CURATED GRID</div>
+          </div>
+
+          <div class="col-span-12 row-start-3 row-span-10 grid grid-cols-2 grid-rows-2 gap-6">
+            <div class="card p-4 flex flex-col gap-4">
+              <div class="img-frame flex-1"><img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=1200&q=80" alt="item1"></div>
+              <div class="eyebrow">슬림 아우터</div>
+            </div>
+            <div class="card p-4 flex flex-col gap-4">
+              <div class="img-frame flex-1"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=80" alt="item2"></div>
+              <div class="eyebrow">소프트 셔츠</div>
+            </div>
+            <div class="card p-4 flex flex-col gap-4">
+              <div class="img-frame flex-1"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80" alt="item3"></div>
+              <div class="eyebrow">로우 키 스니커즈</div>
+            </div>
+            <div class="card-black p-4 flex flex-col gap-4">
+              <div class="img-frame flex-1" style="border-color:#f5f2ea;"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="item4"></div>
+              <div class="eyebrow">구조적 백</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16 -->
+      <section class="slide">
+        <div class="page">
+          <div class="col-span-12 row-span-12 card p-12 flex flex-col justify-center items-center text-center">
+            <div class="kicker">NEXT ACTION</div>
+            <div class="headline-xl mt-6">지금 필요한 건<br>더 많은 장식이 아니라<br>더 정확한 편집이다</div>
+            <div class="body-lg mt-10" style="max-width: 760px;">피드, 상세페이지, 광고 소재 모두 같은 원칙으로 묶을 때 브랜드의 결이 선명해진다.</div>
+            <div class="rule-thick w-full mt-12 mb-12"></div>
+            <div class="badge">FOLLOW FOR NEXT ISSUE</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17 -->
+      <section class="slide" style="background:#c72626; color:#111111;">
+        <div class="ticker top-ticker">
+          <span>NEW DROP</span><span>FASHION ALERT</span><span>THIS WEEK</span><span>NEW DROP</span><span>FASHION ALERT</span>
+        </div>
+        <div class="ticker bottom-ticker">
+          <span>EDITORIAL UPDATE</span><span>STYLE SIGNAL</span><span>SHOPPING MOOD</span><span>EDITORIAL UPDATE</span>
+        </div>
+
+        <div class="page">
+          <div class="col-span-12 row-span-12 flex flex-col items-center justify-center text-center">
+            <div class="headline-lg" style="color:#fff;">다음 이슈는<br>‘가방 디테일 컷이 판매를 바꾸는 이유’</div>
+            <div class="num-xl mt-8">NEXT</div>
+            <div class="card p-6 mt-8" style="max-width: 520px;">
+              <div class="body-md">디테일 이미지 구성, 한 줄 카피, 스토리 후속 연결까지 한 번에 정리할 예정이다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="nav-ui">
+      <button onclick="moveSlide(-1)" aria-label="이전 슬라이드">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button onclick="moveSlide(1)" aria-label="다음 슬라이드">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const counter = document.getElementById('current-slide');
+    const totalSlides = 17;
+
+    function moveSlide(direction) {
+      const slideWidth = slider.clientWidth;
+      slider.scrollTo({
+        left: slider.scrollLeft + direction * slideWidth,
+        behavior: 'smooth'
+      });
+    }
+
+    slider.addEventListener('scroll', () => {
+      const slideWidth = slider.clientWidth;
+      let currentIndex = Math.round(slider.scrollLeft / slideWidth);
+      currentIndex = Math.max(0, Math.min(currentIndex, totalSlides - 1));
+      counter.textContent = `${String(currentIndex + 1).padStart(2, '0')}/${totalSlides}`;
+    });
+  </script>
+</body>
+</html>

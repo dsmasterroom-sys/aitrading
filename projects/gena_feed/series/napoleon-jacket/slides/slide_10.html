@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 10</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide-10 {
+  background: var(--surface-dark);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: var(--pad); gap: var(--gap); text-align: center;
+}
+.slide-10 .headline {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-display); font-weight: 700; color: var(--text-light);
+  line-height: var(--lh-display); letter-spacing: var(--ls-heading);
+}
+.slide-10 .body {
+  font-size: var(--fs-body); color: var(--text-light); opacity: 0.8;
+  line-height: var(--lh-body);
+}
+.slide-10 .body .accent { color: var(--accent); font-weight: 800; }
+.slide-10 .cta {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-title); font-weight: 700; color: var(--text-light);
+  background: var(--accent); border-radius: 16px;
+  padding: var(--gap-sm) var(--gap); margin-top: var(--gap-sm);
+}
+.slide-10 .hashtag {
+  font-size: var(--fs-caption); color: var(--secondary);
+  margin-top: var(--gap-sm);
+}
+</style>
+</head>
+<body>
+<div class="slide slide-10"><p class="headline">다음 주,<br>봄 아우터 2탄 온다</p><p class="body">이 캐러셀 저장해두면 쇼핑할 때 꺼내 보기 좋아<br>다음 편 키워드: <span class="accent">트렌치코트</span></p><p class="cta">저장 🔖 + 팔로우해두면 놓치지 않아</p><p class="hashtag">#gena_봄아우터도감</p></div>
+</body>
+</html>

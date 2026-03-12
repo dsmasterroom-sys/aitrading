@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1440">
+  <title>Grid 4 Pattern</title>
+  <link rel="stylesheet" href="../design-tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: var(--canvas-width);
+      height: var(--canvas-height);
+      font-family: var(--font-primary);
+      overflow: hidden;
+      background: var(--color-white);
+    }
+    
+    .grid-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .grid-header {
+      padding: var(--space-lg);
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+    
+    .grid-title {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary-neon);
+    }
+    
+    .grid-items {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: var(--border-width);
+      background: var(--color-black);
+      padding: var(--border-width);
+    }
+    
+    .grid-item {
+      background: var(--color-white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .grid-item-image {
+      width: 100%;
+      height: 70%;
+      object-fit: cover;
+    }
+    
+    .grid-item-info {
+      flex: 1;
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--color-gray-light);
+    }
+    
+    .grid-item-name {
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-black);
+      margin-bottom: 8px;
+    }
+    
+    .grid-item-price {
+      font-size: var(--font-size-caption);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary-red);
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <!-- 헤더 -->
+    <div class="grid-header">
+      <h1 class="grid-title">{{TITLE}}</h1>
+    </div>
+    
+    <!-- 4분할 그리드 -->
+    <div class="grid-items">
+      <!-- 아이템 1 -->
+      <div class="grid-item">
+        <img src="{{IMAGE_1}}" alt="{{NAME_1}}" class="grid-item-image">
+        <div class="grid-item-info">
+          <div class="grid-item-name">{{NAME_1}}</div>
+          <div class="grid-item-price">{{PRICE_1}}</div>
+        </div>
+      </div>
+      
+      <!-- 아이템 2 -->
+      <div class="grid-item">
+        <img src="{{IMAGE_2}}" alt="{{NAME_2}}" class="grid-item-image">
+        <div class="grid-item-info">
+          <div class="grid-item-name">{{NAME_2}}</div>
+          <div class="grid-item-price">{{PRICE_2}}</div>
+        </div>
+      </div>
+      
+      <!-- 아이템 3 -->
+      <div class="grid-item">
+        <img src="{{IMAGE_3}}" alt="{{NAME_3}}" class="grid-item-image">
+        <div class="grid-item-info">
+          <div class="grid-item-name">{{NAME_3}}</div>
+          <div class="grid-item-price">{{PRICE_3}}</div>
+        </div>
+      </div>
+      
+      <!-- 아이템 4 -->
+      <div class="grid-item">
+        <img src="{{IMAGE_4}}" alt="{{NAME_4}}" class="grid-item-image">
+        <div class="grid-item-info">
+          <div class="grid-item-name">{{NAME_4}}</div>
+          <div class="grid-item-price">{{PRICE_4}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<!--
+사용 예시:
+{{TITLE}} = "BEST 4 PICKS"
+{{IMAGE_1}} = "../assets/item_01.png"
+{{NAME_1}} = "오버사이즈 니트"
+{{PRICE_1}} = "59,000원"
+... (반복)
+-->

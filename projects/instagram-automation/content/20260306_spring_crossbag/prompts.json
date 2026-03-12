@@ -1,0 +1,233 @@
+[
+  {
+    "slide": 1,
+    "type": "hook",
+    "title": "훅 - 봄 신상 공개",
+    "image_prompt": "gena, 20s korean woman, holding a lavender crossbody bag with one hand, wearing a cream knit sweater and beige wide pants, standing in a cherry blossom park in Seoul, spring afternoon soft sunlight, editorial fashion photography, three-quarter view, soft natural lighting, pastel color palette, high quality, professional photography",
+    "copy_guide": "훅 텍스트: '봄 가방 고민 끝 🌸' 또는 '올 봄엔 이 가방이야'\n서브: 가볍고 예쁜 미니멀 크로스백 10선",
+    "reference_images": ["shared/gena-references/gena_ref_04.png"],
+    "scene": {
+      "location": "cherry blossom park in Seoul with pink petals",
+      "time": "spring afternoon soft sunlight",
+      "atmosphere": "fresh, romantic spring mood"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 2,
+    "type": "problem",
+    "title": "문제 제기 - 무거운 가방 페인포인트",
+    "image_prompt": "gena, 20s korean woman, looking tired and rubbing her shoulder, carrying a heavy oversized black tote bag, standing at a crowded subway station in Seoul, morning rush hour lighting, lifestyle photography, half body shot, expressing discomfort, high quality, professional photography",
+    "copy_guide": "문제 제기: '출근길 어깨 괴롭히는 토트백 🥲'\n공감 유도: 한쪽 어깨만 아프고, 양손은 자유 없고...",
+    "reference_images": ["shared/gena-references/gena_ref_03.png"],
+    "scene": {
+      "location": "Seoul subway station during rush hour",
+      "time": "morning commute",
+      "atmosphere": "busy, slightly overwhelming"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 3,
+    "type": "solution",
+    "title": "솔루션 - 미니멀 크로스백",
+    "image_prompt": "gena, 20s korean woman, smiling confidently, wearing a mint green crossbody bag diagonally across her body, casual spring outfit with white blouse and light blue denim, walking freely on a sunny urban street in Seoul, hands free and relaxed, spring morning natural light, editorial fashion photography, full body shot, energetic and light mood, high quality, professional photography",
+    "copy_guide": "솔루션: '양손 자유 + 어깨 편한 크로스백으로 바꿈 ✨'\n핵심: 200g 이하 초경량, 봄 트렌드 컬러까지",
+    "reference_images": ["shared/gena-references/gena_ref_04.png"],
+    "garment_ref": {
+      "item_id": 3,
+      "name": "캔버스 미니 크로스백",
+      "brand": "코드그라피",
+      "visual_desc": "민트 그린, 코튼 캔버스, 자석 여밈"
+    },
+    "scene": {
+      "location": "sunny urban street in Seoul with modern buildings",
+      "time": "spring morning natural light",
+      "atmosphere": "fresh, free, confident"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 4,
+    "type": "feature_item",
+    "title": "아이템 1 - 라벤더 나일론",
+    "image_prompt": "gena, 20s korean woman, wearing lavender soft nylon crossbody bag with flap closure, styled with a white cropped cardigan and cream midi skirt, standing in a minimalist white studio setting, soft diffused studio lighting, fashion lookbook photography, full body shot, elegant spring look, pastel color harmony, high quality, professional photography",
+    "copy_guide": "아이템 소개: '봄 트렌드 1위 컬러 라벤더 💜'\n스펙: 무신사 스탠다드 | 39,000원 | 180g 초경량",
+    "reference_images": ["shared/gena-references/gena_ref_04.png"],
+    "garment_ref": {
+      "item_id": 1,
+      "name": "소프트 나일론 크로스백",
+      "brand": "무신사 스탠다드",
+      "price": 39000,
+      "visual_desc": "라벤더 컬러, 경량 나일론 소재, 플랩 여밈, 조절 가능한 스트랩",
+      "weight": "180g"
+    },
+    "scene": {
+      "location": "minimalist white studio",
+      "time": "studio lighting",
+      "atmosphere": "clean, editorial, spring fresh"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 5,
+    "type": "feature_item",
+    "title": "아이템 2 - 크림 베이지 숄더백",
+    "image_prompt": "gena, 20s korean woman, wearing cream beige mini cross shoulder bag with metal buckle detail, styled with a beige trench coat and white turtleneck, standing in a modern office lobby with glass windows, afternoon natural light through windows, commercial fashion photography, three-quarter view, sophisticated office look, neutral color coordination, high quality, professional photography",
+    "copy_guide": "아이템 소개: '뉴트럴 컬러의 정석 🤎'\n스펙: 마르헨제이 | 68,000원 | 카드슬롯 3개 내장",
+    "reference_images": ["shared/gena-references/gena_ref_03.png"],
+    "garment_ref": {
+      "item_id": 2,
+      "name": "미니 크로스 숄더백",
+      "brand": "마르헨제이",
+      "price": 68000,
+      "visual_desc": "크림 베이지, 부드러운 인조가죽, 메탈 버클 디테일, 넓은 스트랩",
+      "weight": "220g"
+    },
+    "scene": {
+      "location": "modern office lobby with glass windows",
+      "time": "afternoon natural light",
+      "atmosphere": "professional, elegant, sophisticated"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 6,
+    "type": "feature_item",
+    "title": "아이템 3 - 베이비 핑크 퀼팅",
+    "image_prompt": "gena, 20s korean woman, wearing baby pink quilted crossbody bag with gold chain strap, styled with a white ruffle blouse and high-waisted pink pleated skirt, sitting at a cozy cafe terrace with spring flowers, soft golden hour lighting, romantic lifestyle photography, half body shot, feminine spring date look, pink color theme, high quality, professional photography",
+    "copy_guide": "아이템 소개: '봄 데이트룩 완성템 💕'\n스펙: 디어베이지 | 54,000원 | 체인 스트랩 포인트",
+    "reference_images": ["shared/gena-references/gena_ref_02.png"],
+    "garment_ref": {
+      "item_id": 4,
+      "name": "퀼팅 크로스백",
+      "brand": "디어베이지",
+      "price": 54000,
+      "visual_desc": "베이비 핑크, 퀼팅 패턴 나일론, 체인 스트랩, 골드 메탈 디테일",
+      "weight": "210g"
+    },
+    "scene": {
+      "location": "cozy cafe terrace with spring flowers",
+      "time": "golden hour",
+      "atmosphere": "romantic, feminine, spring date"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 7,
+    "type": "feature_item",
+    "title": "아이템 4 - 아이보리 심플백",
+    "image_prompt": "gena, 20s korean woman, wearing ivory simple shoulder mini bag with slim strap, styled with a navy blazer and white striped shirt and beige slacks, standing in a bright modern co-working space, morning natural window light, commercial fashion photography, full body shot, smart casual office look, clean minimal style, high quality, professional photography",
+    "copy_guide": "아이템 소개: '3만원대 가성비 끝판왕 🤍'\n스펙: 무신사 스탠다드 | 35,000원 | 160g | 미니멀의 정석",
+    "reference_images": ["shared/gena-references/gena_ref_03.png"],
+    "garment_ref": {
+      "item_id": 6,
+      "name": "심플 숄더 미니백",
+      "brand": "무신사 스탠다드",
+      "price": 35000,
+      "visual_desc": "아이보리, 경량 폴리에스터, 지퍼 여밈, 미니멀 디자인",
+      "weight": "160g"
+    },
+    "scene": {
+      "location": "bright modern co-working space",
+      "time": "morning natural light",
+      "atmosphere": "professional, clean, minimal"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 8,
+    "type": "feature_item",
+    "title": "아이템 5 - 그레이지 베이지 에코백",
+    "image_prompt": "gena, 20s korean woman, wearing greige beige eco nylon crossbody bag with padded strap, styled with an oversized mint knit sweater and white wide pants, walking in a botanical garden with green plants, soft afternoon diffused light, lifestyle photography, full body shot, casual comfortable spring look, earth tone coordination, high quality, professional photography",
+    "copy_guide": "아이템 소개: '지구도 생각하는 에코 소재 🌿'\n스펙: 러브이즈트루 | 46,000원 | 145g | 재활용 나일론",
+    "reference_images": ["shared/gena-references/gena_ref_01.png"],
+    "garment_ref": {
+      "item_id": 8,
+      "name": "에코 나일론 크로스백",
+      "brand": "러브이즈트루",
+      "price": 46000,
+      "visual_desc": "그레이지 베이지, 재활용 나일론, 플랩+자석 여밈, 패딩 스트랩",
+      "weight": "145g"
+    },
+    "scene": {
+      "location": "botanical garden with green plants",
+      "time": "soft afternoon light",
+      "atmosphere": "natural, eco-friendly, comfortable"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 9,
+    "type": "lineup",
+    "title": "전체 라인업 - 봄 컬러 팔레트",
+    "image_prompt": "gena, 20s korean woman, surrounded by multiple colorful crossbody bags arranged aesthetically around her, wearing simple white t-shirt, sitting on a white backdrop with bags in lavender mint pink beige ivory colors displayed, bright studio lighting, commercial product photography with model, full body shot, spring color palette showcase, organized layout, high quality, professional photography",
+    "copy_guide": "전체 소개: '봄 컬러 총집합 🎨'\n컬러 목록: 라벤더 | 민트 | 베이비핑크 | 크림베이지 | 아이보리 | 그레이지\n가격대: 35,000원~98,000원",
+    "reference_images": ["shared/gena-references/gena_ref_04.png"],
+    "featured_items": [
+      {"item_id": 1, "color": "라벤더"},
+      {"item_id": 3, "color": "민트 그린"},
+      {"item_id": 4, "color": "베이비 핑크"},
+      {"item_id": 2, "color": "크림 베이지"},
+      {"item_id": 6, "color": "아이보리"},
+      {"item_id": 8, "color": "그레이지 베이지"}
+    ],
+    "scene": {
+      "location": "white studio backdrop",
+      "time": "bright studio lighting",
+      "atmosphere": "clean, organized, colorful showcase"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  },
+  {
+    "slide": 10,
+    "type": "cta",
+    "title": "CTA - 저장/팔로우 유도",
+    "image_prompt": "gena, 20s korean woman, looking directly at camera with friendly smile, pointing at her sand beige minimal flap crossbody bag, wearing spring pastel outfit with lavender cardigan, standing against soft pink gradient background, warm studio lighting, engaging lifestyle photography, half body shot, direct eye contact, inviting expression, high quality, professional photography",
+    "copy_guide": "CTA 텍스트: '마음에 드는 가방 있으면 저장 📌'\n서브: '더 많은 봄 아이템은 팔로우하고 확인해요 →'\n해시태그: #봄신상가방 #미니멀크로스백 #봄출근룩 #2026봄패션 #봄가방추천 #파스텔크로스백 #베이지크로스백 #라벤더크로스백 #민트크로스백 #데일리크로스백",
+    "reference_images": ["shared/gena-references/gena_ref_04.png"],
+    "featured_item": {
+      "item_id": 10,
+      "name": "미니멀 플랩백",
+      "brand": "어커버",
+      "price": 98000,
+      "visual_desc": "샌드 베이지, 프리미엄 인조가죽, 메탈 트위스트 잠금장치"
+    },
+    "scene": {
+      "location": "soft pink gradient studio background",
+      "time": "warm studio lighting",
+      "atmosphere": "friendly, inviting, engaging"
+    },
+    "config": {
+      "aspectRatio": "3:4",
+      "resolution": "2K"
+    }
+  }
+]

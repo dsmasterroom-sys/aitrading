@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split Pattern</title>
+  <link rel="stylesheet" href="../design-tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-primary); background: var(--color-gray-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .canvas { width: var(--canvas-width); height: var(--canvas-height); background: var(--color-white); display: flex; }
+    .split-left { width: 50%; background: var(--color-primary-pink); display: flex; align-items: center; justify-content: center; border-right: var(--border-width) solid var(--color-black); }
+    .split-left img { width: 80%; height: 80%; object-fit: cover; box-shadow: var(--shadow-strong); }
+    .split-right { width: 50%; padding: var(--space-lg); display: flex; flex-direction: column; justify-content: center; gap: var(--space-md); }
+    h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-bold); color: var(--color-black); line-height: 1.2; }
+    p { font-size: var(--font-size-body); color: var(--color-gray-dark); line-height: 1.4; }
+    .price { font-size: var(--font-size-h1); font-weight: var(--font-weight-bold); color: var(--color-primary-red); }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="split-left">
+      <img src="{{IMAGE_URL}}" alt="Product">
+    </div>
+    <div class="split-right">
+      <h2>{{TITLE}}</h2>
+      <p>{{DESCRIPTION}}</p>
+      <div class="price">{{PRICE}}</div>
+    </div>
+  </div>
+</body>
+</html>

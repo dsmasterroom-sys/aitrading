@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gena Feed - Brutalist Editorial Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+KR:wght@300;500;700;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#21201C',
+                        dark_900: '#1A1A1A',
+                        cream: '#FBF8F1',
+                        cream_200: '#FDF8F0',
+                        sub: '#DFDBD8',
+                        lime: '#05fe04',
+                    },
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'], // BagelFat 대체용 (두꺼운 산세리프)
+                        body: ['Noto Sans KR', 'sans-serif'], // Paperlogy 대체용
+                        serif: ['Noto Serif KR', 'serif'], // 에디토리얼 무드용
+                    },
+                    boxShadow: {
+                        card: '0px 2px 8px rgba(33,32,28,0.08)',
+                        floating: '0px 12px 40px rgba(33,32,28,0.16)',
+                        accent: '0px 4px 20px rgba(5, 254, 4, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 피그마 가이드 여백 비율 변환 (1080x1350 기준 -> Top/Bottom 180px, Left/Right 80px) */
+        .safe-zone {
+            padding: 13% 7%; 
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .extreme-crop {
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
+        .text-outline {
+            -webkit-text-stroke: 1px #05fe04;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-sub flex items-center justify-center min-h-screen p-4 font-body text-dark">
+
+    <div class="w-full max-w-6xl">
+        <!-- Carousel Container -->
+        <div id="carousel" class="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory gap-6 pb-8">
+            
+            <!-- 1. H-1: Hero Statement (히어로 강조) - 표지 -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden flex flex-col justify-center safe-zone shadow-floating">
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-lime rounded-full opacity-20 blur-[40px]"></div>
+                <h1 class="font-display extreme-crop text-[18vh] text-lime z-10 uppercase -ml-4">50K</h1>
+                <h2 class="font-display extreme-crop text-[8vh] text-cream z-10 uppercase -ml-2 mb-4">Reels Views</h2>
+                <p class="text-cream text-lg z-10 opacity-80 mb-8 font-serif">"30일 목표: 팔로워 500 달성과 누적 5만 뷰"</p>
+                <div class="absolute bottom-[13%] left-[7%] right-[7%] flex justify-between items-end border-t border-cream/20 pt-4">
+                    <span class="text-lime font-bold">@GENA_FEED</span>
+                    <span class="text-cream/50 text-sm">Strategy v1.0</span>
+                </div>
+            </div>
+
+            <!-- 2. H-2: Visual Impact (이미지 강조) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fashion OOTD" class="absolute inset-0 w-full h-full object-cover grayscale opacity-90 mix-blend-multiply">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent"></div>
+                <div class="absolute bottom-0 w-full safe-zone pb-[13%]">
+                    <div class="bg-cream/90 backdrop-blur-md p-6 rounded-[24px] shadow-floating border border-dark/10">
+                        <span class="inline-block bg-lime text-dark px-3 py-1 rounded-full text-xs font-bold mb-3 tracking-widest uppercase">Concept</span>
+                        <h2 class="font-display text-4xl leading-none mb-2 extreme-crop text-dark">AI CREATOR<br>& OOTD</h2>
+                        <p class="text-sm text-dark_900 mt-2 font-serif italic">트렌드에 민감한 얼리어답터, 가볍고 친근한 소통형 캐릭터</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. H-3: Split Hero (분할 강조) -->
+            <div class="relative aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden flex flex-col">
+                <div class="flex-1 bg-lime p-[7%] pt-[13%] flex flex-col justify-end">
+                    <h2 class="font-display text-6xl text-dark extreme-crop uppercase">Fashion</h2>
+                    <p class="text-dark font-medium mt-2">CCTV OOTD, 데일리룩 레시피</p>
+                </div>
+                <div class="flex-1 bg-dark p-[7%] pb-[13%] flex flex-col justify-start relative">
+                    <div class="absolute -top-10 right-4 w-20 h-20 bg-dark rounded-full flex items-center justify-center text-lime font-display text-4xl shadow-accent rotate-12">+</div>
+                    <h2 class="font-display text-6xl text-cream extreme-crop uppercase mt-4">AI Tech</h2>
+                    <p class="text-cream/80 font-medium mt-2">프롬프트 공개, 가상 스타일링</p>
+                </div>
+            </div>
+
+            <!-- 4. I-1: Data Grid (정보 그리드) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center">
+                <h2 class="font-display text-5xl mb-8 extreme-crop">CURRENT<br>STATUS</h2>
+                <div class="grid grid-cols-2 gap-4 h-1/2">
+                    <div class="bg-cream_200 p-5 rounded-[20px] shadow-card border border-dark/10 flex flex-col justify-center">
+                        <span class="text-sm font-bold text-dark/50 uppercase tracking-wider">Followers</span>
+                        <span class="font-display text-5xl text-dark mt-1">13</span>
+                    </div>
+                    <div class="bg-cream_200 p-5 rounded-[20px] shadow-card border border-dark/10 flex flex-col justify-center">
+                        <span class="text-sm font-bold text-dark/50 uppercase tracking-wider">Following</span>
+                        <span class="font-display text-5xl text-dark mt-1">88</span>
+                    </div>
+                    <div class="bg-cream_200 p-5 rounded-[20px] shadow-card border border-dark/10 flex flex-col justify-center">
+                        <span class="text-sm font-bold text-dark/50 uppercase tracking-wider">Posts</span>
+                        <span class="font-display text-5xl text-dark mt-1">12</span>
+                    </div>
+                    <div class="bg-dark p-5 rounded-[20px] shadow-accent border border-lime flex flex-col justify-center">
+                        <span class="text-sm font-bold text-lime uppercase tracking-wider">Target 30D</span>
+                        <span class="font-display text-5xl text-cream mt-1">500+</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. I-2: Timeline (시간순 정보) - 수익화 로드맵 -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone text-cream">
+                <h2 class="font-display text-4xl mb-8 text-lime extreme-crop">MONETIZATION<br>ROADMAP</h2>
+                <div class="space-y-6 relative before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-cream/20">
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-dark bg-lime text-dark shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-accent z-10"></div>
+                        <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] pl-4">
+                            <span class="text-lime text-sm font-bold">NOW</span>
+                            <h4 class="font-bold text-lg leading-tight">제휴 마케팅 셋업</h4>
+                            <p class="text-xs text-cream/70">쿠팡/네이버쇼핑 제휴링크 세팅</p>
+                        </div>
+                    </div>
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-dark bg-cream shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                        <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] pl-4">
+                            <span class="text-cream/50 text-sm font-bold">STEP 1 (1k Follower)</span>
+                            <h4 class="font-bold text-lg leading-tight">릴스 보너스</h4>
+                            <p class="text-xs text-cream/70">릴스 5만뷰 + 프로페셔널</p>
+                        </div>
+                    </div>
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-dark bg-cream shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                        <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] pl-4">
+                            <span class="text-cream/50 text-sm font-bold">STEP 2 (3k~5k)</span>
+                            <h4 class="font-bold text-lg leading-tight">브랜드 협찬</h4>
+                            <p class="text-xs text-cream/70">신생 패션 브랜드 현물/유상</p>
+                        </div>
+                    </div>
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full border-4 border-dark bg-cream shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                        <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] pl-4">
+                            <span class="text-cream/50 text-sm font-bold">STEP 3 (10k+)</span>
+                            <h4 class="font-bold text-lg leading-tight">자체 디지털 상품</h4>
+                            <p class="text-xs text-cream/70">룩북 화보, 프롬프트 팩 판매</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. I-3: Stat Comparison (통계 비교) - 운영 시간 배분 -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center border-[8px] border-dark">
+                <h2 class="font-display text-4xl mb-6 text-dark extreme-crop text-center">DAILY ROUTINE<br>2 HOURS</h2>
+                <div class="space-y-6 mt-4">
+                    <div>
+                        <div class="flex justify-between text-sm font-bold mb-1">
+                            <span>콘텐츠 제작 (릴스/캐러셀)</span>
+                            <span>90 MIN</span>
+                        </div>
+                        <div class="w-full bg-sub rounded-full h-4 overflow-hidden">
+                            <div class="bg-dark h-4 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-bold mb-1">
+                            <span>소통/DM (업로드 직후)</span>
+                            <span>20 MIN</span>
+                        </div>
+                        <div class="w-full bg-sub rounded-full h-4 overflow-hidden">
+                            <div class="bg-lime h-4 rounded-full" style="width: 17%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm font-bold mb-1">
+                            <span>스토리 참여 유도</span>
+                            <span>10 MIN</span>
+                        </div>
+                        <div class="w-full bg-sub rounded-full h-4 overflow-hidden">
+                            <div class="bg-dark_900 h-4 rounded-full" style="width: 8%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. I-4: Feature List (특징 나열) -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center">
+                <h2 class="font-display text-5xl mb-8 text-cream extreme-crop">VIRTUAL<br><span class="text-lime">EDGE</span></h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3 bg-dark_900 p-4 rounded-2xl border border-cream/10">
+                        <div class="text-lime shrink-0 mt-1">✔</div>
+                        <div>
+                            <h4 class="text-cream font-bold">명확한 페르소나 세계관</h4>
+                            <p class="text-sm text-cream/70 mt-1">"젠아의 하루" 스토리텔링으로 몰입형 팬덤 형성</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 bg-dark_900 p-4 rounded-2xl border border-cream/10">
+                        <div class="text-lime shrink-0 mt-1">✔</div>
+                        <div>
+                            <h4 class="text-cream font-bold">생성 과정의 콘텐츠화</h4>
+                            <p class="text-sm text-cream/70 mt-1">AI 선택 → 결과 → 착장까지 투명한 비하인드 공개</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 bg-dark_900 p-4 rounded-2xl border border-cream/10">
+                        <div class="text-lime shrink-0 mt-1">✔</div>
+                        <div>
+                            <h4 class="text-cream font-bold">패션 + IT 크로스오버</h4>
+                            <p class="text-sm text-cream/70 mt-1">양쪽 브랜드 협찬을 동시에 노리는 하이브리드 포지셔닝</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 8. I-5: Quote + Source (인용형) -->
+            <div class="relative bg-lime aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col items-center justify-center text-center">
+                <span class="font-serif text-8xl text-dark opacity-20 absolute top-10 left-10">"</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-dark font-bold leading-snug z-10 break-keep">
+                    일상을 기록하는 <br>AI 크리에이터. <br>매일 입고 싶은 룩, <br>나를 완성하는 <br>아이템들.
+                </h2>
+                <span class="font-serif text-8xl text-dark opacity-20 absolute bottom-10 right-10 rotate-180">"</span>
+                <div class="mt-8 pt-6 border-t border-dark/20 w-16"></div>
+                <p class="text-dark font-display tracking-widest text-xl mt-4">@GENA_FEED BIO</p>
+            </div>
+
+            <!-- 9. P-1: Step-by-Step (단계형) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center">
+                <h2 class="font-display text-4xl mb-8 text-dark extreme-crop">UPLOAD<br>ROUTINE</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-4 items-center p-3 bg-cream_200 rounded-full shadow-sm border border-dark/5">
+                        <div class="w-12 h-12 rounded-full bg-lime text-dark font-display text-2xl flex items-center justify-center shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-dark">오전 7-9시 / 저녁 7-10시</h4>
+                            <p class="text-xs text-dark_900">시청 피크 타임 업로드 집중</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center p-3 bg-cream_200 rounded-full shadow-sm border border-dark/5">
+                        <div class="w-12 h-12 rounded-full bg-dark text-cream font-display text-2xl flex items-center justify-center shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-dark">업로드 후 30분 내</h4>
+                            <p class="text-xs text-dark_900">댓글 10개 목표 질문형 캡션 + 본계정 답글</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center p-3 bg-cream_200 rounded-full shadow-sm border border-dark/5">
+                        <div class="w-12 h-12 rounded-full bg-dark text-cream font-display text-2xl flex items-center justify-center shrink-0">3</div>
+                        <div>
+                            <h4 class="font-bold text-dark">Call to Action</h4>
+                            <p class="text-xs text-dark_900">저장/공유 유도 문장 고정화 필수</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. P-2: Before/After (전후 비교) -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden flex flex-col">
+                <div class="flex-1 bg-sub flex flex-col justify-center items-center relative overflow-hidden">
+                    <h2 class="font-display text-8xl text-dark/10 absolute -left-4 extreme-crop">BEFORE</h2>
+                    <div class="bg-cream p-4 rounded-xl shadow-card z-10 text-center border-2 border-dark border-dashed">
+                        <span class="block text-xl font-bold text-dark mb-1">팔로워 13명</span>
+                        <span class="block text-sm text-dark/60">맞팔 의존, 콘텐츠 데이터 부족</span>
+                    </div>
+                </div>
+                <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center z-20">
+                    <div class="bg-lime text-dark p-3 rounded-full shadow-floating font-bold">30 DAYS LATER ⬇</div>
+                </div>
+                <div class="flex-1 bg-dark flex flex-col justify-center items-center relative overflow-hidden">
+                    <h2 class="font-display text-8xl text-outline absolute -right-4 extreme-crop opacity-30">AFTER</h2>
+                    <div class="bg-lime p-4 rounded-xl shadow-accent z-10 text-center">
+                        <span class="block text-2xl font-display text-dark mb-1">팔로워 500~1,000</span>
+                        <span class="block text-sm font-bold text-dark">릴스 5만뷰 + 수익화 파이프라인</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. P-3: Process Flow (흐름도) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center text-center">
+                <h2 class="font-display text-4xl mb-6 text-dark extreme-crop">PROFIT<br>FUNNEL</h2>
+                
+                <div class="bg-dark text-cream py-3 px-6 rounded-full font-bold shadow-card mx-auto w-4/5">탐색 탭 / 릴스 유입</div>
+                <div class="h-6 w-0.5 bg-dark mx-auto my-1"></div>
+                
+                <div class="bg-dark text-cream py-3 px-6 rounded-full font-bold shadow-card mx-auto w-4/5">프로필 바이오 방문</div>
+                <div class="h-6 w-0.5 bg-dark mx-auto my-1"></div>
+                
+                <div class="bg-lime text-dark py-3 px-6 rounded-full font-bold shadow-accent mx-auto w-4/5 border-2 border-dark">Linktree 클릭</div>
+                <div class="h-6 w-0.5 bg-dark mx-auto my-1"></div>
+                
+                <div class="flex justify-center gap-2 w-full">
+                    <div class="bg-cream_200 text-dark border border-dark text-xs py-2 px-3 rounded-xl flex-1">제휴 구매<br>(수수료)</div>
+                    <div class="bg-cream_200 text-dark border border-dark text-xs py-2 px-3 rounded-xl flex-1">프롬프트<br>(이메일확보)</div>
+                    <div class="bg-cream_200 text-dark border border-dark text-xs py-2 px-3 rounded-xl flex-1">디지털화보<br>(직접수익)</div>
+                </div>
+            </div>
+
+            <!-- 12. C-1: Side-by-Side (좌우 비교) -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden flex flex-col">
+                <div class="pt-[13%] pb-4 px-[7%]">
+                    <h2 class="font-display text-4xl text-cream extreme-crop">2-TRACK<br>STRATEGY</h2>
+                </div>
+                <div class="flex flex-1 pb-[13%] px-[7%] gap-4">
+                    <div class="flex-1 bg-cream rounded-2xl p-4 flex flex-col">
+                        <div class="bg-dark text-lime text-center font-display py-2 rounded-lg mb-4">SERIES A</div>
+                        <h4 class="font-bold text-dark text-center mb-2">조회수/노출용</h4>
+                        <ul class="text-xs text-dark_900 space-y-2 mt-2">
+                            <li>• CCTV OOTD</li>
+                            <li>• 1가방 3코디</li>
+                            <li>• 가격대별 대체템</li>
+                            <li>• 팔로워 룩 투표</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 bg-lime rounded-2xl p-4 flex flex-col border-2 border-dark">
+                        <div class="bg-dark text-cream text-center font-display py-2 rounded-lg mb-4">SERIES B</div>
+                        <h4 class="font-bold text-dark text-center mb-2">신뢰/수익용</h4>
+                        <ul class="text-xs text-dark space-y-2 mt-2">
+                            <li>• 프롬프트 공개</li>
+                            <li>• 룩 레시피 공유</li>
+                            <li>• AI 생성 비하인드</li>
+                            <li>• 디지털 굿즈 판매</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. C-2: Pros/Cons (장단점 / Do's and Don'ts) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center">
+                <h2 class="font-display text-4xl mb-6 text-dark extreme-crop">GROWTH<br>RULES</h2>
+                <div class="bg-cream_200 rounded-2xl p-5 mb-4 border-l-4 border-lime shadow-sm">
+                    <h4 class="font-display text-xl mb-3 flex items-center gap-2"><span class="text-lime">👍</span> DO THIS</h4>
+                    <ul class="text-sm space-y-2 font-medium">
+                        <li>• 프로페셔널 계정 전환 필수</li>
+                        <li>• 매일 스토리 업로드 유지</li>
+                        <li>• 초기 타겟 계정만 선별적 팔로우</li>
+                    </ul>
+                </div>
+                <div class="bg-cream_200 rounded-2xl p-5 border-l-4 border-dark shadow-sm">
+                    <h4 class="font-display text-xl mb-3 flex items-center gap-2"><span class="text-red-500">🚫</span> DON'T</h4>
+                    <ul class="text-sm space-y-2 font-medium text-dark/70">
+                        <li>• 팔로워/좋아요 구매 절대 금지</li>
+                        <li>• 무분별한 맞팔(Follow-back) 금지</li>
+                        <li>• 오토라이크 툴 사용 금지</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 14. M-1: Product Showcase (아이템 소개) -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col items-center text-center pt-[20%]">
+                <h2 class="font-display text-8xl extreme-crop text-dark absolute top-10 w-full text-center text-outline opacity-20 z-0">GOODS</h2>
+                <div class="w-48 h-48 bg-cream p-2 rounded-xl rotate-3 shadow-floating relative z-10 mb-6">
+                    <div class="w-full h-full bg-sub rounded-lg border border-dark/10 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Prompt Pack" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-80">
+                        <span class="font-display text-3xl text-lime z-10 drop-shadow-md">AI PROMPT</span>
+                    </div>
+                </div>
+                <span class="bg-lime text-dark text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 z-10">Digital Product</span>
+                <h3 class="font-display text-3xl text-cream mb-2 z-10">스타일링 프롬프트 팩</h3>
+                <p class="text-cream/70 text-sm mb-6 z-10">젠아의 시크릿 AI 룩 레시피 템플릿</p>
+                <button class="bg-cream text-dark font-bold py-3 px-8 rounded-full shadow-card hover:scale-105 transition z-10">링크트리에서 확인하기</button>
+            </div>
+
+            <!-- 15. M-2: Collection Grid (컬렉션 그리드) -->
+            <div class="relative bg-cream aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center">
+                <h2 class="font-display text-4xl mb-6 text-dark extreme-crop">CONTENT<br>GRID</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="aspect-square bg-dark rounded-xl p-3 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                        <span class="text-lime text-xs font-bold z-10">01</span>
+                        <span class="text-cream font-bold leading-tight z-10">CCTV<br>OOTD</span>
+                        <div class="absolute inset-0 bg-lime translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                    </div>
+                    <div class="aspect-square bg-cream_200 rounded-xl p-3 flex flex-col justify-between shadow-sm border border-dark/10">
+                        <span class="text-dark/40 text-xs font-bold">02</span>
+                        <span class="text-dark font-bold leading-tight">1 BAG<br>3 LOOKS</span>
+                    </div>
+                    <div class="aspect-square bg-cream_200 rounded-xl p-3 flex flex-col justify-between shadow-sm border border-dark/10">
+                        <span class="text-dark/40 text-xs font-bold">03</span>
+                        <span class="text-dark font-bold leading-tight">PRICE<br>MATCH</span>
+                    </div>
+                    <div class="aspect-square bg-cream_200 rounded-xl p-3 flex flex-col justify-between shadow-sm border border-dark/10">
+                        <span class="text-dark/40 text-xs font-bold">04</span>
+                        <span class="text-dark font-bold leading-tight">COLOR<br>RULE</span>
+                    </div>
+                    <div class="aspect-square bg-cream_200 rounded-xl p-3 flex flex-col justify-between shadow-sm border border-dark/10">
+                        <span class="text-dark/40 text-xs font-bold">05</span>
+                        <span class="text-dark font-bold leading-tight">AI<br>PROMPT</span>
+                    </div>
+                    <div class="aspect-square bg-cream_200 rounded-xl p-3 flex flex-col justify-between shadow-sm border border-dark/10">
+                        <span class="text-dark/40 text-xs font-bold">06</span>
+                        <span class="text-dark font-bold leading-tight">BEHIND<br>SCENE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16. CTA-1: Primary CTA (주요 행동 유도) -->
+            <div class="relative bg-dark aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center items-center text-center">
+                <div class="w-16 h-16 bg-lime rounded-full mb-6 flex items-center justify-center shadow-accent">
+                    <svg class="w-8 h-8 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="font-display text-5xl text-cream mb-4 extreme-crop">CHECK<br>LIST</h2>
+                <ul class="text-cream/80 text-sm space-y-3 mb-8 text-left w-full max-w-[250px] mx-auto font-medium border-l-2 border-lime pl-4">
+                    <li>[ ] 프로페셔널 계정 전환</li>
+                    <li>[ ] 링크트리/멀티링크 생성</li>
+                    <li>[ ] 제휴마케팅 링크 수집</li>
+                    <li>[ ] 30일 콘텐츠 사전 기획</li>
+                </ul>
+                <button class="w-full max-w-[250px] bg-lime text-dark font-display text-xl py-4 rounded-full shadow-accent">START NOW</button>
+            </div>
+
+            <!-- 17. CTA-2: Urgency CTA (긴급 행동 유도) -->
+            <div class="relative bg-lime aspect-[4/5] h-[70vh] min-h-[500px] min-w-[calc(70vh*0.8)] snap-center flex-shrink-0 rounded-[30px] overflow-hidden safe-zone flex flex-col justify-center items-center border-[12px] border-dark">
+                <div class="absolute top-0 left-0 w-full bg-dark text-cream text-center font-bold py-2 text-xs tracking-widest animate-pulse">
+                    ⚡ DON'T WAIT FOR FOLLOWERS
+                </div>
+                
+                <h2 class="font-display text-[12vh] text-dark extreme-crop text-center leading-[0.8] mb-6 mt-8 w-full">DO IT<br>NOW</h2>
+                
+                <div class="bg-cream p-5 rounded-2xl border-2 border-dark shadow-[4px_4px_0px_#21201C] w-full text-center mb-6 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-dark text-cream text-[10px] px-3 py-1 rounded-full font-bold">팔로워 0명이어도 수익 발생!</div>
+                    <h3 class="font-bold text-dark mb-1 mt-2 text-lg">지금 당장 제휴 링크 세팅</h3>
+                    <p class="text-sm text-dark_900">검색/탐색 유입으로 링크 클릭 발생</p>
+                </div>
+                
+                <button class="bg-dark text-lime font-display text-2xl py-4 w-full rounded-full shadow-floating hover:-translate-y-1 transition transform">
+                    SET UP LINKTREE
+                </button>
+            </div>
+
+        </div>
+        
+        <!-- Navigation Hints -->
+        <div class="flex justify-center mt-6 gap-2 text-dark/50 text-sm font-bold tracking-widest">
+            <span>&larr;</span>
+            <span>SCROLL TO EXPLORE (17 SLIDES)</span>
+            <span>&rarr;</span>
+        </div>
+    </div>
+
+</body>
+</html>

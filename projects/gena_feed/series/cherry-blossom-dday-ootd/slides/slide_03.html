@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+
+:root {
+  --primary: #1A1A1A;
+  --secondary: #6B6B6B;
+  --accent: #D93025;
+  --surface-dark: #1A1A1A;
+  --surface-cream: #F2EDE8;
+  --surface-cool: #E2DEDA;
+  --surface-mid: #D0CBC6;
+  --surface-accent: #D93025;
+  --text-dark: #1A1A1A;
+  --text-mid: #555555;
+  --text-light: #F2EDE8;
+  --fs-display: 72px;
+  --fs-title: 56px;
+  --fs-body: 36px;
+  --fs-caption: 28px;
+  --fs-hero: 120px;
+  --lh-display: 1.1;
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+  --ls-heading: -0.02em;
+  --ls-body: 0em;
+  --pad: 80px;
+  --gap: 40px;
+  --gap-sm: 24px;
+  --canvas-carousel-w: 1080px;
+  --canvas-carousel-h: 1350px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width: var(--canvas-carousel-w); height: var(--canvas-carousel-h); overflow:hidden; font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif; }
+.canvas { width: var(--canvas-carousel-w); height: var(--canvas-carousel-h); overflow:hidden; position:relative; word-break:keep-all; }
+
+</style></head><body>
+
+<div class="canvas" style="background:var(--surface-cool);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:var(--pad);text-align:center;">
+  <p style="color:var(--text-mid);font-size:var(--fs-body);line-height:var(--lh-body);margin-bottom:var(--gap);">올해 개화, 평년보다</p>
+  <h1 style="color:var(--accent);font-size:var(--fs-hero);line-height:1.0;letter-spacing:var(--ls-heading);margin-bottom:var(--gap);">3~8일<br>빠르다</h1>
+  <p style="color:var(--text-dark);font-size:var(--fs-body);line-height:var(--lh-body);">미리 준비하면 올해는 다르다.</p>
+  <div style="margin-top:60px;width:120px;height:120px;border:3px solid var(--secondary);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <span style="color:var(--secondary);font-size:var(--fs-caption);">MAR</span>
+    <span style="color:var(--text-dark);font-size:var(--fs-title);font-weight:700;">30</span>
+  </div>
+</div>
+
+</body></html>

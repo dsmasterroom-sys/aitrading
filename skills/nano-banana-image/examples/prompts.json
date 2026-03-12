@@ -1,0 +1,27 @@
+[
+  {
+    "prompt": "A cute banana character wearing sunglasses, fun cartoon style, friendly expression",
+    "aspect_ratio": "1:1",
+    "negative_prompt": "scary, dark, realistic"
+  },
+  {
+    "prompt": "A modern minimalist office with natural lighting, indoor plants, standing desk",
+    "aspect_ratio": "16:9",
+    "negative_prompt": "cluttered, messy, dark"
+  },
+  {
+    "prompt": "A beautiful sunset over mountains, vibrant colors, dramatic sky",
+    "aspect_ratio": "16:9",
+    "negative_prompt": "blurry, low quality, distorted"
+  },
+  {
+    "prompt": "A cozy reading nook with bookshelves, warm lamp, comfortable armchair",
+    "aspect_ratio": "4:3",
+    "negative_prompt": "messy, dark, cluttered"
+  },
+  {
+    "prompt": "Professional food photography, gourmet dish, elegant plating, top view",
+    "aspect_ratio": "1:1",
+    "negative_prompt": "unappetizing, messy, poor lighting"
+  }
+]

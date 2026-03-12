@@ -1,0 +1,29 @@
+{
+  "test_item_01": {
+    "category": "outer",
+    "brand": "TEST BRAND",
+    "name": "레더 재킷",
+    "color": "블랙",
+    "price": "89000",
+    "ref_image_url": "tests/output/gena_outfit_swap_success.png",
+    "visual_desc": "시크한 레더 재킷"
+  },
+  "test_item_02": {
+    "category": "outer",
+    "brand": "TEST BRAND",
+    "name": "레더 재킷",
+    "color": "블랙",
+    "price": "89000",
+    "ref_image_url": "tests/output/gena_outfit_swap_success.png",
+    "visual_desc": "시크한 레더 재킷"
+  },
+  "test_item_03": {
+    "category": "outer",
+    "brand": "TEST BRAND",
+    "name": "레더 재킷",
+    "color": "블랙",
+    "price": "89000",
+    "ref_image_url": "tests/output/gena_outfit_swap_success.png",
+    "visual_desc": "시크한 레더 재킷"
+  }
+}

@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@gena_feed — 캐러셀 패턴 카탈로그 v3 · 30 Slides</title>
+<style>
+
+/* ═══════════════════════════════════════════
+   FONTS
+═══════════════════════════════════════════ */
+@font-face { font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
+@font-face { font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face { font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+@font-face { font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
+@font-face { font-family:'BagelFat'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_JAMO@1.0/BagelFatOne-Regular.woff2') format('woff2'); font-weight:normal; font-display:swap; }
+@font-face { font-family:'GangwonEdu'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFLightA.woff') format('woff'); font-weight:300; font-display:swap; }
+@font-face { font-family:'GangwonEdu'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff'); font-weight:700; font-display:swap; }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  /* surface */
+  --w:    #FFFFFF;
+  --cr:   #FAF7F2;   /* cream */
+  --crd:  #F2EDE4;   /* cream-dark */
+  --crm:  #EDE6D9;   /* cream-mid */
+  /* brand */
+  --co:   #DA7B5A;   /* coral — primary */
+  --cod:  #C0623F;   /* coral-deep */
+  --col:  #EFA07C;   /* coral-light */
+  --com:  rgba(218,123,90,.10);
+  --tc:   #B85C38;   /* terracotta */
+  --sa:   #D4B896;   /* sand */
+  --sg:   #8A9E89;   /* sage */
+  /* ink */
+  --ink:  #2C2420;
+  --i70:  rgba(44,36,32,.70);
+  --i45:  rgba(44,36,32,.45);
+  --i20:  rgba(44,36,32,.20);
+  --i10:  rgba(44,36,32,.10);
+  --i06:  rgba(44,36,32,.06);
+  /* fonts */
+  --ft:   'Paperozi','Noto Sans KR',sans-serif;
+  --fa:   'Paperozi','Noto Sans KR',sans-serif;
+  --fq:   'GangwonEdu','Noto Sans KR',sans-serif;
+  --fk:   'Paperozi',sans-serif;
+  --fu:   'Outfit',sans-serif;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+body { background:#E2D9CF; font-family:var(--fk); color:var(--ink); }
+
+/* ─── PAGE CHROME ─── */
+.page-chrome {
+  background:var(--w); border-bottom:1px solid var(--i10);
+  padding:40px 52px; display:flex; justify-content:space-between; align-items:center;
+}
+.pc-left { display:flex; flex-direction:column; gap:7px; }
+.pc-handle { font-family:var(--fa); font-size:30px; color:var(--co); }
+.pc-sub { font-family:var(--fk); font-size:13px; color:var(--i45); font-weight:300; line-height:1.7; }
+.pc-badge { font-family:var(--fk); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--w); background:var(--co); padding:8px 22px; border-radius:40px; white-space:nowrap; }
+
+/* ─── CATEGORY HEADER ─── */
+.cat-header { padding:44px 52px 0; display:flex; align-items:center; gap:16px; }
+.cat-tag { font-family:var(--fa); font-size:13px; color:var(--w); background:var(--co); padding:5px 16px; border-radius:40px; white-space:nowrap; }
+.cat-label { font-family:var(--ft); font-size:19px; font-weight:700; color:var(--ink); letter-spacing:-.01em; white-space:nowrap; }
+.cat-line { flex:1; height:1px; background:var(--i10); }
+.cat-count { font-family:var(--fu); font-size:11px; color:var(--co); font-weight:600; letter-spacing:.08em; white-space:nowrap; }
+
+/* ─── SCROLL ROW ─── */
+.row {
+  display:flex; gap:24px; overflow-x:auto;
+  padding:24px 52px 48px;
+  scrollbar-width:thin; scrollbar-color:var(--sa) transparent;
+  scroll-snap-type:x mandatory;
+}
+.row::-webkit-scrollbar { height:3px; }
+.row::-webkit-scrollbar-thumb { background:var(--sa); border-radius:2px; }
+
+/* ─── SLIDE WRAPPER ─── */
+.sw { flex-shrink:0; scroll-snap-align:start; }
+.slide-label { font-family:var(--fu); font-size:10px; color:var(--i45); letter-spacing:.14em; text-transform:uppercase; margin-bottom:9px; font-weight:600; }
+
+/* 1080×1440 → scale .25 → 270×360 */
+.slide {
+  width:270px; height:360px; position:relative; overflow:hidden; border-radius:4px;
+  box-shadow:0 2px 16px rgba(44,36,32,.10), 0 1px 4px rgba(44,36,32,.06);
+  transition:transform .26s ease, box-shadow .26s ease; cursor:pointer;
+}
+.slide:hover { transform:translateY(-6px); box-shadow:0 14px 44px rgba(218,123,90,.22), 0 4px 12px rgba(44,36,32,.08); }
+.inn { position:absolute; top:0; left:0; width:1080px; height:1440px; transform:scale(.25); transform-origin:top left; }
+
+/* ─── CANVAS ─── */
+.cvs { width:1080px; height:1440px; position:relative; overflow:hidden; background:var(--cr); }
+
+/* noise texture */
+.tx {
+  position:absolute; inset:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.017'/%3E%3C/svg%3E");
+}
+
+/* ─── SHARED HEADER / FOOTER ─── */
+.hd { position:absolute; top:0; left:0; right:0; height:100px; display:flex; align-items:center; justify-content:space-between; padding:0 80px; border-bottom:1px solid var(--i10); }
+.hd-h { font-family:var(--fa); font-size:26px; color:var(--co); }
+.hd-t { font-family:var(--fu); font-size:19px; font-weight:300; color:var(--i45); letter-spacing:.14em; }
+.hd-d { width:13px; height:13px; border-radius:50%; background:var(--co); }
+.ft { position:absolute; bottom:0; left:0; right:0; height:90px; display:flex; align-items:center; justify-content:space-between; padding:0 80px; border-top:1px solid var(--i10); background:var(--w); }
+.ft-n { font-family:var(--fk); font-size:20px; font-weight:400; color:var(--i45); }
+.ft-p { font-family:var(--fa); font-size:22px; color:var(--co); }
+
+/* ─── DIVIDER ─── */
+.page-divider { height:1px; background:var(--i10); margin:0 52px; }
+
+/* ─── BOTTOM LEGEND ─── */
+.legend { padding:36px 52px 52px; background:var(--w); border-top:1px solid var(--i10); display:flex; flex-wrap:wrap; gap:10px 28px; }
+.lg { font-size:11px; color:var(--i45); font-family:'Courier New',monospace; }
+.lg b { color:var(--co); }
+
+/* ─── REUSABLE CANVAS ELEMENTS ─── */
+.side-bar { position:absolute; left:0; top:100px; bottom:90px; width:10px; background:var(--co); }
+.top-stripe { position:absolute; top:100px; left:0; right:0; height:8px; background:var(--co); }
+.top-gradient { position:absolute; top:100px; left:0; right:0; height:8px; background:linear-gradient(90deg,var(--sg),var(--co),var(--tc)); }
+.eyebrow { font-family:var(--fu); font-size:20px; font-weight:600; color:var(--co); letter-spacing:.22em; text-transform:uppercase; }
+.quote-box { background:var(--w); border-left:5px solid var(--co); padding:36px 44px; }
+.quote-text { font-family:var(--fq); font-size:30px; font-weight:300; color:var(--i70); line-height:1.85; }
+.pill { display:inline-flex; padding:10px 26px; border-radius:40px; border:1px solid var(--i20); font-family:var(--fk); font-size:23px; font-weight:300; color:var(--i70); background:var(--w); }
+.pill-accent { background:var(--com); border-color:var(--col); color:var(--cod); font-weight:500; }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     PAGE CHROME
+══════════════════════════════════════════ -->
+<div class="page-chrome">
+  <div class="pc-left">
+    <div class="pc-handle">@gena_feed</div>
+    <div class="pc-sub">
+      라이트 에디토리얼 무드 · 캐러셀 패턴 카탈로그 v3<br>
+      기존 15슬라이드 × 2배 확장 = 총 <b>30 슬라이드</b>
+    </div>
+  </div>
+  <div class="pc-badge">Pattern Catalog v3</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+   ① 기존 3종 CAROUSEL TYPES
+══════════════════════════════════════════ -->
+<div class="cat-header">
+  <div class="cat-tag">기존 3종</div>
+  <div class="cat-label">OOTD 룩북 · 아이템 가격비교 · 스타일링 팁</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">SLIDES 01 – 06</div>
+</div>
+
+<div class="row">
+
+  <!-- ── TYPE-A · OOTD 룩북 커버 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-A · OOTD 룩북 커버</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 62% 22%,rgba(218,123,90,.09) 0%,transparent 64%);"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">WEEKLY OOTD</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <!-- TITLE BLOCK -->
+      <div style="position:absolute;top:158px;left:114px;right:80px;bottom:230px;display:flex;flex-direction:column;">
+        <div class="eyebrow" style="margin-bottom:38px;">Vol.07 · 이번 주</div>
+        <div style="font-family:var(--ft);font-size:144px;font-weight:700;line-height:.93;color:var(--ink);letter-spacing:-.02em;margin-bottom:48px;">
+          젠아의<br> <span style="font-family:var(--fa);color:var(--co);">룩</span>
+        </div>
+        <div style="width:72px;height:3px;background:var(--co);margin-bottom:40px;"></div>
+        <div style="font-family:var(--fk);font-size:30px;font-weight:300;color:var(--i70);line-height:1.78;">가장 많이 저장된<br>코디 5선 공개</div>
+      </div>
+
+      <!-- INDEX ROW -->
+      <div style="position:absolute;bottom:110px;left:114px;right:80px;display:flex;border-top:1px solid var(--i10);">
+        <div style="flex:1;padding:22px 0;text-align:center;border-right:1px solid var(--i10);">
+          <div style="font-family:var(--ft);font-size:28px;font-weight:700;color:var(--ink);">MON</div>
+          <div style="font-family:var(--fk);font-size:22px;font-weight:300;color:var(--i45);margin-top:6px;">출근룩</div>
+        </div>
+        <div style="flex:1;padding:22px 0;text-align:center;border-right:1px solid var(--i10);">
+          <div style="font-family:var(--ft);font-size:28px;font-weight:700;color:var(--ink);">WED</div>
+          <div style="font-family:var(--fk);font-size:22px;font-weight:300;color:var(--i45);margin-top:6px;">캐주얼</div>
+        </div>
+        <div style="flex:1;padding:22px 0;text-align:center;">
+          <div style="font-family:var(--ft);font-size:28px;font-weight:700;color:var(--co);">FRI</div>
+          <div style="font-family:var(--fk);font-size:22px;font-weight:300;color:var(--co);margin-top:6px;">데이트룩</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">저장해두면 좋아요 🤍</div><div class="ft-p">01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- ── TYPE-B · 아이템 가격비교 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-B · 아이템 가격비교</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="top-gradient"></div>
+      <div class="hd" style="top:8px;background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">PRICE GUIDE</div><div class="hd-d"></div></div>
+
+      <!-- ITEM CONTENT -->
+      <div style="position:absolute;top:158px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">Budget Pick</div>
+
+        <!-- big price number -->
+        <div style="display:flex;align-items:flex-end;gap:16px;">
+          <div style="font-family:var(--ft);font-size:200px;font-weight:900;color:var(--co);line-height:.88;letter-spacing:-.04em;">3</div>
+          <div style="padding-bottom:20px;font-family:var(--ft);font-size:52px;font-weight:300;color:var(--i45);">만원대</div>
+        </div>
+
+        <div style="height:1px;background:var(--i10);"></div>
+
+        <!-- item detail -->
+        <div>
+          <div style="font-family:var(--fa);font-size:28px;color:var(--co);margin-bottom:10px;">GIORDANO</div>
+          <div style="font-family:var(--ft);font-size:52px;font-weight:700;color:var(--ink);line-height:1.2;letter-spacing:-.01em;margin-bottom:20px;">릴렉스드<br>코튼 셔츠</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;">
+            <div class="pill" style="font-size:22px;padding:8px 20px;">오프화이트</div>
+            <div class="pill" style="font-size:22px;padding:8px 20px;">S–2XL</div>
+            <div class="pill" style="font-size:22px;padding:8px 20px;">면100%</div>
+          </div>
+        </div>
+
+        <!-- verdict -->
+        <div class="quote-box">
+          <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:var(--co);letter-spacing:.10em;margin-bottom:12px;">💚 젠아 총평</div>
+          <div class="quote-text" style="font-size:28px;">이 가격에 이 핏? 솔직히 놀랐어요. 통기성도 좋고 오버핏이 찰떡.</div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">구매링크 바이오에 🔗</div><div class="ft-p">02</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- ── TYPE-C · 스타일링 팁 커버 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-C · 스타일링 팁 커버</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 55% 33%,rgba(218,123,90,.08) 0%,transparent 64%);"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">STYLING TIP</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <!-- BG decorative number -->
+      <div style="position:absolute;right:40px;top:76px;font-family:var(--ft);font-size:360px;font-weight:900;color:var(--i06);line-height:1;pointer-events:none;letter-spacing:-.05em;">3</div>
+
+      <div style="position:absolute;top:162px;left:114px;right:80px;bottom:230px;display:flex;flex-direction:column;">
+        <div class="eyebrow" style="margin-bottom:36px;">Color Rule</div>
+        <div style="font-family:var(--ft);font-size:130px;font-weight:700;line-height:.92;color:var(--ink);letter-spacing:-.02em;margin-bottom:44px;">
+          2컬러<br><span style="font-family:var(--fa);color:var(--co);">법칙</span>
+        </div>
+        <div style="width:72px;height:3px;background:var(--co);margin-bottom:36px;"></div>
+        <div style="font-family:var(--fk);font-size:30px;font-weight:300;color:var(--i70);line-height:1.78;">옷장 고민 끝.<br>이거 하나면 돼요.</div>
+      </div>
+
+      <!-- INDEX PREVIEW -->
+      <div style="position:absolute;bottom:108px;left:114px;right:80px;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;gap:20px;padding:18px 0;border-top:1px solid var(--i10);">
+          <div style="font-family:var(--fa);font-size:26px;color:var(--co);width:48px;flex-shrink:0;">01</div>
+          <div style="font-family:var(--fk);font-size:26px;font-weight:300;color:var(--i70);">뉴트럴 × 뉴트럴</div>
+          <div style="margin-left:auto;color:var(--i20);font-size:24px;">→</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;padding:18px 0;border-top:1px solid var(--i10);">
+          <div style="font-family:var(--fa);font-size:26px;color:var(--co);width:48px;flex-shrink:0;">02</div>
+          <div style="font-family:var(--fk);font-size:26px;font-weight:300;color:var(--i70);">포인트 1개 법칙</div>
+          <div style="margin-left:auto;color:var(--i20);font-size:24px;">→</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;padding:18px 0;border-top:1px solid var(--i10);">
+          <div style="font-family:var(--fa);font-size:26px;color:var(--co);width:48px;flex-shrink:0;">03</div>
+          <div style="font-family:var(--fk);font-size:26px;font-weight:300;color:var(--i70);">절대 안 되는 조합</div>
+          <div style="margin-left:auto;color:var(--i20);font-size:24px;">→</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">저장해두면 좋아요 🤍</div><div class="ft-p">03</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- ── TYPE-D · 시즌 트렌드 커버 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-D · 시즌 트렌드 커버</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--ink);">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(218,123,90,.18) 0%,transparent 70%);"></div>
+      <!-- inverted header -->
+      <div style="position:absolute;top:0;left:0;right:0;height:100px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-bottom:1px solid rgba(255,255,255,.10);">
+        <div style="font-family:var(--fa);font-size:26px;color:var(--co);">@gena_feed</div>
+        <div style="font-family:var(--fu);font-size:19px;font-weight:300;color:rgba(255,255,255,.40);letter-spacing:.14em;">SEASON</div>
+        <div style="width:13px;height:13px;border-radius:50%;background:var(--co);"></div>
+      </div>
+      <div style="position:absolute;left:0;top:100px;bottom:90px;width:10px;background:var(--co);"></div>
+
+      <div style="position:absolute;top:158px;left:114px;right:80px;bottom:230px;display:flex;flex-direction:column;">
+        <div style="font-family:var(--fu);font-size:20px;font-weight:600;color:var(--co);letter-spacing:.22em;text-transform:uppercase;margin-bottom:38px;">2025 SS</div>
+        <div style="font-family:var(--ft);font-size:130px;font-weight:700;line-height:.92;color:var(--w);letter-spacing:-.02em;margin-bottom:48px;">
+          올봄<br><span style="font-family:var(--fa);color:var(--co);">필수</span><br>아이템
+        </div>
+        <div style="width:72px;height:3px;background:var(--co);margin-bottom:36px;"></div>
+        <div style="font-family:var(--fk);font-size:28px;font-weight:300;color:rgba(255,255,255,.60);line-height:1.78;">이것만 알면<br>올 봄 완성.</div>
+      </div>
+
+      <div style="position:absolute;bottom:108px;left:114px;right:80px;display:flex;gap:16px;">
+        <div style="padding:18px 28px;background:var(--co);border-radius:2px;font-family:var(--fk);font-size:25px;font-weight:500;color:var(--w);">바로 보기 →</div>
+        <div style="padding:18px 28px;border:1px solid rgba(255,255,255,.20);border-radius:2px;font-family:var(--fk);font-size:25px;font-weight:300;color:rgba(255,255,255,.55);">저장하기 🤍</div>
+      </div>
+
+      <!-- inverted footer -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:90px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-top:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.20);">
+        <div style="font-family:var(--fk);font-size:20px;font-weight:300;color:rgba(255,255,255,.45);">저장해두면 좋아요 🤍</div>
+        <div style="font-family:var(--fa);font-size:22px;color:var(--co);">04</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- ── TYPE-E · 무드보드 무드 커버 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-E · 무드보드 커버</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--crd);">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">MOODBOARD</div><div class="hd-d"></div></div>
+
+      <!-- mood grid background blocks -->
+      <div style="position:absolute;top:100px;left:0;right:0;height:8px;background:linear-gradient(90deg,var(--sa),var(--sg),var(--co),var(--tc));"></div>
+
+      <div style="position:absolute;top:158px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:32px;">
+        <div class="eyebrow">Mood of the Week</div>
+        <div style="font-family:var(--ft);font-size:120px;font-weight:700;line-height:.92;color:var(--ink);letter-spacing:-.02em;">
+          이번 주<br>무드
+        </div>
+        <!-- mood tiles -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1;">
+          <div style="background:var(--sa);border-radius:3px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-family:var(--fa);font-size:22px;color:var(--w);text-align:center;line-height:1.4;">샌드<br>베이지</div>
+          </div>
+          <div style="background:var(--co);border-radius:3px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-family:var(--fa);font-size:22px;color:var(--w);text-align:center;line-height:1.4;">코랄<br>오렌지</div>
+          </div>
+          <div style="background:var(--sg);border-radius:3px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-family:var(--fa);font-size:22px;color:var(--w);text-align:center;line-height:1.4;">세이지<br>그린</div>
+          </div>
+          <div style="grid-column:span 2;background:var(--crm);border-radius:3px;border:1px solid var(--i10);display:flex;align-items:center;padding:0 24px;">
+            <div style="font-family:var(--fq);font-size:26px;font-weight:300;color:var(--i70);">자연에서 온 색들 🌿</div>
+          </div>
+          <div style="background:var(--tc);border-radius:3px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-family:var(--fa);font-size:22px;color:var(--w);text-align:center;line-height:1.4;">테라<br>코타</div>
+          </div>
+        </div>
+      </div>
+      <div class="ft"><div class="ft-n">저장해두면 좋아요 🤍</div><div class="ft-p">05</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- ── TYPE-F · 브랜드 추천 커버 ── -->
+  <div class="sw">
+    <div class="slide-label">TYPE-F · 브랜드 추천 커버</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="top-stripe"></div>
+      <div class="hd" style="top:8px;background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">BRAND PICK</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:158px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:30px;">
+        <div class="eyebrow">젠아 Pick</div>
+        <div style="font-family:var(--ft);font-size:96px;font-weight:700;line-height:.92;color:var(--ink);letter-spacing:-.02em;">이달의<br><span style="font-family:var(--fa);color:var(--co);">브랜드</span><br>추천</div>
+        <div style="width:72px;height:3px;background:var(--co);"></div>
+        <div style="font-family:var(--fk);font-size:28px;font-weight:300;color:var(--i70);line-height:1.75;">가성비부터 럭셔리까지.<br>직접 입어본 것만 담았어요.</div>
+
+        <!-- brand tags -->
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <div class="pill pill-accent" style="font-size:23px;">로컬 브랜드</div>
+          <div class="pill" style="font-size:23px;">SPA</div>
+          <div class="pill" style="font-size:23px;">빈티지</div>
+          <div class="pill pill-accent" style="font-size:23px;">편집샵 Pick</div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">구매링크 바이오에 🔗</div><div class="ft-p">06</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ② 정보 × 3   INFO-01 · 02 · 03
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">정보 × 3</div>
+  <div class="cat-label">Information Patterns</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">INFO-01 · 02 · 03 · 04 · 05 · 06</div>
+</div>
+
+<div class="row">
+
+  <!-- INFO-01 · 핵심 정의 -->
+  <div class="sw">
+    <div class="slide-label">INFO-01 · 핵심 정의</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">TERM</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:158px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:32px;">
+        <div class="eyebrow">용어 정의</div>
+        <div style="font-family:var(--ft);font-size:100px;font-weight:700;line-height:.93;color:var(--ink);letter-spacing:-.02em;">드레이프<br>핏</div>
+        <div style="width:64px;height:3px;background:var(--co);"></div>
+        <div class="quote-box">
+          <div class="quote-text">소재가 중력에 따라 자연스럽게 흘러내리는 실루엣. 비스코스·새틴이 대표적. 우아하고 여성스러운 무드.</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <div class="pill">비스코스</div>
+          <div class="pill">새틴</div>
+          <div class="pill pill-accent">2025 키워드 ✓</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">저장해두면 좋아요 🤍</div><div class="ft-p">INFO-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INFO-02 · 항목 목록 -->
+  <div class="sw">
+    <div class="slide-label">INFO-02 · 항목 목록</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="top-stripe"></div>
+      <div class="hd" style="top:8px;background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">MUST HAVE</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:158px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">봄 필수템</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;line-height:.95;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px;">지금 당장<br><span style="font-family:var(--fa);color:var(--co);">사야할</span> 5</div>
+
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:44px;flex-shrink:0;">01</div>
+            <div style="font-family:var(--fk);font-size:28px;font-weight:400;color:var(--ink);flex:1;">린넨 와이드 팬츠</div>
+            <div style="color:var(--i20);font-size:24px;">↗</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:44px;flex-shrink:0;">02</div>
+            <div style="font-family:var(--fk);font-size:28px;font-weight:400;color:var(--ink);flex:1;">스트라이프 셔츠</div>
+            <div style="color:var(--i20);font-size:24px;">↗</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:44px;flex-shrink:0;">03</div>
+            <div style="font-family:var(--fk);font-size:28px;font-weight:400;color:var(--ink);flex:1;">버킷햇</div>
+            <div style="color:var(--i20);font-size:24px;">↗</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:44px;flex-shrink:0;">04</div>
+            <div style="font-family:var(--fk);font-size:28px;font-weight:400;color:var(--ink);flex:1;">크로스백</div>
+            <div style="color:var(--i20);font-size:24px;">↗</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:22px 0;">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:44px;flex-shrink:0;">05</div>
+            <div style="font-family:var(--fk);font-size:28px;font-weight:400;color:var(--ink);flex:1;">뮬 슈즈</div>
+            <div style="color:var(--i20);font-size:24px;">↗</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">INFO-02</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INFO-03 · 분류 그리드 -->
+  <div class="sw">
+    <div class="slide-label">INFO-03 · 분류 그리드</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">STYLE TYPE</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">핏 유형 분류</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">핏으로 나누는<br><span style="font-family:var(--fa);color:var(--co);">4가지</span></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;">
+          <div style="padding:30px 26px;background:var(--co);border-radius:3px;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-family:var(--fa);font-size:30px;color:var(--w);">슬림핏</div>
+            <div style="font-family:var(--fq);font-size:24px;font-weight:300;color:rgba(255,255,255,.78);line-height:1.55;">몸선 그대로. 클린하고 깔끔.</div>
+          </div>
+          <div style="padding:30px 26px;background:var(--crd);border-radius:3px;border:1px solid var(--i10);display:flex;flex-direction:column;gap:10px;">
+            <div style="font-family:var(--fa);font-size:30px;color:var(--ink);">레귤러</div>
+            <div style="font-family:var(--fq);font-size:24px;font-weight:300;color:var(--i45);line-height:1.55;">표준 여유. 일상의 기본.</div>
+          </div>
+          <div style="padding:30px 26px;background:var(--crd);border-radius:3px;border:1px solid var(--i10);display:flex;flex-direction:column;gap:10px;">
+            <div style="font-family:var(--fa);font-size:30px;color:var(--ink);">릴렉스드</div>
+            <div style="font-family:var(--fq);font-size:24px;font-weight:300;color:var(--i45);line-height:1.55;">편안하고 자연스러운.</div>
+          </div>
+          <div style="padding:30px 26px;background:var(--tc);border-radius:3px;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-family:var(--fa);font-size:30px;color:var(--w);">오버사이즈</div>
+            <div style="font-family:var(--fq);font-size:24px;font-weight:300;color:rgba(255,255,255,.78);line-height:1.55;">과장된 실루엣. 트렌디.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">INFO-03</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INFO-04 · 소재 가이드 -->
+  <div class="sw">
+    <div class="slide-label">INFO-04 · 소재 가이드</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="top-gradient"></div>
+      <div class="hd" style="top:8px;background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">FABRIC GUIDE</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:158px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">계절별 소재</div>
+        <div style="font-family:var(--ft);font-size:84px;font-weight:700;color:var(--ink);line-height:.95;letter-spacing:-.02em;">소재가<br><span style="font-family:var(--fa);color:var(--co);">전부</span>다</div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--com);border-radius:3px;">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--co);width:70px;flex-shrink:0;">봄</div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">린넨 · 코튼 · 시어</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--cr);border-radius:3px;border:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--sa);width:70px;flex-shrink:0;">여름</div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">쉬폰 · 라미 · 모달</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--cr);border-radius:3px;border:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--tc);width:70px;flex-shrink:0;">가을</div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">울 · 코듀로이 · 스웨이드</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;padding:20px;background:var(--cr);border-radius:3px;border:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:28px;color:var(--ink);width:70px;flex-shrink:0;">겨울</div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">울혼방 · 캐시미어 · 퍼</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">INFO-04</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INFO-05 · 코디 공식 -->
+  <div class="sw">
+    <div class="slide-label">INFO-05 · 코디 황금 공식</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">FORMULA</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:158px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">황금 비율</div>
+        <div style="font-family:var(--ft);font-size:96px;font-weight:700;color:var(--ink);line-height:.93;letter-spacing:-.02em;">7:3<br><span style="font-family:var(--fa);font-size:64px;color:var(--co);">비율 법칙</span></div>
+        <div style="width:64px;height:3px;background:var(--co);"></div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="padding:24px 30px;background:var(--w);border-radius:3px;border:1px solid var(--i10);">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--co);margin-bottom:8px;">70% — 베이스</div>
+            <div style="font-family:var(--fq);font-size:25px;font-weight:300;color:var(--i70);line-height:1.5;">뉴트럴 컬러로 채우는 주조</div>
+          </div>
+          <div style="padding:24px 30px;background:var(--com);border-radius:3px;">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--cod);margin-bottom:8px;">30% — 포인트</div>
+            <div style="font-family:var(--fq);font-size:25px;font-weight:300;color:var(--i70);line-height:1.5;">한 가지 컬러로 강조</div>
+          </div>
+        </div>
+
+        <div class="quote-box">
+          <div class="quote-text" style="font-size:26px;">이 공식만 기억해도<br>매일 코디 고민 끝! 🤍</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">저장해두면 좋아요 🤍</div><div class="ft-p">INFO-05</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INFO-06 · 체형별 추천 -->
+  <div class="sw">
+    <div class="slide-label">INFO-06 · 체형별 추천</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">BODY TYPE</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">체형 맞춤 팁</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">내 체형<br><span style="font-family:var(--fa);color:var(--co);">정답 핏</span></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;">
+          <div style="padding:26px 22px;background:var(--co);border-radius:3px;display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--w);">모래시계</div>
+            <div style="font-family:var(--fq);font-size:22px;font-weight:300;color:rgba(255,255,255,.80);line-height:1.5;">허리 강조<br>래핑 디테일 추천</div>
+          </div>
+          <div style="padding:26px 22px;background:var(--crd);border-radius:3px;border:1px solid var(--i10);display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--ink);">직사각형</div>
+            <div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);line-height:1.5;">볼륨 하의<br>크롭 상의 추천</div>
+          </div>
+          <div style="padding:26px 22px;background:var(--crd);border-radius:3px;border:1px solid var(--i10);display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--ink);">삼각형</div>
+            <div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);line-height:1.5;">어깨 강조<br>A라인 스커트 추천</div>
+          </div>
+          <div style="padding:26px 22px;background:var(--sg);border-radius:3px;display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--fa);font-size:26px;color:var(--w);">역삼각형</div>
+            <div style="font-family:var(--fq);font-size:22px;font-weight:300;color:rgba(255,255,255,.80);line-height:1.5;">와이드 팬츠<br>플레어 스커트 추천</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">INFO-06</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ③ 절차 × 2   PROC-01 · 02
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">절차 × 2</div>
+  <div class="cat-label">Process Patterns</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">PROC-01 · 02 · 03 · 04</div>
+</div>
+
+<div class="row">
+
+  <!-- PROC-01 · 단계 흐름 -->
+  <div class="sw">
+    <div class="slide-label">PROC-01 · 단계 흐름</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">HOW TO</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">코디 순서</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">실패 없는<br><span style="font-family:var(--fa);color:var(--co);">4단계</span></div>
+
+        <!-- step list with connector line -->
+        <div style="display:flex;flex-direction:column;">
+
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:var(--fa);font-size:24px;color:var(--w);">1</span>
+              </div>
+              <div style="width:2px;background:var(--i10);height:52px;margin:6px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);margin-bottom:5px;">베이스 하의 선택</div>
+              <div style="font-family:var(--fq);font-size:23px;font-weight:300;color:var(--i45);line-height:1.5;">팬츠·스커트 먼저 결정</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:var(--fa);font-size:24px;color:var(--w);">2</span>
+              </div>
+              <div style="width:2px;background:var(--i10);height:52px;margin:6px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);margin-bottom:5px;">상의 매칭</div>
+              <div style="font-family:var(--fq);font-size:23px;font-weight:300;color:var(--i45);line-height:1.5;">2컬러 원칙 적용</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:var(--fa);font-size:24px;color:var(--w);">3</span>
+              </div>
+              <div style="width:2px;background:var(--i10);height:52px;margin:6px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);margin-bottom:5px;">신발 결정</div>
+              <div style="font-family:var(--fq);font-size:23px;font-weight:300;color:var(--i45);line-height:1.5;">발목선·비율 확인</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0;align-items:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--tc);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:5px;margin-right:23px;">
+              <span style="font-family:var(--fa);font-size:24px;color:var(--w);">4</span>
+            </div>
+            <div>
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);margin-bottom:5px;">악세서리 1개</div>
+              <div style="font-family:var(--fq);font-size:23px;font-weight:300;color:var(--i45);line-height:1.5;">가방·이어링·시계 택1</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">PROC-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- PROC-02 · 체크리스트 -->
+  <div class="sw">
+    <div class="slide-label">PROC-02 · 체크리스트</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">CHECKLIST</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:148px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">출근 전 체크</div>
+        <div style="font-family:var(--ft);font-size:84px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">완성된<br>룩의 <span style="font-family:var(--fa);color:var(--co);">기준</span></div>
+
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--w);font-size:22px;">✓</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">색상 2가지 이하</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--w);font-size:22px;">✓</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">허리선 보이는가</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--w);font-size:22px;">✓</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">포인트 1개만</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;border:1px dashed var(--i20);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--i20);font-size:22px;">○</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:300;color:var(--i45);">구김 없는가</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;">
+            <div style="width:42px;height:42px;border-radius:3px;border:1px dashed var(--i20);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--i20);font-size:22px;">○</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:300;color:var(--i45);">신발 청결한가</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">PROC-02</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- PROC-03 · 쇼핑 전략 단계 -->
+  <div class="sw">
+    <div class="slide-label">PROC-03 · 쇼핑 전략</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">SHOP SMART</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">쇼핑 순서</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">낭비 없는<br><span style="font-family:var(--fa);color:var(--co);">5단계</span></div>
+
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--fa);font-size:24px;color:var(--w);">1</span></div>
+              <div style="width:2px;background:var(--i10);height:44px;margin:5px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;"><div style="font-family:var(--fk);font-size:25px;font-weight:500;color:var(--ink);margin-bottom:4px;">옷장 체크</div><div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);">이미 있는 것 파악</div></div>
+          </div>
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--fa);font-size:24px;color:var(--w);">2</span></div>
+              <div style="width:2px;background:var(--i10);height:44px;margin:5px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;"><div style="font-family:var(--fk);font-size:25px;font-weight:500;color:var(--ink);margin-bottom:4px;">필요 목록 작성</div><div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);">진짜 필요한 것만</div></div>
+          </div>
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--fa);font-size:24px;color:var(--w);">3</span></div>
+              <div style="width:2px;background:var(--i10);height:44px;margin:5px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;"><div style="font-family:var(--fk);font-size:25px;font-weight:500;color:var(--ink);margin-bottom:4px;">예산 설정</div><div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);">총액 먼저 정하기</div></div>
+          </div>
+          <div style="display:flex;gap:0;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:60px;flex-shrink:0;">
+              <div style="width:50px;height:50px;border-radius:50%;background:var(--co);display:flex;align-items:center;justify-content:center;"><span style="font-family:var(--fa);font-size:24px;color:var(--w);">4</span></div>
+              <div style="width:2px;background:var(--i10);height:44px;margin:5px 0;"></div>
+            </div>
+            <div style="padding:4px 0 0 18px;"><div style="font-family:var(--fk);font-size:25px;font-weight:500;color:var(--ink);margin-bottom:4px;">착샷 상상</div><div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);">3가지와 매칭 가능?</div></div>
+          </div>
+          <div style="display:flex;gap:0;align-items:center;">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--tc);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:5px;margin-right:23px;"><span style="font-family:var(--fa);font-size:24px;color:var(--w);">5</span></div>
+            <div><div style="font-family:var(--fk);font-size:25px;font-weight:500;color:var(--ink);margin-bottom:4px;">구매 결정</div><div style="font-family:var(--fq);font-size:22px;font-weight:300;color:var(--i45);">3가지 OK → 구매!</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">PROC-03</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- PROC-04 · 코디 공유 준비 -->
+  <div class="sw">
+    <div class="slide-label">PROC-04 · 피드 업로드 준비</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">UPLOAD TIP</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:148px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">피드 공유 순서</div>
+        <div style="font-family:var(--ft);font-size:84px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">완벽한<br>업로드 <span style="font-family:var(--fa);color:var(--co);">루틴</span></div>
+
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-family:var(--fa);font-size:22px;color:var(--w);">01</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">자연광 시간대 촬영</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-family:var(--fa);font-size:22px;color:var(--w);">02</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">밝기·채도 보정</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;background:var(--co);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-family:var(--fa);font-size:22px;color:var(--w);">03</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">아이템 태그 달기</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:42px;height:42px;border-radius:3px;border:1px dashed var(--i20);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--i20);font-size:22px;">○</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:300;color:var(--i45);">캡션 키워드 포함</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:22px;padding:22px 0;">
+            <div style="width:42px;height:42px;border-radius:3px;border:1px dashed var(--i20);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:var(--i20);font-size:22px;">○</span></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:300;color:var(--i45);">저장 유도 멘트 추가</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">PROC-04</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ④ 비교 × 1   COMP-01
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">비교 × 2</div>
+  <div class="cat-label">Comparison Pattern — Do / Don't</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">COMP-01 · 02</div>
+</div>
+
+<div class="row">
+
+  <!-- COMP-01 · Do / Don't -->
+  <div class="sw">
+    <div class="slide-label">COMP-01 · Do / Don't</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">DO / DON'T</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">Color Mistake</div>
+        <div style="font-family:var(--ft);font-size:84px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">이건<br>하지 마세요</div>
+
+        <div style="display:flex;gap:14px;flex:1;">
+          <!-- DO -->
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div style="padding:18px 22px;background:var(--com);margin-bottom:12px;">
+              <div style="font-family:var(--fa);font-size:30px;color:var(--cod);">DO ✓</div>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>색 2가지 이하
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>포인트 1개만
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>소재로 변화
+              </div>
+            </div>
+          </div>
+
+          <!-- DON'T -->
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div style="padding:18px 22px;background:var(--i06);margin-bottom:12px;">
+              <div style="font-family:var(--fa);font-size:30px;color:var(--i45);">DON'T ✗</div>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>3색 이상 믹스
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>채도 겹치기
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>포인트 2개+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gena Says -->
+        <div class="quote-box">
+          <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:var(--co);letter-spacing:.10em;margin-bottom:12px;">💬 GENA SAYS</div>
+          <div class="quote-text" style="font-size:28px;">모를 땐 하나 빼세요. 빼는 게 더하는 것보다 항상 나아요.</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">COMP-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- COMP-02 · 소재 선택 Do / Don't -->
+  <div class="sw">
+    <div class="slide-label">COMP-02 · 소재 Do / Don't</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="top-stripe"></div>
+      <div class="hd" style="top:8px;background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">DO / DON'T</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">Fabric Mistake</div>
+        <div style="font-family:var(--ft);font-size:84px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">소재<br>실수 금지</div>
+
+        <div style="display:flex;gap:14px;flex:1;">
+          <!-- DO -->
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div style="padding:18px 22px;background:var(--com);margin-bottom:12px;">
+              <div style="font-family:var(--fa);font-size:30px;color:var(--cod);">DO ✓</div>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>계절 소재 맞추기
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>천연 소재 선호
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i70);line-height:1.45;">
+                <span style="color:var(--co);font-size:20px;flex-shrink:0;padding-top:3px;">▸</span>드레이프 활용
+              </div>
+            </div>
+          </div>
+          <!-- DON'T -->
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div style="padding:18px 22px;background:var(--i06);margin-bottom:12px;">
+              <div style="font-family:var(--fa);font-size:30px;color:var(--i45);">DON'T ✗</div>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>겨울에 쉬폰
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--i06);font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>두꺼운 소재 레이어
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;font-family:var(--fk);font-size:25px;font-weight:300;color:var(--i45);line-height:1.45;">
+                <span style="color:var(--i20);font-size:20px;flex-shrink:0;padding-top:3px;">✗</span>반짝이 과다 믹스
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-box">
+          <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:var(--co);letter-spacing:.10em;margin-bottom:12px;">💬 GENA SAYS</div>
+          <div class="quote-text" style="font-size:28px;">소재 하나만 잘 골라도 코디 완성도가 달라져요.</div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">COMP-02</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ⑤ 데이터 × 1   DATA-01
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">데이터 × 2</div>
+  <div class="cat-label">Data Pattern — 트렌드 바 차트</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">DATA-01 · 02</div>
+</div>
+
+<div class="row">
+
+  <!-- DATA-01 · 바 차트 -->
+  <div class="sw">
+    <div class="slide-label">DATA-01 · 트렌드 바 차트</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">TREND DATA</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">2025 트렌드 랭킹</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">지금<br><span style="font-family:var(--fa);color:var(--co);">뜨는</span> 것</div>
+
+        <div style="display:flex;flex-direction:column;gap:22px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">린넨 셋업</div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--co);">92%</div>
+            </div>
+            <div style="height:16px;background:var(--cr);border-radius:2px;overflow:hidden;">
+              <div style="width:92%;height:100%;background:var(--co);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">와이드 데님</div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--co);">86%</div>
+            </div>
+            <div style="height:16px;background:var(--cr);border-radius:2px;overflow:hidden;">
+              <div style="width:86%;height:100%;background:var(--co);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">오버 블레이저</div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--col);">79%</div>
+            </div>
+            <div style="height:16px;background:var(--cr);border-radius:2px;overflow:hidden;">
+              <div style="width:79%;height:100%;background:var(--col);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">메탈릭 슈즈</div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--i45);">61%</div>
+            </div>
+            <div style="height:16px;background:var(--cr);border-radius:2px;overflow:hidden;">
+              <div style="width:61%;height:100%;background:var(--sa);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">버킷햇</div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--i45);">54%</div>
+            </div>
+            <div style="height:16px;background:var(--cr);border-radius:2px;overflow:hidden;">
+              <div style="width:54%;height:100%;background:var(--sa);border-radius:2px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">DATA-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- DATA-02 · 컬러 인기도 차트 -->
+  <div class="sw">
+    <div class="slide-label">DATA-02 · 컬러 인기도</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">COLOR DATA</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:148px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:28px;">
+        <div class="eyebrow">2025 컬러 선호도</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">올해<br><span style="font-family:var(--fa);color:var(--co);">컬러</span> 순위</div>
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--cr);border:1px solid var(--i20);"></div><div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">크림 / 오프화이트</div></div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--co);">88%</div>
+            </div>
+            <div style="height:16px;background:var(--w);border-radius:2px;overflow:hidden;"><div style="width:88%;height:100%;background:var(--co);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--sa);"></div><div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">샌드 / 베이지</div></div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--co);">82%</div>
+            </div>
+            <div style="height:16px;background:var(--w);border-radius:2px;overflow:hidden;"><div style="width:82%;height:100%;background:var(--co);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--co);"></div><div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">코랄 포인트</div></div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--col);">74%</div>
+            </div>
+            <div style="height:16px;background:var(--w);border-radius:2px;overflow:hidden;"><div style="width:74%;height:100%;background:var(--col);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--sg);"></div><div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">세이지 그린</div></div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--i45);">65%</div>
+            </div>
+            <div style="height:16px;background:var(--w);border-radius:2px;overflow:hidden;"><div style="width:65%;height:100%;background:var(--sg);border-radius:2px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:12px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--ink);"></div><div style="font-family:var(--fk);font-size:26px;font-weight:500;color:var(--ink);">올 블랙</div></div>
+              <div style="font-family:var(--fa);font-size:24px;color:var(--i45);">51%</div>
+            </div>
+            <div style="height:16px;background:var(--w);border-radius:2px;overflow:hidden;"><div style="width:51%;height:100%;background:var(--i45);border-radius:2px;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">DATA-02</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ⑥ 강조 × 2   HI-01 · 02
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">강조 × 4</div>
+  <div class="cat-label">Highlight Patterns</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">HI-01 · 02 · 03 · 04</div>
+</div>
+
+<div class="row">
+
+  <!-- HI-01 · 풀 컬러 키메시지 -->
+  <div class="sw">
+    <div class="slide-label">HI-01 · 풀 컬러 강조</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--co);">
+      <div class="tx"></div>
+
+      <!-- inverted header -->
+      <div style="position:absolute;top:0;left:0;right:0;height:100px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-bottom:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fa);font-size:26px;color:var(--w);">@gena_feed</div>
+        <div style="font-family:var(--fu);font-size:19px;font-weight:300;color:rgba(255,255,255,.55);letter-spacing:.14em;">KEY POINT</div>
+        <div style="width:13px;height:13px;border-radius:50%;background:var(--w);"></div>
+      </div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;padding:118px 80px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.22em;text-transform:uppercase;">핵심 메시지</div>
+        <div style="font-family:var(--ft);font-size:152px;font-weight:900;color:var(--w);line-height:.88;letter-spacing:-.03em;">덜<br>입어라</div>
+        <div style="width:64px;height:2px;background:rgba(255,255,255,.35);"></div>
+        <div style="font-family:var(--fq);font-size:36px;font-weight:300;color:rgba(255,255,255,.88);line-height:1.75;">Less is more.<br>빼면 빼낼수록<br>더 세련돼진다.</div>
+      </div>
+
+      <!-- inverted footer -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:90px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-top:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fk);font-size:20px;font-weight:300;color:rgba(255,255,255,.55);">저장하고 기억해요</div>
+        <div style="font-family:var(--fa);font-size:22px;color:rgba(255,255,255,.75);">HI-01</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- HI-02 · 인용 강조 -->
+  <div class="sw">
+    <div class="slide-label">HI-02 · 인용 강조</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">QUOTE</div><div class="hd-d"></div></div>
+      <div style="position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--co);"></div>
+
+      <!-- giant opening quote mark -->
+      <div style="position:absolute;top:76px;left:56px;font-family:var(--ft);font-size:220px;font-weight:900;color:var(--co);line-height:1;opacity:.11;">"</div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;padding:118px 90px;text-align:center;">
+        <div style="font-family:var(--fq);font-size:50px;font-weight:300;color:var(--ink);line-height:1.65;position:relative;z-index:1;">옷이 사람을<br>입는 게 아니라<br>사람이 옷을<br>입는 것이다.</div>
+        <div style="width:48px;height:2px;background:var(--co);"></div>
+        <div style="font-family:var(--fa);font-size:30px;color:var(--co);">Coco Chanel</div>
+        <div style="font-family:var(--fk);font-size:26px;font-weight:300;color:var(--i45);">젠아가 제일 좋아하는 말 🤍</div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">HI-02</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- HI-03 · 풀 세이지 키메시지 -->
+  <div class="sw">
+    <div class="slide-label">HI-03 · 세이지 강조</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--sg);">
+      <div class="tx"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:100px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-bottom:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fa);font-size:26px;color:var(--w);">@gena_feed</div>
+        <div style="font-family:var(--fu);font-size:19px;font-weight:300;color:rgba(255,255,255,.55);letter-spacing:.14em;">REMINDER</div>
+        <div style="width:13px;height:13px;border-radius:50%;background:var(--w);"></div>
+      </div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;padding:118px 80px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.22em;text-transform:uppercase;">Today's Reminder</div>
+        <div style="font-family:var(--ft);font-size:130px;font-weight:900;color:var(--w);line-height:.88;letter-spacing:-.03em;">자신<br>있게</div>
+        <div style="width:64px;height:2px;background:rgba(255,255,255,.35);"></div>
+        <div style="font-family:var(--fq);font-size:36px;font-weight:300;color:rgba(255,255,255,.88);line-height:1.75;">가장 좋은 코디는<br>자신 있게<br>입는 것이다.</div>
+      </div>
+
+      <div style="position:absolute;bottom:0;left:0;right:0;height:90px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-top:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fk);font-size:20px;font-weight:300;color:rgba(255,255,255,.55);">저장하고 기억해요</div>
+        <div style="font-family:var(--fa);font-size:22px;color:rgba(255,255,255,.75);">HI-03</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- HI-04 · 숫자 강조 -->
+  <div class="sw">
+    <div class="slide-label">HI-04 · 숫자 강조</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(218,123,90,.12) 0%,transparent 70%);"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">NUMBER</div><div class="hd-d"></div></div>
+      <div style="position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--co);"></div>
+
+      <!-- big decorative number bg -->
+      <div style="position:absolute;right:-20px;bottom:60px;font-family:var(--ft);font-size:500px;font-weight:900;color:var(--i06);line-height:1;pointer-events:none;letter-spacing:-.05em;">3</div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;padding:118px 90px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:var(--co);letter-spacing:.22em;text-transform:uppercase;">Rule of Three</div>
+        <div style="font-family:var(--ft);font-size:200px;font-weight:900;color:var(--co);line-height:.85;letter-spacing:-.04em;">3</div>
+        <div style="font-family:var(--fk);font-size:36px;font-weight:700;color:var(--ink);">가지 법칙</div>
+        <div style="width:48px;height:2px;background:var(--co);"></div>
+        <div style="font-family:var(--fq);font-size:32px;font-weight:300;color:var(--i70);line-height:1.75;">색 3가지 이하<br>아이템 3가지 이하<br>포인트 3가지 이하</div>
+        <div style="font-family:var(--fa);font-size:28px;color:var(--co);">@gena_feed</div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">HI-04</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ⑦ 코드 × 1   CODE-01
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">코드 × 2</div>
+  <div class="cat-label">Code / System Pattern — 컬러 팔레트 코드</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">CODE-01 · 02</div>
+</div>
+
+<div class="row">
+
+  <!-- CODE-01 · 컬러 코드 시스템 -->
+  <div class="sw">
+    <div class="slide-label">CODE-01 · 컬러 코드</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">COLOR CODE</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">젠아 시그니처 팔레트</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">시그니처<br><span style="font-family:var(--fa);color:var(--co);">컬러</span></div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+          <div style="display:flex;align-items:center;gap:20px;padding:18px 22px;background:var(--cr);border-radius:3px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#DA7B5A;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--ink);">Coral</div>
+              <div style="font-family:'Courier New',monospace;font-size:19px;color:var(--i45);">#DA7B5A</div>
+            </div>
+            <div style="font-family:var(--fk);font-size:21px;font-weight:300;color:var(--i45);">메인</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:20px;padding:18px 22px;background:var(--cr);border-radius:3px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#B85C38;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--ink);">Terracotta</div>
+              <div style="font-family:'Courier New',monospace;font-size:19px;color:var(--i45);">#B85C38</div>
+            </div>
+            <div style="font-family:var(--fk);font-size:21px;font-weight:300;color:var(--i45);">포인트</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:20px;padding:18px 22px;background:var(--cr);border-radius:3px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#D4B896;border:1px solid var(--i10);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--ink);">Sand</div>
+              <div style="font-family:'Courier New',monospace;font-size:19px;color:var(--i45);">#D4B896</div>
+            </div>
+            <div style="font-family:var(--fk);font-size:21px;font-weight:300;color:var(--i45);">뉴트럴</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:20px;padding:18px 22px;background:var(--cr);border-radius:3px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#FAF7F2;border:1px solid var(--i10);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--ink);">Cream</div>
+              <div style="font-family:'Courier New',monospace;font-size:19px;color:var(--i45);">#FAF7F2</div>
+            </div>
+            <div style="font-family:var(--fk);font-size:21px;font-weight:300;color:var(--i45);">베이스</div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:20px;padding:18px 22px;background:var(--cr);border-radius:3px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#8A9E89;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--ink);">Sage</div>
+              <div style="font-family:'Courier New',monospace;font-size:19px;color:var(--i45);">#8A9E89</div>
+            </div>
+            <div style="font-family:var(--fk);font-size:21px;font-weight:300;color:var(--i45);">어센트</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">CODE-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- CODE-02 · 사이즈 가이드 시스템 -->
+  <div class="sw">
+    <div class="slide-label">CODE-02 · 사이즈 가이드</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">SIZE GUIDE</div><div class="hd-d"></div></div>
+      <div class="side-bar"></div>
+
+      <div style="position:absolute;top:148px;left:114px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:24px;">
+        <div class="eyebrow">브랜드별 사이즈</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;margin-bottom:8px;">사이즈<br><span style="font-family:var(--fa);color:var(--co);">치트키</span></div>
+
+        <!-- size table -->
+        <div style="border:1px solid var(--i10);overflow:hidden;border-radius:3px;">
+          <div style="display:flex;background:var(--co);">
+            <div style="flex:1.2;padding:16px 18px;font-family:var(--fu);font-size:20px;font-weight:600;color:var(--w);letter-spacing:.05em;">브랜드</div>
+            <div style="flex:1;padding:16px 10px;font-family:var(--fu);font-size:20px;font-weight:600;color:var(--w);text-align:center;border-left:1px solid rgba(255,255,255,.20);">S</div>
+            <div style="flex:1;padding:16px 10px;font-family:var(--fu);font-size:20px;font-weight:600;color:var(--w);text-align:center;border-left:1px solid rgba(255,255,255,.20);">M</div>
+            <div style="flex:1;padding:16px 10px;font-family:var(--fu);font-size:20px;font-weight:600;color:var(--w);text-align:center;border-left:1px solid rgba(255,255,255,.20);">L</div>
+          </div>
+          <div style="display:flex;background:var(--w);border-top:1px solid var(--i10);">
+            <div style="flex:1.2;padding:16px 18px;font-family:var(--fk);font-size:22px;font-weight:500;color:var(--ink);">국내 SPA</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">44</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">55</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">66</div>
+          </div>
+          <div style="display:flex;background:var(--cr);border-top:1px solid var(--i10);">
+            <div style="flex:1.2;padding:16px 18px;font-family:var(--fk);font-size:22px;font-weight:500;color:var(--ink);">유럽 브랜드</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">34</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">36</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">38</div>
+          </div>
+          <div style="display:flex;background:var(--w);border-top:1px solid var(--i10);">
+            <div style="flex:1.2;padding:16px 18px;font-family:var(--fk);font-size:22px;font-weight:500;color:var(--ink);">미국 브랜드</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">XS</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">S</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">M</div>
+          </div>
+          <div style="display:flex;background:var(--cr);border-top:1px solid var(--i10);">
+            <div style="flex:1.2;padding:16px 18px;font-family:var(--fk);font-size:22px;font-weight:500;color:var(--ink);">일본 브랜드</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">5</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">7</div>
+            <div style="flex:1;padding:16px 10px;font-family:'Courier New',monospace;font-size:20px;color:var(--i45);text-align:center;border-left:1px solid var(--i10);">9</div>
+          </div>
+        </div>
+
+        <div style="padding:22px 28px;background:var(--com);border-left:5px solid var(--co);">
+          <div style="font-family:var(--fq);font-size:26px;font-weight:300;color:var(--i70);line-height:1.7;">온라인 쇼핑 전 꼭 실측 치수 확인하세요 📏</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">CODE-02</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ⑧ 혼합 × 1   MIX-01
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">혼합 × 2</div>
+  <div class="cat-label">Mixed Pattern — 이미지 + 아이템 정보</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">MIX-01 · 02</div>
+</div>
+
+<div class="row">
+  <!-- ══ 06 ITEM HIGHLIGHT ══ -->
+  <div class="sw">
+    <div class="slide-label"><MIX-03></MIX-03> · 아이템 하이라이트</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">THIS ITEM</div><div class="hd-d"></div></div>
+
+        <!-- image hero -->
+        <div style="position:absolute;top:100px;left:0;right:0;height:680px;background:var(--crd);border-bottom:1px solid var(--ink-10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;">
+          <div style="width:320px;height:480px;background:var(--crm);border:1px solid var(--ink-10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+            <div style="font-size:48px;color:var(--ink-20);">✦</div>
+            <div style="font-family:var(--f-kr);font-size:24px;font-weight:300;color:var(--ink-45);">아이템 이미지<br>(Nanogen 생성)</div>
+          </div>
+        </div>
+
+        <!-- item info -->
+        <div style="position:absolute;bottom:90px;left:0;right:0;height:570px;padding:48px 80px;background:var(--white);display:flex;flex-direction:column;gap:22px;">
+          <!-- ★ BagelFat brand -->
+          <div class="eyebrow">GIORDANO</div>
+          <!-- ★ Paperozi product name -->
+          <div style="font-family:var(--ft);font-size:54px;font-weight:600;color:var(--ink);line-height:1.25;letter-spacing:-.01em;">릴렉스드 오버사이즈<br>코튼 셔츠</div>
+          <!-- ★ BagelFat price -->
+          <div style="font-family:var(--ft);font-size:52px;font-weight:800;color:var(--co);">29,900원</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <div class="pill">오프화이트</div>
+            <div class="pill">S~2XL</div>
+            <div class="pill">100%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:20px;border-top:1px solid var(--ink-10);">
+            <div style="flex:1;padding:28px;background:var(--co);border-radius:2px;font-family:var(--fk);font-size:26px;font-weight:500;color:var(--w);text-align:center;">구매 링크 →</div>
+            <div style="width:88px;height:88px;border:1px solid var(--i20);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:34px;">🤍</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+  <!-- MIX-01 · 이미지 좌우 + 아이템 상세 -->
+  <div class="sw">
+    <div class="slide-label">MIX-01 · 이미지+아이템 정보</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--w);">
+      <div class="tx"></div>
+      <div class="hd" style="background:var(--w);"><div class="hd-h">@gena_feed</div><div class="hd-t">TODAY LOOK</div><div class="hd-d"></div></div>
+
+      <!-- right image zone -->
+      <div style="position:absolute;top:100px;right:0;width:476px;bottom:90px;background:var(--crd);border-left:1px solid var(--i10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;">
+        <div style="width:100px;height:100px;border-radius:50%;border:1px solid var(--i20);display:flex;align-items:center;justify-content:center;font-size:44px;color:var(--i20);">✦</div>
+        <div style="font-family:var(--fk);font-size:24px;font-weight:300;color:var(--i45);text-align:center;line-height:1.6;">Gena<br>착장 이미지<br><span style="font-size:20px;color:var(--i20);">Nanogen 생성</span></div>
+      </div>
+
+      <!-- left text zone -->
+      <div style="position:absolute;top:140px;left:80px;width:552px;bottom:130px;display:flex;flex-direction:column;gap:26px;">
+        <div class="eyebrow">Today</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">출근 <span style="font-family:var(--fa);color:var(--co);">룩</span></div>
+        <div style="width:52px;height:3px;background:var(--co);"></div>
+        <div style="font-family:var(--fk);font-size:26px;font-weight:300;color:var(--i70);line-height:1.75;">뉴트럴 베이스 +<br>포인트는 백 하나.</div>
+
+        <!-- item list -->
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--co);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:25px;font-weight:400;color:var(--ink);flex:1;">스트라이프 셔츠</div>
+            <div style="font-family:var(--fa);font-size:24px;color:var(--cod);">49,000</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--i10);">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--co);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:25px;font-weight:400;color:var(--ink);flex:1;">와이드 슬랙스</div>
+            <div style="font-family:var(--fa);font-size:24px;color:var(--cod);">62,000</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--tc);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:25px;font-weight:400;color:var(--co);flex:1;">테라코타 백 ← 포인트</div>
+            <div style="font-family:var(--fa);font-size:24px;color:var(--cod);">78,000</div>
+          </div>
+        </div>
+
+        <div style="padding:18px 22px;background:var(--com);border-left:4px solid var(--co);">
+          <div style="font-family:var(--fq);font-size:24px;font-weight:300;color:var(--i70);">구매링크 바이오에 🔗</div>
+        </div>
+      </div>
+
+      <div class="ft" style="background:var(--w);"><div class="ft-n">@gena_feed</div><div class="ft-p">MIX-01</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- MIX-02 · 세로 분할 + 스타일링 팁 -->
+  <div class="sw">
+    <div class="slide-label">MIX-02 · 그리드 + 팁</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">WEEKEND LOOK</div><div class="hd-d"></div></div>
+
+      <!-- top image zone split 2 -->
+      <div style="position:absolute;top:100px;left:0;right:0;height:480px;display:flex;">
+        <div style="flex:1;background:var(--crd);border-right:1px solid var(--i10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+          <div style="width:70px;height:70px;border-radius:50%;border:1px solid var(--i20);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--i20);">✦</div>
+          <div style="font-family:var(--fk);font-size:22px;font-weight:300;color:var(--i45);text-align:center;line-height:1.5;">Before<br><span style="font-size:18px;color:var(--i20);">데일리</span></div>
+        </div>
+        <div style="flex:1;background:var(--co);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+          <div style="width:70px;height:70px;border-radius:50%;border:1px solid rgba(255,255,255,.30);display:flex;align-items:center;justify-content:center;font-size:30px;color:rgba(255,255,255,.50);">✦</div>
+          <div style="font-family:var(--fk);font-size:22px;font-weight:300;color:rgba(255,255,255,.70);text-align:center;line-height:1.5;">After<br><span style="font-size:18px;color:rgba(255,255,255,.50);">젠아 스타일</span></div>
+        </div>
+      </div>
+
+      <!-- bottom content -->
+      <div style="position:absolute;top:620px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:20px;">
+        <div class="eyebrow">What Changed?</div>
+        <div style="font-family:var(--ft);font-size:60px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">딱 <span style="font-family:var(--fa);color:var(--co);">3가지</span>만 바꿨어요</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--co);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">허리 밴딩 → 하이웨이스트</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--co);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--ink);">운동화 → 뮬 슈즈</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--tc);flex-shrink:0;"></div>
+            <div style="font-family:var(--fk);font-size:27px;font-weight:400;color:var(--co);">가방 컬러 포인트 추가</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">구매링크 바이오에 🔗</div><div class="ft-p">MIX-02</div></div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   ⑨ 도입 × 1   INTRO-01
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="cat-header">
+  <div class="cat-tag">도입 × 3</div>
+  <div class="cat-label">Introduction Pattern — 시리즈 CTA 마무리</div>
+  <div class="cat-line"></div>
+  <div class="cat-count">INTRO-01 · 02 · 03</div>
+</div>
+
+<div class="row" style="padding-bottom:56px;">
+
+  <!-- INTRO-01 · CTA 마무리 슬라이드 -->
+  <div class="sw">
+    <div class="slide-label">INTRO-01 · CTA 마무리</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 85% 62% at 50% 44%,rgba(218,123,90,.09) 0%,transparent 68%);"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">SAVE THIS</div><div class="hd-d"></div></div>
+      <div style="position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--co);"></div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;padding:112px 82px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:19px;font-weight:600;color:var(--co);letter-spacing:.22em;text-transform:uppercase;">Save This</div>
+
+        <div style="font-family:var(--ft);font-size:120px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">
+          도움이<br>됐다면<br><span style="font-family:var(--fa);color:var(--co);">저장</span>
+        </div>
+
+        <div style="font-family:var(--fq);font-size:34px;font-weight:300;color:var(--i70);line-height:1.78;">다음 주 팁 보려면<br>팔로우도 잊지 마세요 😊</div>
+
+        <div style="width:52px;height:1px;background:var(--i20);"></div>
+
+        <div style="display:flex;gap:16px;">
+          <div style="padding:28px 68px;background:var(--co);border-radius:2px;font-family:var(--fk);font-size:28px;font-weight:500;color:var(--w);">저장하기 🤍</div>
+          <div style="padding:28px 44px;border:1px solid var(--i20);border-radius:2px;font-family:var(--fk);font-size:28px;font-weight:300;color:var(--i70);">공유하기</div>
+        </div>
+
+        <div style="font-family:var(--fa);font-size:30px;color:var(--co);">@gena_feed</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- BONUS · 주간 컬러 팔레트 (도입부 활용 예시) -->
+  <div class="sw">
+    <div class="slide-label">BONUS · 주간 컬러 팔레트</div>
+    <div class="slide"><div class="inn"><div class="cvs">
+      <div class="tx"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">THIS WEEK</div><div class="hd-d"></div></div>
+
+      <div style="position:absolute;top:148px;left:80px;right:80px;bottom:130px;display:flex;flex-direction:column;gap:32px;">
+        <div class="eyebrow">Weekly Palette</div>
+        <div style="font-family:var(--ft);font-size:80px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">이번 주<br><span style="font-family:var(--fa);color:var(--co);">추천 조합</span></div>
+
+        <!-- swatches row -->
+        <div style="display:flex;gap:16px;">
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:120px;height:120px;border-radius:50%;background:#FAF7F2;border:1px solid var(--i10);"></div>
+            <div style="font-family:var(--fk);font-size:19px;font-weight:300;color:var(--i45);text-align:center;">크림</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:120px;height:120px;border-radius:50%;background:#DA7B5A;"></div>
+            <div style="font-family:var(--fk);font-size:19px;font-weight:300;color:var(--i45);text-align:center;">코랄</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:120px;height:120px;border-radius:50%;background:#D4B896;border:1px solid var(--i10);"></div>
+            <div style="font-family:var(--fk);font-size:19px;font-weight:300;color:var(--i45);text-align:center;">샌드</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+            <div style="width:120px;height:120px;border-radius:50%;background:#8A9E89;"></div>
+            <div style="font-family:var(--fk);font-size:19px;font-weight:300;color:var(--i45);text-align:center;">세이지</div>
+          </div>
+        </div>
+
+        <!-- combos -->
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="font-family:var(--fu);font-size:17px;color:var(--i45);letter-spacing:.12em;font-weight:500;">COMBINATION GUIDE</div>
+          <div style="display:flex;align-items:center;height:70px;border:1px solid var(--i10);overflow:hidden;">
+            <div style="flex:1;height:100%;background:#FAF7F2;"></div>
+            <div style="width:56px;height:100%;background:var(--w);display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:24px;color:var(--i20);border-left:1px solid var(--i10);">+</div>
+            <div style="flex:1;height:100%;background:#DA7B5A;"></div>
+            <div style="width:56px;height:100%;background:var(--w);display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:24px;color:var(--i20);border-left:1px solid var(--i10);">=</div>
+            <div style="width:130px;height:100%;background:#B85C38;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--i10);">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--w);">트렌디</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;height:70px;border:1px solid var(--i10);overflow:hidden;">
+            <div style="flex:1;height:100%;background:#D4B896;"></div>
+            <div style="width:56px;height:100%;background:var(--w);display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:24px;color:var(--i20);border-left:1px solid var(--i10);">+</div>
+            <div style="flex:1;height:100%;background:#8A9E89;"></div>
+            <div style="width:56px;height:100%;background:var(--w);display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:24px;color:var(--i20);border-left:1px solid var(--i10);">=</div>
+            <div style="width:130px;height:100%;background:#8A9E89;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--i10);">
+              <div style="font-family:var(--fa);font-size:24px;color:var(--w);">내추럴</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:26px 34px;background:var(--com);border-left:5px solid var(--co);">
+          <div style="font-family:var(--fq);font-size:28px;font-weight:300;color:var(--i70);line-height:1.75;">이 4가지 안에서만 골라도 어떻게 해도 예뻐요 🤍</div>
+        </div>
+      </div>
+
+      <div class="ft"><div class="ft-n">@gena_feed</div><div class="ft-p">BONUS</div></div>
+    </div></div></div>
+  </div>
+
+  <!-- INTRO-02 · 팔로우 유도 CTA -->
+  <div class="sw">
+    <div class="slide-label">INTRO-02 · 팔로우 유도</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--cr);">
+      <div class="tx"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 85% 62% at 50% 44%,rgba(138,158,137,.12) 0%,transparent 68%);"></div>
+      <div class="hd"><div class="hd-h">@gena_feed</div><div class="hd-t">FOLLOW</div><div class="hd-d"></div></div>
+      <div style="position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--sg);"></div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:112px 82px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:19px;font-weight:600;color:var(--sg);letter-spacing:.22em;text-transform:uppercase;">새 콘텐츠 알림</div>
+
+        <div style="font-family:var(--ft);font-size:110px;font-weight:700;color:var(--ink);line-height:1.0;letter-spacing:-.02em;">
+          매주<br>업데이트<br><span style="font-family:var(--fa);color:var(--sg);">팔로우</span>
+        </div>
+
+        <div style="font-family:var(--fq);font-size:32px;font-weight:300;color:var(--i70);line-height:1.78;">놓치고 싶지 않다면<br>지금 바로 팔로우! 🌿</div>
+
+        <div style="width:52px;height:1px;background:var(--i20);"></div>
+
+        <div style="display:flex;gap:16px;">
+          <div style="padding:28px 68px;background:var(--sg);border-radius:2px;font-family:var(--fk);font-size:28px;font-weight:500;color:var(--w);">팔로우하기</div>
+          <div style="padding:28px 44px;border:1px solid var(--i20);border-radius:2px;font-family:var(--fk);font-size:28px;font-weight:300;color:var(--i70);">저장하기 🤍</div>
+        </div>
+
+        <div style="font-family:var(--fa);font-size:30px;color:var(--sg);">@gena_feed</div>
+      </div>
+    </div></div></div>
+  </div>
+
+  <!-- INTRO-03 · 댓글 유도 CTA -->
+  <div class="sw">
+    <div class="slide-label">INTRO-03 · 댓글 유도</div>
+    <div class="slide"><div class="inn"><div class="cvs" style="background:var(--tc);">
+      <div class="tx"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:100px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-bottom:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fa);font-size:26px;color:var(--w);">@gena_feed</div>
+        <div style="font-family:var(--fu);font-size:19px;font-weight:300;color:rgba(255,255,255,.55);letter-spacing:.14em;">COMMENT</div>
+        <div style="width:13px;height:13px;border-radius:50%;background:var(--w);"></div>
+      </div>
+
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:118px 80px;text-align:center;">
+        <div style="font-family:var(--fu);font-size:18px;font-weight:600;color:rgba(255,255,255,.60);letter-spacing:.22em;text-transform:uppercase;">질문 있으면</div>
+
+        <div style="font-family:var(--ft);font-size:120px;font-weight:900;color:var(--w);line-height:.88;letter-spacing:-.03em;">댓글<br>로</div>
+
+        <div style="width:64px;height:2px;background:rgba(255,255,255,.35);"></div>
+
+        <div style="font-family:var(--fq);font-size:36px;font-weight:300;color:rgba(255,255,255,.88);line-height:1.75;">코디 고민 있으면<br>댓글로 물어봐요!<br>다 답해드릴게요 💬</div>
+
+        <div style="padding:24px 52px;background:rgba(255,255,255,.15);border-radius:2px;border:1px solid rgba(255,255,255,.25);">
+          <div style="font-family:var(--fa);font-size:30px;color:var(--w);">"어떤 코디든 OK"</div>
+        </div>
+      </div>
+
+      <div style="position:absolute;bottom:0;left:0;right:0;height:90px;display:flex;align-items:center;justify-content:space-between;padding:0 80px;border-top:1px solid rgba(255,255,255,.15);">
+        <div style="font-family:var(--fk);font-size:20px;font-weight:300;color:rgba(255,255,255,.55);">팔로우도 잊지 마세요 😊</div>
+        <div style="font-family:var(--fa);font-size:22px;color:rgba(255,255,255,.75);">INTRO-03</div>
+      </div>
+    </div></div></div>
+  </div>
+
+</div><!-- /row -->
+
+
+<!-- ══════════════════════════════════════════
+   FONT ROLE LEGEND
+══════════════════════════════════════════ -->
+<div class="page-divider"></div>
+<div class="legend">
+  <div class="lg"><b>--ft · Paperozi</b> → 슬라이드 타이틀, 대형 숫자, 배경 장식</div>
+  <div class="lg"><b>--fa · BagelFat</b> → 강조 컬러 단어, 인덱스 번호, 핸들, 가격, DO/DON'T 배지</div>
+  <div class="lg"><b>--fq · GangwonEdu</b> → 인용박스, Gena Says, CTA 서브 멘트, 설명 인용</div>
+  <div class="lg"><b>--fk · Noto Sans KR</b> → 본문, 아이템명, 태그, 설명</div>
+  <div class="lg"><b>--fu · Outfit</b> → Eyebrow 영문 레이블, 퍼센트·수치, UI 텍스트</div>
+  <div class="lg" style="color:var(--co);margin-top:2px;"><b>캔버스 1080 × 1440px · scale(0.25) → 미리보기 270 × 360px · v3 총 30 슬라이드</b></div>
+</div>
+
+</body>
+</html>

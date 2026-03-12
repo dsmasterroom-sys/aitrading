@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 03</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide-03 {
+  background: var(--surface-cool);
+  display: flex; flex-direction: column; padding: var(--pad); gap: var(--gap);
+}
+.slide-03 .headline {
+  font-family: var(--ff-accent);
+  font-size: var(--fs-title); font-weight: 700; color: var(--text-dark);
+  line-height: var(--lh-heading); letter-spacing: var(--ls-heading);
+}
+.slide-03 .cards {
+  display: flex; flex-direction: column; gap: var(--gap-sm); flex: 1;
+  justify-content: center;
+}
+.slide-03 .card {
+  background: var(--surface-cream); border-radius: 20px;
+  padding: var(--gap) var(--pad);
+  font-size: var(--fs-body); font-weight: 600; color: var(--text-dark);
+  line-height: var(--lh-heading);
+  display: flex; align-items: center;
+}
+.slide-03 .card .num {
+  font-size: var(--fs-display); font-weight: 800; color: var(--accent);
+  margin-right: var(--gap); min-width: 60px;
+}
+.slide-03 .accent-text { color: var(--accent); font-weight: 800; }
+.slide-03 .sub {
+  font-size: var(--fs-caption); color: var(--text-mid);
+  line-height: var(--lh-body);
+}
+</style>
+</head>
+<body>
+<div class="slide slide-03">
+  <p class="headline">왜 하필 지금,<br><span class="accent-text">나폴레옹 자켓</span>일까</p>
+  <div class="cards">
+    <div class="card"><span class="num">1</span>밀리터리인데 페미닌하고</div>
+    <div class="card"><span class="num">2</span>구조적인데 부드럽다</div>
+    <div class="card"><span class="num">3</span>이 <span class="accent-text">모순이 포인트</span></div>
+  </div>
+  <p class="sub">W컨셉 2026 S/S 프리쇼 L.O.L 키워드 선정<br>미코노미 소비 트렌드 부합</p>
+</div>
+</body>
+</html>

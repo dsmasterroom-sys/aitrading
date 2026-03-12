@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 1</title>
+  <style>
+    :root {
+      --color-primary-neon: #00FF41;
+      --color-primary-pink: #FF2D78;
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+      --border-width: 4px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+      --shadow-brutal: 8px 8px 0 var(--color-black);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-primary);
+      background: var(--color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .canvas {
+      width: 1080px;
+      height: 1440px;
+      background: var(--color-primary-pink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-xl);
+      text-align: center;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 72px;
+      font-weight: 800;
+      color: var(--color-black);
+      line-height: 1.2;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+    
+    .accent {
+      background: var(--color-primary-neon);
+      padding: 10px 20px;
+      box-shadow: var(--shadow-brutal);
+      display: inline-block;
+    }
+    
+    p {
+      font-size: 36px;
+      color: var(--color-white);
+      line-height: 1.4;
+      max-width: 80%;
+    }
+    
+    .watermark {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      font-size: 20px;
+      color: var(--color-white);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <h1><span class="accent">봄이 왔어요 🌸</span></h1>
+    <p>가볍고 시크한 트렌치코트로<br>완벽한 봄 코디를 완성하세요</p>
+    <div class="watermark">@genarchive.kr</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "topic": "봄 패션 트렌치코트",
+  "slides": [
+    {
+      "slide": 1,
+      "title": "봄이 왔어요 🌸",
+      "description": "가볍고 시크한 트렌치코트 코디",
+      "item": "베이지 트렌치코트"
+    },
+    {
+      "slide": 2,
+      "title": "데일리 룩 완성",
+      "description": "출근도 데이트도 완벽",
+      "item": "트렌치코트 + 데님"
+    },
+    {
+      "slide": 3,
+      "title": "지금 바로 확인",
+      "description": "프로필 링크에서 만나요",
+      "item": "CTA"
+    }
+  ]
+}

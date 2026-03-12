@@ -1,0 +1,21 @@
+# 환경변수 (절대 커밋 금지)
+.env
+
+# 주간 산출물 (용량 크고 재생성 가능)
+output/
+
+# 공용 자산 이미지 (별도 관리)
+assets/gena-base.png
+assets/slant-product.png
+assets/thumb/
+assets/reels/
+assets/bgm.mp3
+
+# 주간 작업 파일 (매주 갱신)
+weekly/
+
+# Python
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/

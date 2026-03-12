@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "소프트 나일론 크로스백",
+    "brand": "무신사 스탠다드",
+    "price": 39000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_01.jpg",
+    "visual_desc": "라벤더 컬러, 경량 나일론 소재, 플랩 여밈, 조절 가능한 스트랩, 앞면 지퍼 포켓 1개, 내부 칸막이",
+    "weight": "180g"
+  },
+  {
+    "id": 2,
+    "name": "미니 크로스 숄더백",
+    "brand": "마르헨제이",
+    "price": 68000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_02.jpg",
+    "visual_desc": "크림 베이지, 부드러운 인조가죽, 메탈 버클 디테일, 넓은 스트랩, 사각 미니 사이즈, 내부 카드 슬롯 3개",
+    "weight": "220g"
+  },
+  {
+    "id": 3,
+    "name": "캔버스 미니 크로스백",
+    "brand": "코드그라피",
+    "price": 42000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_03.jpg",
+    "visual_desc": "민트 그린, 코튼 캔버스, 자석 여밈, 슬림 스트랩, 외부 포켓 2개, 심플한 사각형 실루엣",
+    "weight": "150g"
+  },
+  {
+    "id": 4,
+    "name": "퀼팅 크로스백",
+    "brand": "디어베이지",
+    "price": 54000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_04.jpg",
+    "visual_desc": "베이비 핑크, 퀴팅 패턴 나일론, 체인 스트랩, 골드 메탈 디테일, 플랩 여밈, 내부 지퍼 포켓",
+    "weight": "210g"
+  },
+  {
+    "id": 5,
+    "name": "레트로 미니백",
+    "brand": "플리츠마마",
+    "price": 78000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_05.jpg",
+    "visual_desc": "버터 옐로우, 빈티지 PU 레더, 원형 디자인, 여밈 버클, 조절 가능한 가죽 스트랩, 내부 립스틱 홀더",
+    "weight": "240g"
+  },
+  {
+    "id": 6,
+    "name": "심플 숄더 미니백",
+    "brand": "무신사 스탠다드",
+    "price": 35000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_06.jpg",
+    "visual_desc": "아이보리, 경량 폴리에스터, 지퍼 여밈, 내부 수납 칸막이 2개, 슬림 스트랩, 미니멀 디자인",
+    "weight": "160g"
+  },
+  {
+    "id": 7,
+    "name": "토트 크로스 컨버터블",
+    "brand": "앤더슨벨",
+    "price": 89000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_07.jpg",
+    "visual_desc": "스카이 블루, 캔버스+가죽 믹스, 탈부착 스트랩, 오픈 탑 디자인, 내부 지퍼 포켓, 사이드 스냅 버튼",
+    "weight": "280g"
+  },
+  {
+    "id": 8,
+    "name": "에코 나일론 크로스백",
+    "brand": "러브이즈트루",
+    "price": 46000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_08.jpg",
+    "visual_desc": "그레이지 베이지, 재활용 나일론, 플랩+자석 여밈, 외부 슬립 포켓, 패딩 스트랩, 초경량 디자인",
+    "weight": "145g"
+  },
+  {
+    "id": 9,
+    "name": "버킷 미니 크로스백",
+    "brand": "스컬프터",
+    "price": 62000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_09.jpg",
+    "visual_desc": "코랄 핑크, 부드러운 PU 레더, 드로우스트링 여밈, 버킷 실루엣, 조절 가능한 체인 스트랩, 내부 키홀더 고리",
+    "weight": "195g"
+  },
+  {
+    "id": 10,
+    "name": "미니멀 플랩백",
+    "brand": "어커버",
+    "price": 98000,
+    "ref_image_url": "https://image.msscdn.net/images/goods_img/20260215/placeholder_crossbag_10.jpg",
+    "visual_desc": "샌드 베이지, 프리미엄 인조가죽, 메탈 트위스트 잠금장치, 넓은 플랩, 체인 스트랩, 내부 카드 슬롯 5개",
+    "weight": "235g"
+  }
+]

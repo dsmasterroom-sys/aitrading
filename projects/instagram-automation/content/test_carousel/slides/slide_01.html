@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1440">
+  <title>Hero Image Pattern</title>
+  <style>
+    :root {
+      /* Primary Colors */
+      --color-primary-neon: #00FF41;
+      --color-primary-red: #FF1A1A;
+      --color-primary-pink: #FF2D78;
+      --color-primary-yellow: #FFE600;
+      
+      /* Accent */
+      --color-accent-cyan: #00D9FF;
+      --color-accent-purple: #B24BF3;
+      
+      /* Neutrals */
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --color-gray-dark: #1A1A1A;
+      --color-gray-light: #F5F5F5;
+      
+      /* Typography */
+      --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+      --font-size-h1: 48px;
+      --font-size-h2: 36px;
+      --font-size-body: 28px;
+      --font-size-caption: 20px;
+      --font-weight-bold: 800;
+      --font-weight-regular: 400;
+      
+      /* Spacing */
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+      
+      /* Border */
+      --border-width: 4px;
+      --border-radius: 0;
+      
+      /* Canvas */
+      --canvas-width: 1080px;
+      --canvas-height: 1440px;
+      
+      /* Shadow */
+      --shadow-brutal: 8px 8px 0 var(--color-black);
+      --shadow-strong: 12px 12px 0 var(--color-black);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: var(--canvas-width);
+      height: var(--canvas-height);
+      font-family: var(--font-primary);
+      overflow: hidden;
+      background: var(--color-white);
+    }
+    
+    .hero-container {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      position: relative;
+    }
+    
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%
+      );
+      padding: var(--space-xl) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    
+    .hero-title {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-white);
+      line-height: 1.2;
+      text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+      max-width: 900px;
+    }
+    
+    .hero-subtitle {
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-primary-neon);
+      line-height: 1.4;
+      max-width: 800px;
+    }
+    
+    .hero-badge {
+      position: absolute;
+      top: var(--space-lg);
+      right: var(--space-lg);
+      background: var(--color-primary-neon);
+      color: var(--color-black);
+      font-size: var(--font-size-caption);
+      font-weight: var(--font-weight-bold);
+      padding: var(--space-sm) var(--space-md);
+      border: var(--border-width) solid var(--color-black);
+      box-shadow: var(--shadow-brutal);
+      transform: rotate(3deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-container">
+    <!-- 메인 이미지 -->
+    <img 
+      src="../assets/test_simple.png" 
+      alt="봄 레더 재킷 스타일링" 
+      class="hero-image"
+    >
+    
+    <!-- 뱃지 -->
+    <div class="hero-badge">2026 봄</div>
+    
+    <!-- 오버레이 텍스트 -->
+    <div class="hero-overlay">
+      <h1 class="hero-title">봄이 왔어요 🌸</h1>
+      <p class="hero-subtitle">레더 재킷으로 완성하는 시크한 봄 룩</p>
+    </div>
+  </div>
+</body>
+</html>

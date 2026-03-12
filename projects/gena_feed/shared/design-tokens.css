@@ -1,0 +1,169 @@
+/* ================================================================
+   @gena_feed Design Tokens — Layer 1 (전 시리즈 공통)
+   여기서만 실제 값을 선언한다. 슬라이드 HTML에서 하드코딩 금지.
+   시리즈별 오버라이드: series/{시리즈명}/theme/theme.md
+
+   ★ 이 파일 하나만 수정하면 전 슬라이드에 즉시 반영됨.
+   ★ 슬라이드 HTML에서 <link rel="stylesheet" href="...design-tokens.css">로 참조.
+   ================================================================ */
+
+/* ── @font-face 선언 ── */
+
+/* Cafe24ProSlim — 등록만 (변수 미할당, 필요 시 --ff-accent 등에 지정) */
+@font-face {
+    font-family: 'Cafe24ProSlim';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/Cafe24PROSlim-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cafe24ProSlim';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/Cafe24PROSlim-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cafe24ProSlim';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/Cafe24PROSlim-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+/* Mingigeok — 명조/감성용 */
+@font-face {
+    font-family: 'Mingigeok';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105@1.1/Mingijuk.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* Dooneun — 손글씨/감성 포인트용 (--ff-hand) */
+@font-face {
+    font-family: 'Dooneun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Donoun-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* Paperozi (Paperlogy) — 본문용 (--ff-primary), 전 웨이트 100~900 */
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2'); font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2'); font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Paperozi'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+
+:root {
+  /* ── 브랜드 컬러 ── */
+  --primary:    #1A1A1A;   /* 다크 차콜 — 타이포 중심 주인공 */
+  --secondary:  #6B6B6B;   /* 미드 그레이 — 서브텍스트·구분선 */
+  --accent:     #D93025;   /* 에디토리얼 레드 — 키컬러 */
+
+  /* ── 서피스 팔레트 (슬라이드 배경 리듬) ── */
+  --surface-dark:   #1A1A1A;   /* 표지·CTA·강조 */
+  --surface-cream:  #F2EDE8;   /* 정보·본문 — 웜 크림 */
+  --surface-cool:   #E2DEDA;   /* 전환·증거 — 쿨 그레이 */
+  --surface-mid:    #D0CBC6;   /* 리스트·단계 — 미드톤 */
+  --surface-accent: #D93025;   /* 임팩트 1장 — 레드 풀블리드 */
+
+  /* ── 텍스트 ── */
+  --text-dark:  #1A1A1A;
+  --text-mid:   #555555;
+  --text-light: #F2EDE8;
+
+  /* ── 호환용 (기존 참조 유지) ── */
+  --bg-light:   #F2EDE8;
+  --bg-dark:    #1A1A1A;
+
+  /* ── 타이포그래피 — 폰트 패밀리 ── */
+  /*
+     폰트 변경 시 아래 값만 수정하면 전 슬라이드 일괄 적용.
+
+     추천 후보 (Google Fonts 기준):
+     ┌──────────────────────┬─────────────────────────────────────────┬───────────────────────┐
+     │ 스타일               │ font-family 값                          │ 느낌                  │
+     ├──────────────────────┼─────────────────────────────────────────┼───────────────────────┤
+     │ 현재 (시스템)        │ system-ui, -apple-system, sans-serif    │ 깔끔, 무난, 빠름      │
+     │ 모던 산세리프        │ 'Pretendard', sans-serif                │ 한글 최적, 모던       │
+     │ 에디토리얼 세리프    │ 'Noto Serif KR', serif                  │ 고급, 매거진          │
+     │ 캐주얼 라운드        │ 'IBM Plex Sans KR', sans-serif          │ 친근, 부드러움        │
+     │ 볼드 임팩트          │ 'Black Han Sans', sans-serif            │ 강렬, 표지용          │
+     │ 감성 손글씨          │ 'Nanum Myeongjo', serif                 │ 감성, 브런치풍        │
+     └──────────────────────┴─────────────────────────────────────────┴───────────────────────┘
+
+     ※ Google Fonts 사용 시 슬라이드 HTML <head>에 @import 또는 <link> 필요
+     ※ Pretendard는 CDN: https://cdn.jsdelivr.net/gh/orioncactus/pretendard/...
+  */
+  --ff-primary:  'Paperozi', system-ui, -apple-system, sans-serif;  /* 본문·서브텍스트 */
+  --ff-accent:   'Paperozi', system-ui, -apple-system, sans-serif;  /* 제목·헤드라인 */
+  --ff-hand:     'Dooneun', system-ui, -apple-system, sans-serif;  /* 손글씨·감성 포인트 */
+
+  /* ── 타이포그래피 — 크기 ── */
+  --fs-display: 72px;
+  --fs-title:   56px;
+  --fs-body:    36px;
+  --fs-caption: 28px;   /* 최솟값 — 이 이하 절대 금지 */
+
+  /* ── 줄간격 & 자간 ── */
+  --lh-display: 1.1;
+  --lh-heading: 1.2;
+  --lh-body:    1.6;
+  --ls-heading: -0.02em;
+  --ls-body:    0em;
+
+  /* ── 간격 ── */
+  --pad: 80px;
+  --gap: 40px;
+  --gap-sm: 24px;
+
+  /* ── 캔버스 고정 크기 ── */
+  --canvas-carousel-w: 1080px;
+  --canvas-carousel-h: 1350px;
+  --canvas-story-w:    1080px;
+  --canvas-story-h:    1920px;
+}
+
+/* ================================================================
+   슬라이드 배경 리듬 가이드 (designer·developer 참조)
+
+   8슬라이드 기본 리듬:
+   01 표지   → --surface-dark    (흰 타이포 임팩트)
+   02 공감   → --surface-cream   (숨 고르기)
+   03 전환   → --surface-cool    (톤 변화)
+   04 정보   → --surface-cream   (읽기 편한)
+   05 정보   → --surface-mid     (리듬 전환)
+   06 증거   → --surface-dark    (다시 긴장)
+   07 실천   → --surface-accent  (레드 임팩트 1장)
+   08 CTA    → --surface-dark    (마무리)
+
+   규칙:
+   - 같은 서피스 2연속 사용 금지 (dark→dark 안됨, cream→cream 안됨)
+   - accent(레드)는 시리즈당 최대 1-2장
+   - 다크 배경 → --text-light 사용 / 라이트 배경 → --text-dark 사용
+   - accent 배경 → --text-light 사용
+   ================================================================ */
+
+/* ================================================================
+   시리즈별 오버라이드 예시 (series/{시리즈명}/theme/theme.md에 작성)
+
+   봄-스킨케어 시리즈:
+   :root {
+     --accent:        #7BAE8E;
+     --surface-cream: #F0F5F1;
+     --surface-cool:  #DDE8DF;
+     --surface-mid:   #C5D4C8;
+     --surface-accent:#7BAE8E;
+   }
+
+   럭셔리-패션 시리즈:
+   :root {
+     --accent:        #8B7355;
+     --surface-cream: #F5F0EB;
+     --surface-cool:  #E5DDD5;
+     --surface-mid:   #CFC5BA;
+     --surface-accent:#8B7355;
+   }
+   ================================================================ */

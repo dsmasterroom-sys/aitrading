@@ -1,0 +1,51 @@
+/**
+ * Gena Feed Design Tokens
+ * 네오브루탈리즘 스타일
+ */
+
+:root {
+  /* Primary Colors */
+  --color-primary-neon: #00FF41;
+  --color-primary-red: #FF1A1A;
+  --color-primary-pink: #FF2D78;
+  --color-primary-yellow: #FFE600;
+  
+  /* Accent */
+  --color-accent-cyan: #00D9FF;
+  --color-accent-purple: #B24BF3;
+  
+  /* Neutrals */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-gray-dark: #1A1A1A;
+  --color-gray-light: #F5F5F5;
+  
+  /* Typography */
+  --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+  --font-size-h1: 48px;
+  --font-size-h2: 36px;
+  --font-size-body: 28px;
+  --font-size-caption: 20px;
+  --font-weight-bold: 800;
+  --font-weight-regular: 400;
+  
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  
+  /* Border */
+  --border-width: 4px;
+  --border-radius: 0;
+  
+  /* Canvas */
+  --canvas-width: 1080px;
+  --canvas-height: 1440px;
+  --canvas-ratio: 3:4;
+  
+  /* Shadow */
+  --shadow-brutal: 8px 8px 0 var(--color-black);
+  --shadow-strong: 12px 12px 0 var(--color-black);
+}

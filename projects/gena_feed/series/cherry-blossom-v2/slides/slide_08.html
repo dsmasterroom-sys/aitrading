@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Slide 08</title>
+<link rel="stylesheet" href="../../../shared/design-tokens.css">
+<style>
+:root {
+  --accent: #D93025;
+  --cherry-lime: #C8D84E;
+  --cherry-pink: #F2B5B5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: var(--ff-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.slide {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  position: relative;
+}
+.slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gradient-bottom {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.2) 60%, transparent 100%);
+}
+.text-area {
+  position: absolute;
+  bottom: 140px; left: var(--pad);
+  max-width: 700px;
+}
+.body-line {
+  font-size: var(--fs-body);
+  color: var(--text-light);
+  line-height: var(--lh-body);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  margin-bottom: 16px;
+}
+.caption-line {
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.75;
+  line-height: var(--lh-body);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  margin-bottom: 12px;
+}
+.brand-subtle {
+  font-size: var(--fs-caption);
+  color: var(--text-light);
+  opacity: 0.5;
+  line-height: var(--lh-body);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+</style>
+</head>
+<body>
+<div class="slide slide-08">
+  <img src="../generated/slide_08.png" alt="협찬 크로스백">
+  <div class="gradient-bottom"></div>
+  <div class="text-area">
+    <div class="body-line">양손이 자유로워야<br>사진이 자연스럽다</div>
+    <div class="caption-line">매트블랙 나일론 크로스백<br>봄 파스텔 사이에서 앵커 역할</div>
+    <div class="brand-subtle">gen archive · 슬런트 크로스백</div>
+  </div>
+</div>
+</body>
+</html>

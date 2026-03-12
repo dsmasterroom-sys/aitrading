@@ -1,0 +1,69 @@
+/**
+ * @gena_feed Design Tokens
+ * 모든 슬라이드 HTML에서 var(--token) 으로만 참조
+ * 직접 값 하드코딩 금지
+ */
+
+:root {
+  /* ── 색상 ── */
+  --accent:    #C8A96E;  /* 골드 포인트 — 패션/럭셔리 감성 */
+  --dark:      #1A1A2E;  /* 딥 네이비 — 배경 다크, 헤딩 */
+  --bg:        #F5F3EF;  /* 오프화이트 — 기본 배경 */
+  --text:      #3D3D3D;  /* 소프트 블랙 — 본문 */
+  --white:     #FFFFFF;
+  --tag-bg:    #EDE8E0;  /* 태그/배지 배경 */
+
+  /* ── 타이포그래피 ── */
+  --fs-title:  64px;     /* 슬라이드 메인 타이틀 */
+  --fs-sub:    48px;     /* 서브 타이틀 */
+  --fs-body:   36px;     /* 본문 */
+  --fs-caption:32px;     /* 캡션 */
+  --fs-tag:    28px;     /* 태그·라벨 (최솟값 — 이 이하 사용 금지) */
+
+  --lh-tight:  1.2;      /* 제목 행간 */
+  --lh-body:   1.6;      /* 본문 행간 */
+
+  --font-main:   'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  --font-accent: 'Playfair Display', serif;  /* 영문 포인트만 */
+
+  /* ── 간격 & 구조 ── */
+  --pad:         72px;   /* 캔버스 기본 패딩 */
+  --gap:         40px;   /* 요소 간 기본 간격 */
+  --gap-sm:      24px;   /* 밀집 레이아웃 */
+  --radius:      16px;   /* 카드 모서리 */
+  --radius-lg:   32px;   /* 큰 카드 모서리 */
+  --bottom-bar-h:60px;   /* 하단 @gena_feed 바 높이 */
+  --accent-bar-w:8px;    /* 골드 포인트 바 두께 */
+}
+
+/* ── 캔버스 기본 (모든 슬라이드 공통) ── */
+.canvas {
+  width: 1080px;
+  height: 1440px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg);
+  font-family: var(--font-main);
+  color: var(--text);
+}
+
+* {
+  word-break: keep-all;
+  box-sizing: border-box;
+}
+
+/* ── 하단 바 (모든 슬라이드 필수) ── */
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: var(--bottom-bar-h);
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--pad);
+  color: var(--accent);
+  font-size: var(--fs-tag);
+  font-family: var(--font-main);
+  letter-spacing: 0.05em;
+}

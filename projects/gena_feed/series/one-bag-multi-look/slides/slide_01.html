@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+
+:root {
+  --primary: #1A1A1A;
+  --secondary: #6B6B6B;
+  --accent: #D93025;
+  --surface-dark: #1A1A1A;
+  --surface-cream: #F2EDE8;
+  --surface-cool: #E2DEDA;
+  --surface-mid: #D0CBC6;
+  --surface-accent: #D93025;
+  --text-dark: #1A1A1A;
+  --text-mid: #555555;
+  --text-light: #F2EDE8;
+  --fs-display: 72px;
+  --fs-title: 56px;
+  --fs-body: 36px;
+  --fs-caption: 28px;
+  --lh-display: 1.1;
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+  --ls-heading: -0.02em;
+  --ls-body: 0em;
+  --pad: 80px;
+  --gap: 40px;
+  --gap-sm: 24px;
+  --canvas-carousel-w: 1080px;
+  --canvas-carousel-h: 1350px;
+}
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+body { font-family: 'Noto Sans KR', sans-serif; }
+.canvas {
+  width: var(--canvas-carousel-w);
+  height: var(--canvas-carousel-h);
+  overflow: hidden;
+  word-break: keep-all;
+  position: relative;
+}
+.canvas img.bg {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.overlay {
+  position: absolute; left: 0; right: 0;
+  padding: var(--pad);
+  z-index: 2;
+}
+.overlay-bottom {
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(26,26,26,0.85) 40%);
+  padding-top: 120px;
+}
+.overlay-top {
+  top: 0;
+  background: linear-gradient(rgba(26,26,26,0.7) 60%, transparent);
+  padding-bottom: 120px;
+}
+.overlay-minimal {
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(26,26,26,0.6) 50%);
+  padding-top: 80px;
+}
+h1 {
+  font-size: var(--fs-display);
+  font-weight: 900;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-heading);
+}
+h2 {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+p {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  margin-top: var(--gap-sm);
+}
+.accent { color: var(--accent); }
+.label {
+  display: inline-block;
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border: 2px solid currentColor;
+  margin-bottom: var(--gap-sm);
+}
+
+</style>
+</head>
+<body>
+
+<div class="canvas" style="background: var(--surface-dark); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: var(--pad);">
+  <div style="margin-bottom: var(--gap);">
+    <span class="label" style="color: var(--text-light);">ONE BAG, MULTI LOOK</span>
+  </div>
+  <h1 style="color: var(--text-light);">가방 하나로<br><span class="accent">3가지 룩,</span><br>가능할까?</h1>
+  <p style="color: var(--secondary); margin-top: var(--gap);">@gena_feed</p>
+</div>
+</body>
+</html>

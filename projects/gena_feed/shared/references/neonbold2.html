@@ -1,0 +1,726 @@
+<!--
+@gena_feed | 17-Template Cardnews HTML/CSS (v2 - Canvas Visible)
+Fix: Canvas에서 카드가 안 보이는 문제를 해결하기 위해
+- 고정 px(1080x1350)+transform scale 대신
+- 'aspect-ratio: 4/5' + 'responsive width' 로 미리보기 렌더링
+- Export 시에는 --export-scale=1로 바꾸고, 스크린샷/캡처로 사용
+
+사용법
+1) 이미지 교체: :root의 --img-1..4 URL 변경
+2) 텍스트 교체: 각 slide 내부 문구 변경
+3) 폰 가독성(룩북형) 기준: 오버레이 타이포 크게, 바디 최소화, CTA는 SAVE 우선
+-->
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>@gena_feed · 17 Templates v2</title>
+
+  <style>
+    :root{
+      /* Palette */
+      --dark-950:#21201C;
+      --dark-900:#1A1A1A;
+      --cream-100:#FBF8F1;
+      --cream-200:#FDF8F0;
+      --warm-gray:#DFDBD8;
+      --lime:#05fe04;
+
+      --hot-red:#05fe04;
+      --acid-green:#39ff14;
+      --hot-pink:#05fe04;
+
+      --border:rgba(33,32,28,.15);
+      --shadow-card:0 2px 10px rgba(33,32,28,.10);
+      --shadow-float:0 18px 60px rgba(33,32,28,.18);
+      --shadow-accent:0 6px 26px rgba(5,254,4,.26);
+
+      /* Instagram readability (phone-first) */
+      --fs-kicker:18px;
+      --fs-badge:18px;
+      --fs-h1:88px;
+      --fs-h2:56px;
+      --fs-body:24px;
+      --fs-footer:16px;
+      --fs-tpl:14px;
+
+      /* Canvas responsive sizing */
+      /* NOTE: Canvas 렌더러에서 calc()의 곱셈/나눗셈이 깨질 수 있어,
+         길이 연산(곱셈)을 제거하고 'height 기준 + aspect-ratio'로 페이지처럼 보이게 구성 */
+      --card-max-w: 720px;
+      --card-gap: 22px;
+      --pad-x: 32px;
+      --pad-y: 64px;
+      --radius: 26px;
+
+      /* Images (replace) */
+      --img-1:url("https://images.unsplash.com/photo-1520975958225-7b85e3d168d1?auto=format&fit=crop&w=1400&q=80");
+      --img-2:url("https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80");
+      --img-3:url("https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=80");
+      --img-4:url("https://images.unsplash.com/photo-1520975869018-3f55b7b9b32d?auto=format&fit=crop&w=1400&q=80");
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      background:#0b0b0b;
+      color:#2b2b2b;
+      height:100vh;
+      overflow:hidden;
+    }
+    /* One-card-per-scroll deck (snap) */
+    .nav{
+      position:fixed;
+      right:18px;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:999;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      pointer-events:auto;
+    }
+    .nav button{
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.62);
+      color:rgba(255,255,255,.92);
+      font-weight:950;
+      letter-spacing:.08em;
+      cursor:pointer;
+      box-shadow:0 14px 46px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+    }
+    .nav button:active{transform:translateY(1px)}
+    .nav .hint{
+      margin-top:6px;
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.6);
+      text-align:center;
+      user-select:none;
+    }
+
+    .deck{
+      height:100vh;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      padding:24px;
+      display:flex;
+      flex-direction:row;
+      gap:var(--card-gap);
+      align-items:stretch;
+    }
+    .deck::-webkit-scrollbar{width:10px}
+    .deck::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+    .deck::-webkit-scrollbar-track{background:transparent}
+
+    .meta{
+      flex:0 0 auto;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+      width:720px;
+      max-width:92vw;
+      height:900px;
+      max-height:86vh;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:26px;
+      padding:22px 22px;
+      line-height:1.55;
+    }
+    .meta h1{margin:0 0 6px 0;font-size:16px;letter-spacing:-.02em}
+    .meta p{margin:0;color:rgba(255,255,255,.72);font-size:13px}
+
+    /* Slide (page-like, Canvas-safe, horizontal) */
+    .slide{
+      flex:0 0 auto;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+
+      width:720px;
+      max-width:92vw;
+      height:900px;
+      max-height:86vh;
+
+      position:relative;
+      overflow:hidden;
+      background:var(--cream-100);
+      border-radius:var(--radius);
+      box-shadow: 0 24px 90px rgba(0,0,0,.38);
+    }
+
+    /* Safe/content area */
+    .content{
+      position:absolute;
+      inset: var(--pad-y) var(--pad-x);
+      z-index:2;
+    }
+
+    .tpl{
+      position:absolute;
+      top:14px;
+      left:14px;
+      z-index:10;
+      padding:8px 10px;
+      border-radius:12px;
+      background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.86);
+      font-size:var(--fs-tpl);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(253,248,240,.92);
+      box-shadow:var(--shadow-card);
+      font-size:var(--fs-badge);
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+    .badge .dot{width:10px;height:10px;border-radius:999px;background:var(--lime);box-shadow:var(--shadow-accent)}
+
+    .kicker{font-size:var(--fs-kicker);letter-spacing:.22em;text-transform:uppercase;color:rgba(33,32,28,.62)}
+    .h1{margin:10px 0 0 0;font-weight:950;letter-spacing:-.05em;line-height:1.00;font-size:var(--fs-h1);color:var(--dark-900)}
+    .h2{margin:10px 0 0 0;font-weight:950;letter-spacing:-.04em;line-height:1.10;font-size:var(--fs-h2);color:var(--dark-950)}
+    .body{margin:12px 0 0 0;font-size:var(--fs-body);line-height:1.45;color:rgba(33,32,28,.70);max-width: 92%}
+
+    /* Lookbook-first: giant overlay type (RED fixed) */
+    .giant{
+      position:absolute;
+      font-weight:950;
+      letter-spacing:-.06em;
+      text-transform:uppercase;
+      color:var(--hot-red);
+
+      mix-blend-mode:multiply;
+      opacity:.92;
+      z-index:3;
+      pointer-events:none;
+      text-shadow:0 8px 40px rgba(0,0,0,.18);
+      line-height:.82;
+      font-size: clamp(84px, 18vw, 190px);
+    }
+
+    .footer{
+      position:absolute;
+      left:var(--pad-x);
+      right:var(--pad-x);
+      bottom:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+      z-index:4;
+      font-size:var(--fs-footer);
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(33,32,28,.56);
+    }
+    .footer.dark{color:rgba(251,248,241,.72)}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 18px;
+      border-radius:999px;
+      border:1px solid rgba(33,32,28,.15);
+      font-weight:950;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:16px;
+      background:var(--lime);
+      color:var(--dark-950);
+      box-shadow:var(--shadow-accent);
+      white-space:nowrap;
+    }
+    .btn.secondary{background:var(--dark-950);color:var(--cream-100);box-shadow:var(--shadow-float)}
+
+    /* Image backgrounds */
+    .bg-img{
+      position:absolute;
+      inset:0;
+      background: var(--img-1);
+      background-size:cover;
+      background-position:center;
+      z-index:0;
+    }
+    .bg-img.grad{
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0) 34%, rgba(33,32,28,.82) 100%),
+        var(--img-1);
+      background-size:cover;
+      background-position:center;
+    }
+
+    .card{
+      background:rgba(253,248,240,.80);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:18px;
+      box-shadow:var(--shadow-card);
+      backdrop-filter: blur(18px);
+    }
+
+    /* --- 17 templates (compact copy, lookbook-forward) --- */
+
+    /* H-1 */
+    .t-h1{background: linear-gradient(180deg, var(--dark-900), var(--dark-950));}
+    .t-h1 .kicker{color:rgba(251,248,241,.68)}
+    .t-h1 .h1{color:var(--cream-100)}
+    .t-h1 .body{color:rgba(251,248,241,.72)}
+    .t-h1 .footer{color:rgba(251,248,241,.68)}
+
+    /* H-2 */
+    .t-h2 .bg-img{background: var(--img-2);background-size:cover;background-position:center}
+    .t-h2 .block{position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:74px;z-index:3}
+
+    /* H-3 */
+    .t-h3{background:var(--cream-100)}
+    .t-h3 .top{position:absolute;left:0;right:0;top:0;height:44%;background:var(--warm-gray)}
+    .t-h3 .bottom{position:absolute;left:0;right:0;bottom:0;height:56%;background: linear-gradient(180deg, rgba(33,32,28,.0) 20%, rgba(33,32,28,.78) 100%), var(--img-3);background-size:cover;background-position:center}
+
+    /* I-1 */
+    .t-i1 .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .t-i1 .metric{font-size: clamp(40px, 7vw, 72px);font-weight:950;letter-spacing:-.05em;color:var(--dark-950)}
+    .t-i1 .label{margin-top:8px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:rgba(33,32,28,.6);font-weight:900}
+
+    /* I-2 */
+    .t-i2{background:var(--cream-200)}
+    .t-i2 .line{margin-top:14px;display:grid;gap:12px}
+    .t-i2 .item{display:grid;grid-template-columns: 14px 1fr;gap:12px;align-items:start}
+    .t-i2 .dot{width:10px;height:10px;border-radius:999px;background:var(--lime);margin-top:10px;box-shadow:var(--shadow-accent)}
+    .t-i2 .title{font-size:22px;font-weight:950;letter-spacing:-.02em;color:var(--dark-950)}
+    .t-i2 .desc{margin-top:6px;font-size:16px;line-height:1.45;color:rgba(33,32,28,.7)}
+
+    /* I-3 */
+    .t-i3{background:var(--dark-950)}
+    .t-i3 .kicker{color:rgba(251,248,241,.62)}
+    .t-i3 .h2{color:var(--cream-100)}
+    .t-i3 .bars{margin-top:14px;display:grid;gap:12px}
+    .t-i3 .row{display:flex;justify-content:space-between;align-items:baseline;color:rgba(251,248,241,.78)}
+    .t-i3 .row b{font-size:18px;letter-spacing:.06em;text-transform:uppercase}
+    .t-i3 .row span{font-size:28px;font-weight:950;color:var(--lime);letter-spacing:-.03em}
+    .t-i3 .track{height:12px;border-radius:999px;background:rgba(251,248,241,.14);overflow:hidden}
+    .t-i3 .fill{height:100%;border-radius:999px;background:var(--lime)}
+    .t-i3 .footer{color:rgba(251,248,241,.68)}
+
+    /* I-4 */
+    .t-i4 .list{margin-top:14px;display:grid;gap:10px}
+    .t-i4 .li{display:grid;grid-template-columns: 24px 1fr;gap:12px;align-items:start}
+    .t-i4 .check{width:22px;height:22px;border-radius:7px;background:var(--lime);display:grid;place-items:center;font-weight:950;color:var(--dark-950)}
+    .t-i4 .li b{display:block;font-size:22px;font-weight:950;letter-spacing:-.02em;color:var(--dark-950)}
+    .t-i4 .li p{margin:6px 0 0 0;font-size:16px;line-height:1.45;color:rgba(33,32,28,.72)}
+
+    /* I-5 */
+    .t-i5{background:var(--warm-gray)}
+    .t-i5 .quote{position:absolute;left:var(--pad-x);right:var(--pad-x);top:50%;transform:translateY(-58%);text-align:center;z-index:3}
+    .t-i5 .qtxt{font-size: clamp(34px, 6.2vw, 56px);font-weight:950;letter-spacing:-.04em;line-height:1.10;color:var(--dark-950)}
+
+    /* P-1 */
+    .t-p1 .steps{margin-top:14px;display:grid;gap:12px}
+    .t-p1 .step{display:grid;grid-template-columns: 62px 1fr;gap:12px;align-items:start}
+    .t-p1 .n{width:54px;height:54px;border-radius:999px;background:var(--dark-950);color:var(--cream-100);display:grid;place-items:center;font-weight:950;font-size:22px;box-shadow:var(--shadow-float)}
+    .t-p1 .step b{display:block;font-size:22px;font-weight:950;letter-spacing:-.02em;color:var(--dark-950)}
+    .t-p1 .step p{margin:6px 0 0 0;font-size:16px;line-height:1.45;color:rgba(33,32,28,.72)}
+
+    /* P-2 */
+    .t-p2{background:var(--cream-200)}
+    /* 화면 높이에 맞게 상/하 박스가 꽉 차도록(고정 % 높이 제거) */
+    .t-p2 .content{display:flex;flex-direction:column}
+    .t-p2 .shots{margin-top:12px;flex:1;display:grid;grid-template-rows:1fr 1fr;gap:12px;min-height:0}
+    .t-p2 .shot{position:relative;height:auto;min-height:0;border-radius:22px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-card);background: var(--img-3);background-size:cover;background-position:center}
+    .t-p2 .shot.after{background: var(--img-4);background-size:cover;background-position:center}
+    .t-p2 .shotLabel{
+      position:absolute;
+      left:14px;
+      top:14px;
+      z-index:2;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(0,0,0,.62);
+      border:1px solid rgba(255,255,255,.18);
+      color:rgba(255,255,255,.92);
+      font-size:14px;
+      font-weight:950;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      backdrop-filter: blur(10px);
+    }
+    .t-p2 .shotLabel .miniDot{display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--lime);margin-right:10px;vertical-align:middle;box-shadow:var(--shadow-accent)}
+
+    /* P-3 */
+    .t-p3{background:var(--dark-950)}
+    .t-p3 .kicker{color:rgba(251,248,241,.62)}
+    .t-p3 .h2{color:var(--cream-100)}
+    .t-p3 .box{margin-top:12px;padding:16px;border-radius:22px;border:2px solid rgba(251,248,241,.20);color:rgba(251,248,241,.84)}
+    .t-p3 .box b{display:block;font-size:20px;letter-spacing:-.02em;color:var(--cream-100)}
+    .t-p3 .box p{margin:6px 0 0 0;font-size:14px;line-height:1.45;color:rgba(251,248,241,.72)}
+    .t-p3 .footer{color:rgba(251,248,241,.68)}
+
+    /* C-1 */
+    .t-c1 .cols{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .t-c1 .col{border-radius:22px;padding:14px;border:1px solid var(--border);background:rgba(253,248,240,.88);box-shadow:var(--shadow-card)}
+    .t-c1 .name{font-size:14px;font-weight:950;letter-spacing:.18em;text-transform:uppercase}
+
+    /* C-2 */
+    .t-c2{background:var(--warm-gray)}
+    .t-c2 .sec{margin-top:12px;border-radius:22px;padding:14px;border:1px solid rgba(33,32,28,.18);background:rgba(253,248,240,.72);backdrop-filter: blur(18px)}
+    .t-c2 .sec h3{margin:0;font-size:14px;letter-spacing:.22em;text-transform:uppercase}
+
+    /* M-1 */
+    .t-m1 .hero{position:absolute;left:var(--pad-x);right:var(--pad-x);top:70px;height:48%;border-radius:26px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-float);background:var(--img-4);background-size:cover;background-position:center}
+    .t-m1 .info{position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:62px;z-index:3}
+
+    /* M-2 */
+    .t-m2{background:var(--cream-200)}
+    .t-m2 .grid{margin-top:14px;display:grid;grid-template-columns: repeat(3, 1fr);gap:10px}
+    .t-m2 .it{border-radius:18px;overflow:hidden;border:1px solid rgba(33,32,28,.14);background:#fff;box-shadow:var(--shadow-card)}
+    .t-m2 .ph{height:110px;background:var(--img-3);background-size:cover;background-position:center}
+    .t-m2 .nm{padding:10px 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(33,32,28,.65);font-weight:950}
+
+    /* CTA-1 (SAVE 우선) */
+    .t-cta1{background:linear-gradient(180deg, var(--cream-100), var(--warm-gray))}
+    .t-cta1 .center{height:100%;display:grid;place-items:center;text-align:center}
+
+    /* CTA-2 */
+    .t-cta2{background:var(--dark-950)}
+    .t-cta2 .kicker{color:rgba(251,248,241,.62)}
+    .t-cta2 .h2{color:var(--cream-100)}
+    .t-cta2 .deal{font-size: clamp(72px, 14vw, 140px); font-weight:950; letter-spacing:-.06em; color:var(--lime); line-height:.88; margin:10px 0 6px 0}
+    .t-cta2 .body{color:rgba(251,248,241,.72)}
+    .t-cta2 .footer{color:rgba(251,248,241,.68)}
+
+  </style>
+</head>
+<body>
+  <!-- Page-like navigation (Prev/Next) -->
+  <div class="nav" aria-label="Slide navigation">
+    <button type="button" id="btnPrev" aria-label="Previous slide">←</button>
+    <button type="button" id="btnNext" aria-label="Next slide">→</button>
+    <div class="hint">prev / next</div>
+  </div>
+
+  <div class="deck">
+    <div class="meta">
+      <h1>v2 · Canvas에서 카드가 안 보이는 문제 해결(Responsive aspect-ratio)</h1>
+      <p>
+        현재 미리보기는 반응형. 실제 1080×1350로 쓸 때는 이 HTML을 그대로 캡처하거나,
+        별도 export 스크립트/툴로 4:5 캔버스에 렌더링하면 됩니다.
+      </p>
+    </div>
+
+    <!-- 01 H-1 -->
+    <section class="slide t-h1">
+      <div class="tpl">01 · H-1</div>
+      <div class="content">
+        <div class="kicker">LOOKBOOK OOTD</div>
+        <h2 class="h1">BOLD FITS</h2>
+        <p class="body">룩북형: 텍스트 최소, 임팩트 최대.</p>
+        <div style="margin-top:14px"><span class="btn">SAVE →</span></div>
+      </div>
+      <div class="footer dark"><span>gena_feed</span><span>hero</span></div>
+    </section>
+
+    <!-- 02 H-2 -->
+    <section class="slide t-h2">
+      <div class="tpl">02 · H-2</div>
+      <div class="bg-img grad"></div>
+      <div class="giant" style="left:-14px;top:18%">GENA</div>
+      <div class="block card">
+        <div class="kicker"><span class="dot"></span><span>LOOK</span></div>
+        <h2 class="h2">Sharp & Clean</h2>
+      </div>
+      <div class="footer dark"><span>save first</span><span>visual</span></div>
+    </section>
+
+    <!-- 03 H-3 -->
+    <section class="slide t-h3">
+      <div class="tpl">03 · H-3</div>
+      <div class="top"></div>
+      <div class="bottom"></div>
+      <div class="content">
+        <div class="kicker"><span class="dot"></span><span>SPLIT</span></div>
+        <h2 class="h2">말은 위에,<br/>증거는 아래</h2>
+        <div style="margin-top:12px"><span class="btn">SAVE →</span></div>
+      </div>
+      <div class="footer"><span>gena_feed</span><span>split</span></div>
+    </section>
+
+    <!-- 04 I-1 -->
+    <section class="slide t-i1">
+      <div class="tpl">04 · I-1</div>
+      <div class="content">
+        <div class="kicker">LOOK KEY</div>
+        <h2 class="h2">오늘 룩의 룰</h2>
+        <div class="cards">
+          <div class="card"><div class="metric">1</div><div class="label">Hero Item</div></div>
+          <div class="card"><div class="metric">3</div><div class="label">Color Rule</div></div>
+          <div class="card"><div class="metric">2</div><div class="label">Layer</div></div>
+          <div class="card"><div class="metric">0</div><div class="label">Noise</div></div>
+        </div>
+      </div>
+      <div class="footer"><span>info</span><span>grid</span></div>
+    </section>
+
+    <!-- 05 I-2 -->
+    <section class="slide t-i2">
+      <div class="tpl">05 · I-2</div>
+      <div class="content">
+        <div class="kicker">FLOW</div>
+        <h2 class="h2">착장 루틴</h2>
+        <div class="line">
+          <div class="item"><div class="dot"></div><div><div class="title">Pick 1 hero</div><div class="desc">가방/아우터/슈즈 중 1개만.</div></div></div>
+          <div class="item"><div class="dot"></div><div><div class="title">Keep 3 colors</div><div class="desc">톤 2 + 포인트 1.</div></div></div>
+          <div class="item"><div class="dot"></div><div><div class="title">Save CTA</div><div class="desc">끝장은 저장 한 문장.</div></div></div>
+        </div>
+      </div>
+      <div class="footer"><span>timeline</span><span>i-2</span></div>
+    </section>
+
+    <!-- 06 I-3 -->
+    <section class="slide t-i3">
+      <div class="tpl">06 · I-3</div>
+      <div class="content">
+        <div class="kicker">POLL</div>
+        <h2 class="h2">무드 투표</h2>
+        <div class="bars">
+          <div>
+            <div class="row"><b>MINIMAL</b><span>65%</span></div>
+            <div class="track"><div class="fill" style="width:65%"></div></div>
+          </div>
+          <div>
+            <div class="row"><b>SPORTY</b><span>48%</span></div>
+            <div class="track"><div class="fill" style="width:48%"></div></div>
+          </div>
+          <div>
+            <div class="row"><b>EDITORIAL</b><span>74%</span></div>
+            <div class="track"><div class="fill" style="width:74%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer dark"><span>compare</span><span>i-3</span></div>
+    </section>
+
+    <!-- 07 I-4 -->
+    <section class="slide t-i4">
+      <div class="tpl">07 · I-4</div>
+      <div class="content">
+        <div class="kicker">CHECKLIST</div>
+        <h2 class="h2">룩북형 카드 룰</h2>
+        <div class="list">
+          <div class="li"><div class="check">✓</div><div><b>텍스트 최소</b><p>제목 1줄 + 보조 1줄.</p></div></div>
+          <div class="li"><div class="check">✓</div><div><b>오버레이 크게</b><p>인물 가려도 OK.</p></div></div>
+          <div class="li"><div class="check">✓</div><div><b>SAVE 우선</b><p>CTA는 저장 중심.</p></div></div>
+        </div>
+      </div>
+      <div class="footer"><span>rules</span><span>i-4</span></div>
+    </section>
+
+    <!-- 08 I-5 -->
+    <section class="slide t-i5">
+      <div class="tpl">08 · I-5</div>
+      <div class="giant" style="right:-10px;top:18%">MOOD</div>
+      <div class="quote">
+        <div class="qtxt">“설명 말고<br/>분위기만 남기기.”</div>
+      </div>
+      <div class="footer"><span>quote</span><span>i-5</span></div>
+    </section>
+
+    <!-- 09 P-1 -->
+    <section class="slide t-p1">
+      <div class="tpl">09 · P-1</div>
+      <div class="content">
+        <div class="kicker">3 STEPS</div>
+        <h2 class="h2">룩북 캐러셀</h2>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><div><b>컷 고르기</b><p>임팩트 1장.</p></div></div>
+          <div class="step"><div class="n">2</div><div><b>타이포 얹기</b><p>키워드 2개.</p></div></div>
+          <div class="step"><div class="n">3</div><div><b>저장 유도</b><p>CTA는 SAVE.</p></div></div>
+        </div>
+      </div>
+      <div class="footer"><span>process</span><span>p-1</span></div>
+    </section>
+
+    <!-- 10 P-2 -->
+    <section class="slide t-p2">
+      <div class="tpl">10 · P-2</div>
+      <div class="content">
+        <div class="kicker">BEFORE/AFTER</div>
+        <h2 class="h2">포인트 한 개</h2>
+        <div class="shots">
+          <div class="shot">
+            <div class="shotLabel"><span class="miniDot"></span>BEFORE</div>
+          </div>
+          <div class="shot after">
+            <div class="shotLabel"><span class="miniDot"></span>AFTER</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>swap</span><span>p-2</span></div>
+    </section>
+
+    <!-- 11 P-3 -->
+    <section class="slide t-p3">
+      <div class="tpl">11 · P-3</div>
+      <div class="content">
+        <div class="kicker">FLOW</div>
+        <h2 class="h2">Generate → Curate</h2>
+        <div class="box"><b>STEP A</b><p>10컷 생성/촬영</p></div>
+        <div class="box"><b>STEP B</b><p>3컷만 남기기</p></div>
+        <div class="box"><b>STEP C</b><p>캐러셀 + SAVE</p></div>
+      </div>
+      <div class="footer dark"><span>pipeline</span><span>p-3</span></div>
+    </section>
+
+    <!-- 12 C-1 -->
+    <section class="slide t-c1">
+      <div class="tpl">12 · C-1</div>
+      <div class="content">
+        <div class="kicker">A / B</div>
+        <h2 class="h2">더 끌리는 쪽</h2>
+        <div class="cols">
+          <div class="col"><div class="name">OPTION A</div><div style="margin-top:10px"><span class="btn">SAVE A</span></div></div>
+          <div class="col"><div class="name">OPTION B</div><div style="margin-top:10px"><span class="btn secondary">SAVE B</span></div></div>
+        </div>
+      </div>
+      <div class="footer"><span>choice</span><span>c-1</span></div>
+    </section>
+
+    <!-- 13 C-2 -->
+    <section class="slide t-c2">
+      <div class="tpl">13 · C-2</div>
+      <div class="content">
+        <div class="kicker">NOTES</div>
+        <h2 class="h2">한 줄 평가</h2>
+        <div class="sec"><h3>PRO</h3><p style="margin:10px 0 0 0;color:rgba(33,32,28,.72);font-size:16px;line-height:1.45">실루엣이 깨끗해서 피드 통일감.</p></div>
+        <div class="sec"><h3>CON</h3><p style="margin:10px 0 0 0;color:rgba(33,32,28,.72);font-size:16px;line-height:1.45">텍스트가 많으면 룩이 죽음.</p></div>
+      </div>
+      <div class="footer"><span>pros/cons</span><span>c-2</span></div>
+    </section>
+
+    <!-- 14 M-1 -->
+    <section class="slide t-m1">
+      <div class="tpl">14 · M-1</div>
+      <div class="hero"></div>
+      <div class="giant" style="left:-10px;top:26%">BAG</div>
+      <div class="info card">
+        <div class="badge"><span class="dot"></span><span>HERO ITEM</span></div>
+        <h2 class="h2">Pocket Pride 3</h2>
+        <div style="margin-top:10px"><span class="btn">SAVE →</span> <span class="btn secondary">LINK</span></div>
+      </div>
+      <div class="footer"><span>product</span><span>m-1</span></div>
+    </section>
+
+    <!-- 15 M-2 -->
+    <section class="slide t-m2">
+      <div class="tpl">15 · M-2</div>
+      <div class="content">
+        <div class="kicker">GRID</div>
+        <h2 class="h2">큐레이션 3×2</h2>
+        <div class="grid">
+          <div class="it"><div class="ph"></div><div class="nm">01</div></div>
+          <div class="it"><div class="ph" style="background:var(--img-4);background-size:cover;background-position:center"></div><div class="nm">02</div></div>
+          <div class="it"><div class="ph"></div><div class="nm">03</div></div>
+          <div class="it"><div class="ph"></div><div class="nm">04</div></div>
+          <div class="it"><div class="ph" style="background:var(--img-4);background-size:cover;background-position:center"></div><div class="nm">05</div></div>
+          <div class="it"><div class="ph"></div><div class="nm">06</div></div>
+        </div>
+      </div>
+      <div class="footer"><span>lookbook</span><span>m-2</span></div>
+    </section>
+
+    <!-- 16 CTA-1 -->
+    <section class="slide t-cta1">
+      <div class="tpl">16 · CTA-1</div>
+      <div class="content" style="display:grid;place-items:center;text-align:center">
+        <div>
+          <div class="badge" style="justify-content:center"><span class="dot"></span><span>CTA</span></div>
+          <h2 class="h1" style="margin-top:14px">SAVE THIS<br/>MOOD</h2>
+          <div style="margin-top:14px"><span class="btn">SAVE →</span> <span class="btn secondary">FOLLOW</span></div>
+          <div class="kicker" style="margin-top:14px">gena_feed</div>
+        </div>
+      </div>
+      <div class="footer"><span>cta</span><span>save-first</span></div>
+    </section>
+
+    <!-- 17 CTA-2 -->
+    <section class="slide t-cta2">
+      <div class="tpl">17 · CTA-2</div>
+      <div class="content">
+        <div class="kicker">LIMITED</div>
+        <h2 class="h2">48H LEFT</h2>
+        <div class="deal">50% OFF</div>
+        <div style="margin-top:10px"><span class="btn">SAVE LINK →</span></div>
+      </div>
+      <div class="footer dark"><span>urgency</span><span>cta-2</span></div>
+    </section>
+
+  </div>
+
+  <script>
+    (function(){
+      const deck = document.querySelector('.deck');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+
+      // Find the slide currently closest to the top of the deck viewport
+      function getActiveIndex(){
+        const left = deck.getBoundingClientRect().left;
+        let bestIdx = 0;
+        let bestDist = Infinity;
+        slides.forEach((s, i) => {
+          const r = s.getBoundingClientRect();
+          const d = Math.abs(r.left - left);
+          if (d < bestDist){ bestDist = d; bestIdx = i; }
+        });
+        return bestIdx;
+      }
+
+      function goTo(idx){
+        const clamped = Math.max(0, Math.min(slides.length - 1, idx));
+        slides[clamped].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      }
+
+      function next(){ goTo(getActiveIndex() + 1); }
+      function prev(){ goTo(getActiveIndex() - 1); }
+
+      btnNext?.addEventListener('click', next);
+      btnPrev?.addEventListener('click', prev);
+
+      // Keyboard support: Left/Right, PageUp/PageDown, Space
+      window.addEventListener('keydown', (e) => {
+        const key = e.key;
+        if (key === 'ArrowRight' || key === 'PageDown' || key === ' '){
+          e.preventDefault();
+          next();
+        }
+        if (key === 'ArrowLeft' || key === 'PageUp'){
+          e.preventDefault();
+          prev();
+        }
+      }, { passive:false });
+
+      // Optional: on first load, snap to first slide (not meta)
+      // setTimeout(() => goTo(0), 30);
+    })();
+  </script>
+</body>
+</html>

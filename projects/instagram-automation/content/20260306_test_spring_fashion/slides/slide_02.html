@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 2</title>
+  <style>
+    :root {
+      --color-primary-yellow: #FFE600;
+      --color-primary-red: #FF1A1A;
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --color-gray-dark: #1A1A1A;
+      --font-primary: 'Pretendard Variable', -apple-system, sans-serif;
+      --border-width: 4px;
+      --space-lg: 40px;
+      --shadow-strong: 12px 12px 0 var(--color-black);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-primary);
+      background: var(--color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .canvas {
+      width: 1080px;
+      height: 1440px;
+      background: var(--color-primary-yellow);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--color-black);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    
+    p {
+      font-size: 32px;
+      color: var(--color-gray-dark);
+      line-height: 1.5;
+      max-width: 70%;
+    }
+    
+    .badge {
+      background: var(--color-primary-red);
+      color: var(--color-white);
+      padding: 20px 40px;
+      font-size: 28px;
+      font-weight: 800;
+      border: var(--border-width) solid var(--color-black);
+      box-shadow: var(--shadow-strong);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <h1>데일리 룩 완성</h1>
+    <p>출근도 데이트도 완벽하게<br>트렌치코트 하나면 충분해요</p>
+    <div class="badge">MUST HAVE</div>
+  </div>
+</body>
+</html>
